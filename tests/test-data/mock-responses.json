@@ -1,0 +1,289 @@
+{
+  "anthropicResponses": {
+    "emailCampaign": {
+      "content": [
+        {
+          "text": "{\n  \"action\": \"create_email_campaign\",\n  \"parameters\": {\n    \"name\": \"Product Launch Campaign\",\n    \"subject\": \"🚀 Introducing Our New Premium Line\",\n    \"audience\": \"premium_subscribers\",\n    \"priority\": \"high\"\n  },\n  \"confidence\": 0.92,\n  \"summary\": \"Create email campaign for product launch\"\n}"
+        }
+      ]
+    },
+    "smsCampaign": {
+      "content": [
+        {
+          "text": "{\n  \"action\": \"create_sms_campaign\",\n  \"parameters\": {\n    \"name\": \"Flash Sale Alert\",\n    \"message\": \"⚡ FLASH SALE: 50% off all items! 24 hours only. Shop now!\",\n    \"urgency\": \"high\",\n    \"audience\": \"mobile_subscribers\"\n  },\n  \"confidence\": 0.95,\n  \"summary\": \"Create urgent SMS flash sale campaign\"\n}"
+        }
+      ]
+    },
+    "help": {
+      "content": [
+        {
+          "text": "{\n  \"action\": \"help\",\n  \"parameters\": {},\n  \"confidence\": 0.99,\n  \"summary\": \"Provide help and available commands\"\n}"
+        }
+      ]
+    },
+    "status": {
+      "content": [
+        {
+          "text": "{\n  \"action\": \"get_campaign_status\",\n  \"parameters\": {\n    \"campaignId\": \"CAMP-EMAIL-1234567890\"\n  },\n  \"confidence\": 0.88,\n  \"summary\": \"Check status of email campaign\"\n}"
+        }
+      ]
+    },
+    "list": {
+      "content": [
+        {
+          "text": "{\n  \"action\": \"list_campaigns\",\n  \"parameters\": {},\n  \"confidence\": 0.91,\n  \"summary\": \"List all active campaigns\"\n}"
+        }
+      ]
+    }
+  },
+  "sureshotResponses": {
+    "createEmailCampaign": {
+      "id": "CAMP-EMAIL-1234567890",
+      "type": "email",
+      "name": "Product Launch Campaign",
+      "subject": "🚀 Introducing Our New Premium Line",
+      "status": "draft",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "scheduledAt": null,
+      "audience": {
+        "id": "AUD-PREMIUM-001",
+        "name": "Premium Subscribers",
+        "size": 15420
+      },
+      "metrics": {
+        "sent": 0,
+        "delivered": 0,
+        "opened": 0,
+        "clicked": 0,
+        "bounced": 0,
+        "unsubscribed": 0
+      }
+    },
+    "createSmsCampaign": {
+      "id": "CAMP-SMS-0987654321",
+      "type": "sms",
+      "name": "Flash Sale Alert",
+      "message": "⚡ FLASH SALE: 50% off all items! 24 hours only. Shop now!",
+      "status": "draft",
+      "createdAt": "2024-01-15T14:45:00Z",
+      "scheduledAt": "2024-01-15T15:00:00Z",
+      "audience": {
+        "id": "AUD-MOBILE-002",
+        "name": "Mobile Subscribers",
+        "size": 8750
+      },
+      "metrics": {
+        "sent": 0,
+        "delivered": 0,
+        "clicked": 0,
+        "bounced": 0,
+        "optedOut": 0
+      }
+    },
+    "getCampaignStatus": {
+      "id": "CAMP-EMAIL-1234567890",
+      "type": "email",
+      "name": "Product Launch Campaign",
+      "status": "sent",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "sentAt": "2024-01-15T16:00:00Z",
+      "completedAt": "2024-01-15T18:30:00Z",
+      "metrics": {
+        "sent": 15420,
+        "delivered": 15201,
+        "opened": 6834,
+        "clicked": 1247,
+        "bounced": 219,
+        "unsubscribed": 23
+      },
+      "performance": {
+        "deliveryRate": 98.6,
+        "openRate": 45.0,
+        "clickRate": 18.2,
+        "bounceRate": 1.4,
+        "unsubscribeRate": 0.15
+      }
+    },
+    "listCampaigns": {
+      "data": [
+        {
+          "id": "CAMP-EMAIL-1234567890",
+          "type": "email", 
+          "name": "Product Launch Campaign",
+          "status": "sent",
+          "createdAt": "2024-01-15T10:30:00Z",
+          "metrics": {
+            "sent": 15420,
+            "opened": 6834,
+            "clicked": 1247
+          }
+        },
+        {
+          "id": "CAMP-SMS-0987654321",
+          "type": "sms",
+          "name": "Flash Sale Alert",
+          "status": "scheduled",
+          "createdAt": "2024-01-15T14:45:00Z",
+          "scheduledAt": "2024-01-15T15:00:00Z",
+          "metrics": {
+            "sent": 0
+          }
+        },
+        {
+          "id": "CAMP-EMAIL-5555555555",
+          "type": "email",
+          "name": "Weekly Newsletter #42",
+          "status": "draft",
+          "createdAt": "2024-01-15T09:15:00Z",
+          "metrics": {
+            "sent": 0
+          }
+        }
+      ],
+      "pagination": {
+        "total": 3,
+        "page": 1,
+        "limit": 10,
+        "hasMore": false
+      }
+    },
+    "error": {
+      "error": {
+        "code": "CAMPAIGN_NOT_FOUND",
+        "message": "Campaign with ID 'CAMP-INVALID-123' not found",
+        "details": {
+          "campaignId": "CAMP-INVALID-123",
+          "timestamp": "2024-01-15T12:00:00Z"
+        }
+      }
+    }
+  },
+  "slackResponses": {
+    "emailCampaignSuccess": {
+      "text": "🤖 *Connexio.ai Result for <@U123TEST>*\n\n✅ *Status:* SUCCESS\n🎯 *Action:* Create Email Campaign\n💬 *Message:* Email campaign created successfully\n🆔 *Campaign ID:* `CAMP-EMAIL-1234567890`\n⏰ *Time:* <!date^1705327800^{date_short_pretty} at {time}|1705327800>\n",
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "🤖 Connexio.ai Campaign Result"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Campaign Details:*\n• ID: `CAMP-EMAIL-1234567890`\n• Type: EMAIL\n• Status: draft\n"
+          }
+        }
+      ]
+    },
+    "smsCampaignSuccess": {
+      "text": "🤖 *Connexio.ai Result for <@U456TEST>*\n\n✅ *Status:* SUCCESS\n🎯 *Action:* Create SMS Campaign\n💬 *Message:* SMS campaign created successfully\n🆔 *Campaign ID:* `CAMP-SMS-0987654321`\n⏰ *Time:* <!date^1705342200^{date_short_pretty} at {time}|1705342200>\n",
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "🤖 Connexio.ai Campaign Result"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Campaign Details:*\n• ID: `CAMP-SMS-0987654321`\n• Type: SMS\n• Status: draft\n"
+          }
+        }
+      ]
+    },
+    "helpResponse": {
+      "text": "🤖 *Connexio.ai Result for <@U789TEST>*\n\n✅ *Status:* SUCCESS\n🎯 *Action:* Help\n💬 *Message:* Connexio.ai Help\n⏰ *Time:* <!date^1705329600^{date_short_pretty} at {time}|1705329600>\n",
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "🤖 Connexio.ai Campaign Result"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Available Commands:*\n• `/connexio create email campaign` - Create a new email marketing campaign\n• `/connexio create sms campaign` - Create a new SMS marketing campaign\n• `/connexio status [campaign-id]` - Check campaign status\n• `/connexio list campaigns` - List all campaigns\n"
+          }
+        }
+      ]
+    },
+    "statusResponse": {
+      "text": "🤖 *Connexio.ai Result for <@U999TEST>*\n\n✅ *Status:* SUCCESS\n🎯 *Action:* Get Campaign Status\n💬 *Message:* Campaign status retrieved\n🆔 *Campaign ID:* `CAMP-EMAIL-1234567890`\n⏰ *Time:* <!date^1705331400^{date_short_pretty} at {time}|1705331400>\n",
+      "campaignStatus": {
+        "id": "CAMP-EMAIL-1234567890",
+        "status": "sent",
+        "metrics": {
+          "sent": 15420,
+          "opened": 6834,
+          "clicked": 1247
+        }
+      }
+    },
+    "errorResponse": {
+      "text": "🤖 *Connexio.ai Result for <@U000ERROR>*\n\n❌ *Status:* ERROR\n🎯 *Action:* create_email_campaign\n💬 *Message:* Execution failed: API unavailable\n⏰ *Time:* <!date^1705333200^{date_short_pretty} at {time}|1705333200>\n"
+    }
+  },
+  "workflowStates": {
+    "running": {
+      "id": "wf_run_12345",
+      "status": "RUNNING",
+      "startTime": "2024-01-15T10:30:00Z",
+      "endTime": null,
+      "currentNodePosition": 1,
+      "totalNodes": 3
+    },
+    "completed": {
+      "id": "wf_run_12345",
+      "status": "COMPLETED", 
+      "startTime": "2024-01-15T10:30:00Z",
+      "endTime": "2024-01-15T10:30:45Z",
+      "currentNodePosition": 3,
+      "totalNodes": 3,
+      "variables": {
+        "parsedIntent": {
+          "action": "create_email_campaign",
+          "confidence": 0.92
+        },
+        "campaignResult": {
+          "status": "success",
+          "campaignId": "CAMP-EMAIL-1234567890"
+        },
+        "finalStatus": "success"
+      }
+    },
+    "failed": {
+      "id": "wf_run_12346",
+      "status": "EXCEPTION",
+      "startTime": "2024-01-15T11:00:00Z",
+      "endTime": "2024-01-15T11:00:30Z",
+      "error": {
+        "message": "Task worker unavailable",
+        "taskName": "parse-slack-command",
+        "attempt": 3
+      }
+    }
+  },
+  "testMetrics": {
+    "performance": {
+      "averageWorkflowDuration": "45s",
+      "p95WorkflowDuration": "120s",
+      "successRate": 98.5,
+      "errorRate": 1.5,
+      "throughput": "150 workflows/minute"
+    },
+    "reliability": {
+      "uptime": 99.9,
+      "mtbf": "720 hours",
+      "mttr": "5 minutes"
+    }
+  }
+}

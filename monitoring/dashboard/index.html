@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexio AI - System Health Dashboard</title>
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #27ae60;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.warning { background: #f39c12; }
+        .status-dot.critical { background: #e74c3c; }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .card.warning { border-left-color: #f39c12; }
+        .card.critical { border-left-color: #e74c3c; }
+        .card.success { border-left-color: #27ae60; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #3498db;
+            transition: width 0.3s ease;
+        }
+
+        .progress-fill.warning { background: #f39c12; }
+        .progress-fill.critical { background: #e74c3c; }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1rem 0;
+        }
+
+        .alerts-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s ease;
+        }
+
+        .alert-item:hover {
+            background: #f8f9fa;
+        }
+
+        .alert-severity {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3498db;
+        }
+
+        .alert-severity.warning { background: #f39c12; }
+        .alert-severity.critical { background: #e74c3c; }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: white;
+            font-size: 0.8rem;
+            z-index: 1000;
+        }
+
+        .connection-status.connected { background: #27ae60; }
+        .connection-status.disconnected { background: #e74c3c; }
+
+        @media (max-width: 768px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="connection-status" id="connectionStatus">Connecting...</div>
+    
+    <header class="header">
+        <h1>🚀 Connexio AI - System Dashboard</h1>
+        <div class="status-indicator">
+            <div class="status-dot" id="systemStatusDot"></div>
+            <span id="systemStatus">System Healthy</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="overview-grid">
+            <!-- System Health -->
+            <div class="card" id="systemCard">
+                <div class="card-header">
+                    <div class="card-title">System Health</div>
+                </div>
+                <div class="card-value" id="healthScore">--</div>
+                <div class="card-subtitle">Overall Health Score</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="healthProgress"></div>
+                </div>
+            </div>
+
+            <!-- Workflows -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Workflows</div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Active</span>
+                    <span class="metric-value" id="activeWorkflows">--</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Success Rate</span>
+                    <span class="metric-value" id="workflowSuccessRate">--%</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Avg Duration</span>
+                    <span class="metric-value" id="workflowAvgDuration">--s</span>
+                </div>
+            </div>
+
+            <!-- Workers -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Workers</div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Healthy</span>
+                    <span class="metric-value" id="healthyWorkers">--</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Total</span>
+                    <span class="metric-value" id="totalWorkers">--</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Tasks Processed</span>
+                    <span class="metric-value" id="totalTasks">--</span>
+                </div>
+            </div>
+
+            <!-- APIs -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">API Integrations</div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Active</span>
+                    <span class="metric-value" id="activeAPIs">--</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Requests</span>
+                    <span class="metric-value" id="totalRequests">--</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Success Rate</span>
+                    <span class="metric-value" id="apiSuccessRate">--%</span>
+                </div>
+            </div>
+
+            <!-- Costs -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Daily Costs</div>
+                </div>
+                <div class="card-value" id="dailyCosts">$--</div>
+                <div class="card-subtitle">Budget Utilization: <span id="budgetUtilization">--%</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="budgetProgress"></div>
+                </div>
+            </div>
+
+            <!-- Alerts -->
+            <div class="card" id="alertsCard">
+                <div class="card-header">
+                    <div class="card-title">Active Alerts</div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Critical</span>
+                    <span class="metric-value" id="criticalAlerts">--</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Warnings</span>
+                    <span class="metric-value" id="warningAlerts">--</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-grid">
+            <!-- System Metrics Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">System Performance</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="systemChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Alerts -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Recent Alerts</div>
+                </div>
+                <div class="alerts-list" id="alertsList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        Loading alerts...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class DashboardApp {
+            constructor() {
+                this.socket = null;
+                this.charts = {};
+                this.data = {};
+                this.init();
+            }
+
+            init() {
+                this.connectSocket();
+                this.initCharts();
+                this.setupEventHandlers();
+            }
+
+            connectSocket() {
+                this.socket = io();
+                
+                this.socket.on('connect', () => {
+                    this.updateConnectionStatus(true);
+                    console.log('Connected to dashboard server');
+                });
+
+                this.socket.on('disconnect', () => {
+                    this.updateConnectionStatus(false);
+                    console.log('Disconnected from dashboard server');
+                });
+
+                this.socket.on('initial:data', (data) => {
+                    this.data = data;
+                    this.updateDashboard();
+                });
+
+                this.socket.on('update:overview', (overview) => {
+                    this.data.overview = overview;
+                    this.updateOverview();
+                });
+
+                this.socket.on('update:workflows', (workflows) => {
+                    this.data.workflows = workflows;
+                    this.updateWorkflows();
+                });
+
+                this.socket.on('update:workers', (workers) => {
+                    this.data.workers = workers;
+                    this.updateWorkers();
+                });
+
+                this.socket.on('update:alerts', (alerts) => {
+                    this.data.alerts = alerts;
+                    this.updateAlerts();
+                });
+
+                this.socket.on('alert:new', (alert) => {
+                    this.showNewAlert(alert);
+                });
+            }
+
+            updateConnectionStatus(connected) {
+                const status = document.getElementById('connectionStatus');
+                if (connected) {
+                    status.textContent = 'Connected';
+                    status.className = 'connection-status connected';
+                } else {
+                    status.textContent = 'Disconnected';
+                    status.className = 'connection-status disconnected';
+                }
+            }
+
+            updateDashboard() {
+                this.updateOverview();
+                this.updateWorkflows();
+                this.updateWorkers();
+                this.updateAlerts();
+                this.updateCharts();
+            }
+
+            updateOverview() {
+                const overview = this.data.overview;
+                if (!overview) return;
+
+                // Health Score
+                const healthScore = Math.round(overview.healthScore * 100);
+                document.getElementById('healthScore').textContent = `${healthScore}%`;
+                
+                const healthProgress = document.getElementById('healthProgress');
+                healthProgress.style.width = `${healthScore}%`;
+                
+                const systemCard = document.getElementById('systemCard');
+                const systemStatusDot = document.getElementById('systemStatusDot');
+                const systemStatus = document.getElementById('systemStatus');
+                
+                if (healthScore >= 80) {
+                    systemCard.className = 'card success';
+                    systemStatusDot.className = 'status-dot';
+                    systemStatus.textContent = 'System Healthy';
+                    healthProgress.className = 'progress-fill';
+                } else if (healthScore >= 60) {
+                    systemCard.className = 'card warning';
+                    systemStatusDot.className = 'status-dot warning';
+                    systemStatus.textContent = 'System Warning';
+                    healthProgress.className = 'progress-fill warning';
+                } else {
+                    systemCard.className = 'card critical';
+                    systemStatusDot.className = 'status-dot critical';
+                    systemStatus.textContent = 'System Critical';
+                    healthProgress.className = 'progress-fill critical';
+                }
+
+                // APIs
+                document.getElementById('activeAPIs').textContent = overview.apis.active;
+                document.getElementById('totalRequests').textContent = this.formatNumber(overview.apis.totalRequests);
+                document.getElementById('apiSuccessRate').textContent = `${Math.round(overview.apis.avgSuccessRate * 100)}%`;
+
+                // Costs
+                document.getElementById('dailyCosts').textContent = `$${overview.costs.daily.toFixed(2)}`;
+                const budgetUtil = Math.round(overview.costs.budgetUtilization);
+                document.getElementById('budgetUtilization').textContent = `${budgetUtil}%`;
+                
+                const budgetProgress = document.getElementById('budgetProgress');
+                budgetProgress.style.width = `${budgetUtil}%`;
+                if (budgetUtil > 90) {
+                    budgetProgress.className = 'progress-fill critical';
+                } else if (budgetUtil > 75) {
+                    budgetProgress.className = 'progress-fill warning';
+                } else {
+                    budgetProgress.className = 'progress-fill';
+                }
+            }
+
+            updateWorkflows() {
+                const workflows = this.data.workflows;
+                const overview = this.data.overview;
+                if (!workflows || !overview) return;
+
+                document.getElementById('activeWorkflows').textContent = overview.workflows.active;
+                document.getElementById('workflowSuccessRate').textContent = `${Math.round(overview.workflows.successRate * 100)}%`;
+                document.getElementById('workflowAvgDuration').textContent = `${Math.round(overview.workflows.avgDuration)}s`;
+            }
+
+            updateWorkers() {
+                const workers = this.data.workers;
+                const overview = this.data.overview;
+                if (!workers || !overview) return;
+
+                document.getElementById('healthyWorkers').textContent = overview.workers.healthy;
+                document.getElementById('totalWorkers').textContent = overview.workers.total;
+                document.getElementById('totalTasks').textContent = this.formatNumber(overview.workers.totalTasks);
+            }
+
+            updateAlerts() {
+                const alerts = this.data.alerts;
+                const overview = this.data.overview;
+                if (!alerts || !overview) return;
+
+                document.getElementById('criticalAlerts').textContent = overview.alerts.critical;
+                document.getElementById('warningAlerts').textContent = overview.alerts.warnings;
+
+                // Update alerts card color
+                const alertsCard = document.getElementById('alertsCard');
+                if (overview.alerts.critical > 0) {
+                    alertsCard.className = 'card critical';
+                } else if (overview.alerts.warnings > 0) {
+                    alertsCard.className = 'card warning';
+                } else {
+                    alertsCard.className = 'card success';
+                }
+
+                // Update alerts list
+                const alertsList = document.getElementById('alertsList');
+                if (overview.alerts.recentAlerts && overview.alerts.recentAlerts.length > 0) {
+                    alertsList.innerHTML = overview.alerts.recentAlerts.map(alert => `
+                        <div class="alert-item">
+                            <div class="alert-severity ${alert.severity}"></div>
+                            <div class="alert-content">
+                                <div class="alert-title">${alert.title}</div>
+                                <div class="alert-time">${this.formatTime(alert.timestamp)}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    alertsList.innerHTML = '<div style="text-align: center; padding: 2rem; color: #666;">No recent alerts</div>';
+                }
+            }
+
+            initCharts() {
+                const ctx = document.getElementById('systemChart').getContext('2d');
+                this.charts.system = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Health Score',
+                            data: [],
+                            borderColor: '#3498db',
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            updateCharts() {
+                if (this.data.overview && this.charts.system) {
+                    const now = new Date();
+                    const healthScore = Math.round(this.data.overview.healthScore * 100);
+                    
+                    // Add new data point
+                    this.charts.system.data.labels.push(now.toLocaleTimeString());
+                    this.charts.system.data.datasets[0].data.push(healthScore);
+                    
+                    // Keep only last 20 points
+                    if (this.charts.system.data.labels.length > 20) {
+                        this.charts.system.data.labels.shift();
+                        this.charts.system.data.datasets[0].data.shift();
+                    }
+                    
+                    this.charts.system.update('none');
+                }
+            }
+
+            showNewAlert(alert) {
+                // You could implement a toast notification here
+                console.log('New alert:', alert);
+            }
+
+            setupEventHandlers() {
+                // Add any click handlers, etc.
+            }
+
+            formatNumber(num) {
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1) + 'M';
+                } else if (num >= 1000) {
+                    return (num / 1000).toFixed(1) + 'K';
+                }
+                return num.toString();
+            }
+
+            formatTime(timestamp) {
+                return new Date(timestamp).toLocaleString();
+            }
+        }
+
+        // Initialize dashboard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new DashboardApp();
+        });
+    </script>
+</body>
+</html>

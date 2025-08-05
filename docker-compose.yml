@@ -1,0 +1,103 @@
+services:
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    hostname: kafka
+    container_name: connexio-kafka
+    ports:
+      - "9092:9092"
+      - "9101:9101"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:29093'
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka:29092,CONTROLLER://kafka:29093,PLAINTEXT_HOST://0.0.0.0:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+    volumes:
+      - kafka_data:/tmp/kraft-combined-logs
+    networks:
+      - connexio-network
+
+  littlehorse:
+    build:
+      context: ./docker/littlehorse
+      dockerfile: Dockerfile
+    container_name: connexio-littlehorse
+    ports:
+      - "2023:2023"  # LH API port
+      - "9090:9090"  # Health check port
+    environment:
+      - LH_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - LH_CLUSTER_ID=connexio-cluster
+      - LH_ADVERTISED_LISTENERS=PLAIN://localhost:2023
+      - LH_LISTENERS=PLAIN://0.0.0.0:2023
+      - LH_HEALTH_SERVICE_PORT=9090
+    volumes:
+      - lh_data:/opt/littlehorse/data
+      - lh_logs:/opt/littlehorse/logs
+    depends_on:
+      - kafka
+    networks:
+      - connexio-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  connexio-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: connexio-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - LITTLEHORSE_API_HOST=littlehorse
+      - LITTLEHORSE_API_PORT=2023
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      littlehorse:
+        condition: service_healthy
+    networks:
+      - connexio-network
+    command: npm run dev
+
+  # Development utilities
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: connexio-kafka-ui
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: connexio-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+    networks:
+      - connexio-network
+
+volumes:
+  kafka_data:
+  lh_data:
+  lh_logs:
+
+networks:
+  connexio-network:
+    driver: bridge

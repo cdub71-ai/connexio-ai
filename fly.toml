@@ -1,0 +1,120 @@
+# Fly.io configuration for Little Horse Kernel
+app = "connexio-ai-littlehorse"
+primary_region = "iad"
+
+[build]
+  image = "littlehorsecorp/littlehorse:latest"
+
+[env]
+  # Little Horse Kernel configuration
+  LH_CLUSTER_ID = "connexio-ai-cluster"
+  LH_ENABLE_PROMETHEUS = "true"
+  LH_PROMETHEUS_PORT = "9090"
+  LH_HEALTH_CHECK_PORT = "1822"
+  LH_LISTENERS = "lh://0.0.0.0:2023"
+  
+  # Database configuration
+  LH_STATE_STORE_TYPE = "postgres"
+  
+  # Clustering configuration
+  LH_CLUSTER_PARTITIONS = "3"
+  LH_REPLICATION_FACTOR = "3"
+  
+  # Performance tuning
+  LH_MAX_REQUEST_SIZE = "10485760"
+  LH_BATCH_SIZE = "1000"
+  LH_LINGER_MS = "100"
+  
+  # Security
+  LH_ENABLE_AUTH = "true"
+  LH_TLS_ENABLED = "true"
+
+[http_service]
+  internal_port = 2023
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 2
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 1000
+    soft_limit = 800
+
+  [[http_service.tcp_check]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "5s"
+    port = 2023
+
+[[services]]
+  internal_port = 9090
+  protocol = "tcp"
+  
+  [[services.ports]]
+    port = 9090
+    handlers = ["http"]
+  
+  [[services.tcp_checks]]
+    interval = "30s"
+    timeout = "2s"
+    port = 9090
+
+# Health check configuration
+[[services]]
+  internal_port = 1822
+  protocol = "tcp"
+  
+  [[services.ports]]
+    port = 1822
+    handlers = ["http"]
+  
+  [[services.http_checks]]
+    interval = "10s"
+    timeout = "2s"
+    method = "GET"
+    path = "/health"
+    port = 1822
+
+[vm]
+  cpu_kind = "performance"
+  cpus = 4
+  memory = "8gb"
+
+[[vm.files]]
+  guest_path = "/app/config/server.properties"
+  raw_value = """
+cluster.id=connexio-ai-cluster
+listeners=lh://0.0.0.0:2023
+state.store.type=postgres
+enable.prometheus=true
+prometheus.port=9090
+health.check.port=1822
+max.request.size=10485760
+batch.size=1000
+linger.ms=100
+cluster.partitions=3
+replication.factor=3
+enable.auth=true
+tls.enabled=true
+"""
+
+[processes]
+  app = "littlehorse-server --config /app/config/server.properties"
+
+[metrics]
+  port = 9090
+  path = "/metrics"
+
+[[mounts]]
+  source = "connexio_ai_data"
+  destination = "/app/data"
+
+[deploy]
+  release_command = "/app/scripts/migrate.sh"
+  strategy = "rolling"
+
+[[statics]]
+  guest_path = "/app/public"
+  url_prefix = "/public"

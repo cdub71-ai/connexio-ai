@@ -1,0 +1,112 @@
+# Fly.io configuration for Data Enrichment Workers
+app = "connexio-ai-enrichment-workers"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile.enrichment"
+
+[env]
+  # Node.js configuration
+  NODE_ENV = "production"
+  LOG_LEVEL = "info"
+  WORKER_NAME = "data-enrichment-worker"
+  
+  # Little Horse connection
+  LITTLEHORSE_API_HOST = "connexio-ai-littlehorse.internal"
+  LITTLEHORSE_API_PORT = "2023"
+  
+  # Worker-specific configuration
+  TASK_NAME = "enrich-contact-data"
+  MAX_CONCURRENT_TASKS = "20"
+  HEARTBEAT_INTERVAL_MS = "3000"
+  TASK_TIMEOUT_MS = "600000"
+  
+  # Data enrichment configuration
+  DATA_ENRICHMENT_DEFAULT_STRATEGY = "comprehensive"
+  DATA_ENRICHMENT_MAX_CONCURRENT = "10"
+  DATA_ENRICHMENT_INTERVAL_CAP = "500"
+  DATA_ENRICHMENT_ENABLE_CREDIT_MONITORING = "true"
+  DATA_ENRICHMENT_MAX_CREDITS_PER_HOUR = "2000"
+  
+  # Apollo configuration
+  APOLLO_MAX_CONCURRENT = "5"
+  APOLLO_INTERVAL_CAP = "120"
+  APOLLO_INTERVAL = "60000"
+  
+  # Leadspace configuration
+  LEADSPACE_MAX_CONCURRENT = "8"
+  LEADSPACE_INTERVAL_CAP = "200"
+  LEADSPACE_INTERVAL = "60000"
+  
+  # Error recovery configuration
+  ERROR_RECOVERY_CIRCUIT_BREAKER_FAILURE_THRESHOLD = "3"
+  ERROR_RECOVERY_RETRY_MAX_RETRIES = "5"
+  ERROR_RECOVERY_HEALTH_CHECK_INTERVAL = "15000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 2
+  processes = ["enrichment-worker"]
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 500
+    soft_limit = 400
+
+  [[http_service.http_check]]
+    interval = "15s"
+    timeout = "3s"
+    method = "GET"
+    path = "/health"
+    port = 3000
+
+[vm]
+  cpu_kind = "performance"
+  cpus = 4
+  memory = "4gb"
+
+[processes]
+  enrichment-worker = "npm run start:enrichment"
+
+[metrics]
+  port = 3001
+  path = "/metrics"
+
+[[services]]
+  internal_port = 3001
+  protocol = "tcp"
+  
+  [[services.ports]]
+    port = 3001
+    handlers = ["http"]
+  
+  [[services.http_checks]]
+    interval = "30s"
+    timeout = "3s"
+    method = "GET"
+    path = "/metrics"
+    port = 3001
+
+# Aggressive auto-scaling for data processing
+[scaling]
+  min_machines_running = 2
+  max_machines_running = 20
+
+[[scaling.metrics]]
+  type = "cpu"
+  target = 60
+
+[[scaling.metrics]]
+  type = "memory" 
+  target = 75
+
+[[scaling.metrics]]
+  type = "queue_depth"
+  target = 50
+
+[deploy]
+  strategy = "immediate"
+  wait_timeout = "10m"

@@ -1,0 +1,386 @@
+{
+  "emailCampaigns": [
+    {
+      "name": "Product Launch Email Campaign",
+      "description": "Announce the launch of our new premium product line",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "create email campaign for new premium product launch with exclusive early access",
+        "user_id": "U001PRODUCT",
+        "user_name": "product-manager",
+        "channel_id": "C001MARKETING",
+        "channel_name": "marketing-campaigns",
+        "team_id": "T001COMPANY",
+        "team_domain": "connexio-ai",
+        "trigger_id": "123456789.987654321.abcdef123456"
+      },
+      "expectedParameters": {
+        "type": "email",
+        "name": "Premium Product Launch",
+        "subject": "🚀 Exclusive Early Access: New Premium Line",
+        "audience": "premium_subscribers",
+        "priority": "high",
+        "schedule": "immediate"
+      },
+      "expectedResult": {
+        "action": "create_email_campaign",
+        "status": "success",
+        "campaignType": "email",
+        "confidence": 0.9
+      }
+    },
+    {
+      "name": "Holiday Sale Email Campaign",
+      "description": "Seasonal promotion with discount codes",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "create email campaign for holiday sale 40% off everything use code HOLIDAY40",
+        "user_id": "U002MARKETING",
+        "user_name": "marketing-specialist",
+        "channel_id": "C001MARKETING",
+        "channel_name": "marketing-campaigns",
+        "team_id": "T001COMPANY",
+        "team_domain": "connexio-ai"
+      },
+      "expectedParameters": {
+        "type": "email",
+        "name": "Holiday Sale Campaign",
+        "subject": "🎄 Holiday Sale: 40% Off Everything!",
+        "discount": "40%",
+        "promoCode": "HOLIDAY40",
+        "audience": "all_subscribers"
+      },
+      "expectedResult": {
+        "action": "create_email_campaign",
+        "status": "success",
+        "campaignType": "email",
+        "confidence": 0.85
+      }
+    },
+    {
+      "name": "Newsletter Automation",
+      "description": "Weekly newsletter with company updates",
+      "slackCommand": {
+        "command": "/connexio", 
+        "text": "create weekly newsletter email campaign with latest product updates and company news",
+        "user_id": "U003CONTENT",
+        "user_name": "content-manager",
+        "channel_id": "C002CONTENT",
+        "channel_name": "content-team"
+      },
+      "expectedParameters": {
+        "type": "email",
+        "name": "Weekly Newsletter",
+        "subject": "📰 Weekly Update: Product News & Company Updates",
+        "frequency": "weekly",
+        "audience": "newsletter_subscribers",
+        "contentType": "newsletter"
+      },
+      "expectedResult": {
+        "action": "create_email_campaign",
+        "status": "success",
+        "campaignType": "email",
+        "confidence": 0.88
+      }
+    }
+  ],
+  "smsCampaigns": [
+    {
+      "name": "Flash Sale SMS Alert",
+      "description": "Urgent flash sale notification for mobile users",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "create sms campaign flash sale 24 hours only 50% off all items hurry",
+        "user_id": "U004SALES",
+        "user_name": "sales-manager",
+        "channel_id": "C003SALES",
+        "channel_name": "sales-alerts",
+        "team_id": "T001COMPANY"
+      },
+      "expectedParameters": {
+        "type": "sms",
+        "name": "Flash Sale Alert",
+        "message": "⚡ FLASH SALE: 50% off all items! 24 hours only. Shop now!",
+        "urgency": "high",
+        "duration": "24 hours",
+        "audience": "mobile_subscribers"
+      },
+      "expectedResult": {
+        "action": "create_sms_campaign",
+        "status": "success",
+        "campaignType": "sms",
+        "confidence": 0.92
+      }
+    },
+    {
+      "name": "Appointment Reminder SMS",
+      "description": "Service appointment reminders for customers",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "create sms campaign appointment reminder for customers tomorrow at 2pm",
+        "user_id": "U005SERVICE",
+        "user_name": "service-coordinator",
+        "channel_id": "C004SERVICE",
+        "channel_name": "customer-service"
+      },
+      "expectedParameters": {
+        "type": "sms",
+        "name": "Appointment Reminder",
+        "message": "📅 Reminder: Your appointment is tomorrow at 2:00 PM. Reply CONFIRM or RESCHEDULE.",
+        "timing": "24_hours_before",
+        "audience": "appointment_customers",
+        "actionable": true
+      },
+      "expectedResult": {
+        "action": "create_sms_campaign",
+        "status": "success",
+        "campaignType": "sms",
+        "confidence": 0.87
+      }
+    },
+    {
+      "name": "Welcome Series SMS",
+      "description": "Welcome message for new customers",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "create sms campaign welcome new customers with 10% discount code WELCOME10",
+        "user_id": "U006ONBOARDING",
+        "user_name": "onboarding-specialist", 
+        "channel_id": "C005ONBOARDING",
+        "channel_name": "customer-onboarding"
+      },
+      "expectedParameters": {
+        "type": "sms",
+        "name": "New Customer Welcome",
+        "message": "👋 Welcome! Get 10% off your first order with code WELCOME10. Valid for 30 days.",
+        "promoCode": "WELCOME10",
+        "audience": "new_customers",
+        "validity": "30_days"
+      },
+      "expectedResult": {
+        "action": "create_sms_campaign",
+        "status": "success",
+        "campaignType": "sms",
+        "confidence": 0.89
+      }
+    }
+  ],
+  "statusQueries": [
+    {
+      "name": "Check Email Campaign Status",
+      "description": "Query status of existing email campaign",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "status CAMP-EMAIL-1234567890",
+        "user_id": "U007MANAGER",
+        "user_name": "campaign-manager",
+        "channel_id": "C001MARKETING"
+      },
+      "expectedParameters": {
+        "campaignId": "CAMP-EMAIL-1234567890"
+      },
+      "expectedResult": {
+        "action": "get_campaign_status",
+        "status": "success",
+        "campaignId": "CAMP-EMAIL-1234567890"
+      }
+    },
+    {
+      "name": "Check SMS Campaign Status",
+      "description": "Query status of SMS campaign",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "check status of campaign CAMP-SMS-0987654321",
+        "user_id": "U008ANALYST",
+        "user_name": "marketing-analyst",
+        "channel_id": "C003SALES"
+      },
+      "expectedParameters": {
+        "campaignId": "CAMP-SMS-0987654321"
+      },
+      "expectedResult": {
+        "action": "get_campaign_status",
+        "status": "success",
+        "campaignId": "CAMP-SMS-0987654321"
+      }
+    }
+  ],
+  "listQueries": [
+    {
+      "name": "List All Campaigns",
+      "description": "Get list of all active campaigns",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "list all campaigns",
+        "user_id": "U009ADMIN",
+        "user_name": "admin-user",
+        "channel_id": "C006ADMIN"
+      },
+      "expectedResult": {
+        "action": "list_campaigns",
+        "status": "success",
+        "hasCampaigns": true
+      }
+    },
+    {
+      "name": "Show Active Campaigns",
+      "description": "Display currently running campaigns",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "show me active campaigns",
+        "user_id": "U010SUPERVISOR",
+        "user_name": "marketing-supervisor",
+        "channel_id": "C001MARKETING"
+      },
+      "expectedResult": {
+        "action": "list_campaigns",
+        "status": "success",
+        "filterType": "active"
+      }
+    }
+  ],
+  "helpQueries": [
+    {
+      "name": "General Help Request",
+      "description": "User requesting help information",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "help",
+        "user_id": "U011NEWUSER",
+        "user_name": "new-user",
+        "channel_id": "C007GENERAL"
+      },
+      "expectedResult": {
+        "action": "help",
+        "status": "success",
+        "hasCommands": true
+      }
+    },
+    {
+      "name": "How To Create Campaign",
+      "description": "User asking how to create campaigns",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "how do I create a campaign?",
+        "user_id": "U012BEGINNER",
+        "user_name": "beginner-user",
+        "channel_id": "C008SUPPORT"
+      },
+      "expectedResult": {
+        "action": "help",
+        "status": "success",
+        "contextType": "campaign_creation"
+      }
+    }
+  ],
+  "edgeCases": [
+    {
+      "name": "Empty Command",
+      "description": "Command with no text",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "",
+        "user_id": "U013EDGE",
+        "user_name": "edge-case-user",
+        "channel_id": "C009TEST"
+      },
+      "expectedResult": {
+        "action": "help",
+        "status": "success",
+        "reason": "empty_input"
+      }
+    },
+    {
+      "name": "Very Long Command",
+      "description": "Command with excessive text length",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "create email campaign for our amazing new product that has incredible features and will revolutionize the market with its innovative approach to solving customer problems and delivering exceptional value through cutting-edge technology and outstanding customer service that exceeds all expectations and creates lasting relationships with our valued customers who deserve nothing but the best experience possible",
+        "user_id": "U014LONG",
+        "user_name": "verbose-user",
+        "channel_id": "C010VERBOSE"
+      },
+      "expectedResult": {
+        "action": "create_email_campaign",
+        "status": "success",
+        "confidence": 0.8
+      }
+    },
+    {
+      "name": "Special Characters Command",
+      "description": "Command containing special characters and emojis",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "create email campaign 🎉 50% OFF!!! @everyone #sale $$$",
+        "user_id": "U015SPECIAL",
+        "user_name": "special-chars-user",
+        "channel_id": "C011SPECIAL"
+      },
+      "expectedResult": {
+        "action": "create_email_campaign", 
+        "status": "success",
+        "hasSpecialChars": true
+      }
+    },
+    {
+      "name": "Multiple Campaign Types",
+      "description": "Ambiguous command mentioning multiple campaign types",
+      "slackCommand": {
+        "command": "/connexio",
+        "text": "create email and sms campaign for sale",
+        "user_id": "U016AMBIGUOUS",
+        "user_name": "ambiguous-user",
+        "channel_id": "C012AMBIGUOUS"
+      },
+      "expectedResult": {
+        "action": "create_email_campaign",
+        "status": "success",
+        "confidence": 0.6,
+        "isAmbiguous": true
+      }
+    }
+  ],
+  "testSuites": {
+    "smoke": {
+      "description": "Basic smoke tests for core functionality",
+      "tests": [
+        "Product Launch Email Campaign",
+        "Flash Sale SMS Alert", 
+        "General Help Request"
+      ]
+    },
+    "regression": {
+      "description": "Full regression test suite",
+      "tests": [
+        "Product Launch Email Campaign",
+        "Holiday Sale Email Campaign",
+        "Newsletter Automation",
+        "Flash Sale SMS Alert",
+        "Appointment Reminder SMS",
+        "Welcome Series SMS",
+        "Check Email Campaign Status",
+        "List All Campaigns",
+        "General Help Request"
+      ]
+    },
+    "edge_cases": {
+      "description": "Edge case and error handling tests",
+      "tests": [
+        "Empty Command",
+        "Very Long Command",
+        "Special Characters Command",
+        "Multiple Campaign Types"
+      ]
+    },
+    "performance": {
+      "description": "Performance and load testing scenarios",
+      "tests": [
+        "Product Launch Email Campaign",
+        "Flash Sale SMS Alert",
+        "Check Email Campaign Status"
+      ],
+      "concurrency": 10,
+      "iterations": 50
+    }
+  }
+}

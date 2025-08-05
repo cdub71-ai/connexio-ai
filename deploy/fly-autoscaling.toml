@@ -1,0 +1,85 @@
+# Fly.io configuration for Auto-scaling Service
+app = "connexio-ai-autoscaling"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile.autoscaling"
+
+[env]
+  # Node.js configuration
+  NODE_ENV = "production"
+  LOG_LEVEL = "info"
+  
+  # Scaling configuration
+  SCALING_SCHEDULE = "*/2 * * * *"  # Every 2 minutes
+  SCALING_ENABLED = "true"
+  
+  # Fly.io API configuration
+  FLY_API_TOKEN_PATH = "/secrets/fly_api_token"
+  FLY_ORG = "connexio-ai"
+  
+  # Monitoring configuration
+  METRICS_ENABLED = "true"
+  METRICS_RETENTION_HOURS = "24"
+  
+  # Alert configuration
+  ALERT_WEBHOOK_URL = ""
+  ALERT_SLACK_WEBHOOK = ""
+
+[http_service]
+  internal_port = 3003
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 100
+    soft_limit = 80
+
+  [[http_service.http_check]]
+    interval = "30s"
+    timeout = "5s"
+    method = "GET"
+    path = "/health"
+    port = 3003
+
+[vm]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "1gb"
+
+[processes]
+  autoscaling = "npm run start:autoscaling"
+
+[metrics]
+  port = 3003
+  path = "/metrics"
+
+[[services]]
+  internal_port = 3003
+  protocol = "tcp"
+  
+  [[services.ports]]
+    port = 3003
+    handlers = ["http"]
+  
+  [[services.http_checks]]
+    interval = "60s"
+    timeout = "10s"
+    method = "GET"
+    path = "/health"
+    port = 3003
+
+# Minimal scaling - this service manages scaling for others
+[scaling]
+  min_machines_running = 1
+  max_machines_running = 2
+
+[[scaling.metrics]]
+  type = "cpu"
+  target = 80
+
+[deploy]
+  strategy = "immediate"

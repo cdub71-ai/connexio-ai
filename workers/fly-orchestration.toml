@@ -1,0 +1,110 @@
+# Fly.io configuration for Campaign Orchestration Workers
+app = "connexio-ai-orchestration-workers"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile.orchestration"
+
+[env]
+  # Node.js configuration
+  NODE_ENV = "production"
+  LOG_LEVEL = "info"
+  WORKER_NAME = "campaign-orchestration-worker"
+  
+  # Little Horse connection
+  LITTLEHORSE_API_HOST = "connexio-ai-littlehorse.internal"
+  LITTLEHORSE_API_PORT = "2023"
+  
+  # Worker-specific configuration
+  TASK_NAME = "orchestrate-multi-channel-campaign"
+  MAX_CONCURRENT_TASKS = "15"
+  HEARTBEAT_INTERVAL_MS = "5000"
+  TASK_TIMEOUT_MS = "1800000"
+  
+  # Campaign orchestration configuration
+  CAMPAIGN_MAX_CONCURRENT = "8"
+  CAMPAIGN_DEFAULT_STRATEGY = "optimal"
+  CAMPAIGN_ENABLE_MONITORING = "true"
+  
+  # Multi-channel configuration
+  SLACK_MAX_CONCURRENT = "10"
+  TEAMS_MAX_CONCURRENT = "8"
+  EMAIL_MAX_CONCURRENT = "15"
+  SMS_MAX_CONCURRENT = "12"
+  
+  # Scheduling configuration
+  SCHEDULER_INTERVAL = "30000"
+  SCHEDULER_MAX_CONCURRENT_CAMPAIGNS = "50"
+  
+  # Performance tracking
+  PERFORMANCE_TRACKING_ENABLED = "true"
+  PERFORMANCE_METRICS_INTERVAL = "60000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 3
+  processes = ["orchestration-worker"]
+
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 300
+    soft_limit = 250
+
+  [[http_service.http_check]]
+    interval = "20s"
+    timeout = "5s"
+    method = "GET"
+    path = "/health"
+    port = 3000
+
+[vm]
+  cpu_kind = "performance"
+  cpus = 4
+  memory = "6gb"
+
+[processes]
+  orchestration-worker = "npm run start:orchestration"
+  scheduler = "npm run start:scheduler"
+
+[metrics]
+  port = 3001
+  path = "/metrics"
+
+[[services]]
+  internal_port = 3001
+  protocol = "tcp"
+  
+  [[services.ports]]
+    port = 3001
+    handlers = ["http"]
+  
+  [[services.http_checks]]
+    interval = "45s"
+    timeout = "5s"
+    method = "GET"
+    path = "/metrics"
+    port = 3001
+
+# Stable scaling for orchestration
+[scaling]
+  min_machines_running = 3
+  max_machines_running = 12
+
+[[scaling.metrics]]
+  type = "cpu"
+  target = 65
+
+[[scaling.metrics]]
+  type = "memory" 
+  target = 70
+
+[[scaling.metrics]]
+  type = "active_campaigns"
+  target = 30
+
+[deploy]
+  strategy = "rolling"
+  wait_timeout = "15m"

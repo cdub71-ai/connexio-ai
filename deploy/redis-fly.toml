@@ -1,0 +1,94 @@
+# Fly.io configuration for Redis Cache
+app = "connexio-ai-redis"
+primary_region = "iad"
+
+[build]
+  image = "redis:7-alpine"
+
+[env]
+  # Redis configuration
+  REDIS_MAXMEMORY = "2gb"
+  REDIS_MAXMEMORY_POLICY = "allkeys-lru"
+  REDIS_TIMEOUT = "300"
+  REDIS_TCP_KEEPALIVE = "60"
+  REDIS_DATABASES = "16"
+  
+  # Performance tuning
+  REDIS_SAVE = "900 1 300 10 60 10000"
+  REDIS_STOP_WRITES_ON_BGSAVE_ERROR = "no"
+  REDIS_RDBCOMPRESSION = "yes"
+  REDIS_RDBCHECKSUM = "yes"
+  
+  # Network settings
+  REDIS_TCP_BACKLOG = "511"
+  REDIS_BIND = "0.0.0.0"
+  REDIS_PROTECTED_MODE = "no"
+  
+  # Logging
+  REDIS_LOGLEVEL = "notice"
+  REDIS_SYSLOG_ENABLED = "yes"
+  REDIS_SYSLOG_IDENT = "redis"
+
+[vm]
+  cpu_kind = "shared"
+  cpus = 2
+  memory = "4gb"
+
+[[services]]
+  internal_port = 6379
+  protocol = "tcp"
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 2
+
+  [[services.ports]]
+    port = 6379
+
+  [[services.tcp_checks]]
+    interval = "10s"
+    timeout = "2s"
+    port = 6379
+
+  [[services.concurrency]]
+    type = "connections"
+    hard_limit = 1000
+    soft_limit = 800
+
+[[mounts]]
+  source = "redis_data"
+  destination = "/data"
+  snapshot_retention = 7
+
+[processes]
+  redis = """
+    redis-server \
+      --maxmemory ${REDIS_MAXMEMORY} \
+      --maxmemory-policy ${REDIS_MAXMEMORY_POLICY} \
+      --timeout ${REDIS_TIMEOUT} \
+      --tcp-keepalive ${REDIS_TCP_KEEPALIVE} \
+      --databases ${REDIS_DATABASES} \
+      --save "${REDIS_SAVE}" \
+      --stop-writes-on-bgsave-error ${REDIS_STOP_WRITES_ON_BGSAVE_ERROR} \
+      --rdbcompression ${REDIS_RDBCOMPRESSION} \
+      --rdbchecksum ${REDIS_RDBCHECKSUM} \
+      --tcp-backlog ${REDIS_TCP_BACKLOG} \
+      --bind ${REDIS_BIND} \
+      --protected-mode ${REDIS_PROTECTED_MODE} \
+      --loglevel ${REDIS_LOGLEVEL} \
+      --syslog-enabled ${REDIS_SYSLOG_ENABLED} \
+      --syslog-ident ${REDIS_SYSLOG_IDENT} \
+      --appendonly yes \
+      --appendfsync everysec
+  """
+
+[metrics]
+  port = 9121
+  path = "/metrics"
+
+[deploy]
+  strategy = "immediate"
+
+# Redis Cluster configuration for high availability
+[[services.replica]]
+  regions = ["iad", "ord", "dfw"]
+  min_machines_running = 1
