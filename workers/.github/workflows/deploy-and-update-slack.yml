@@ -1,0 +1,114 @@
+name: Deploy Connexio AI and Update Slack
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'workers/**'
+      - '.github/workflows/**'
+  
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      update_slack:
+        description: 'Update Slack app configuration'
+        required: false
+        default: 'true'
+        type: boolean
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+jobs:
+  deploy:
+    name: Deploy to Fly.io
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+        
+      - name: Deploy to Fly.io
+        run: |
+          cd workers
+          flyctl deploy --config fly-simple.toml --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Verify deployment
+        run: |
+          echo "🚀 Deployment completed!"
+          echo "App URL: https://connexio-slack-simple.fly.dev/"
+          
+          # Test health endpoint
+          sleep 10
+          curl -f https://connexio-slack-simple.fly.dev/health || echo "Health check failed"
+
+  update-slack:
+    name: Update Slack Configuration
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: ${{ github.event.inputs.update_slack != 'false' }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Update Slack App Configuration
+        run: |
+          cd workers
+          ./scripts/update-slack-app.sh --ci
+        env:
+          SLACK_APP_ID: ${{ secrets.SLACK_APP_ID }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_USER_TOKEN: ${{ secrets.SLACK_USER_TOKEN }}
+
+      - name: Create Deployment Summary
+        run: |
+          echo "## 🚀 Connexio AI Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Deployed Services" >> $GITHUB_STEP_SUMMARY
+          echo "- **Slack Bot**: https://connexio-slack-simple.fly.dev/" >> $GITHUB_STEP_SUMMARY
+          echo "- **File Validation**: Phase 1 with AI analysis" >> $GITHUB_STEP_SUMMARY
+          echo "- **Claude AI**: Integrated and active" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📱 Slack Commands Updated" >> $GITHUB_STEP_SUMMARY
+          echo "- \`/connexio\` - AI marketing assistant" >> $GITHUB_STEP_SUMMARY
+          echo "- \`/validate-file\` - File validation service" >> $GITHUB_STEP_SUMMARY
+          echo "- \`/help\` - Command help" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔧 Manual Steps Required" >> $GITHUB_STEP_SUMMARY
+          echo "1. Verify slash commands in Slack App dashboard" >> $GITHUB_STEP_SUMMARY
+          echo "2. Test commands in Slack workspace" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Slack App Dashboard**: https://api.slack.com/apps/${{ secrets.SLACK_APP_ID }}" >> $GITHUB_STEP_SUMMARY
+
+  notify:
+    name: Notify Deployment
+    runs-on: ubuntu-latest
+    needs: [deploy, update-slack]
+    if: always()
+    steps:
+      - name: Notify Slack of Deployment
+        if: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [[ "${{ needs.deploy.result }}" == "success" ]]; then
+            STATUS="✅ SUCCESS"
+            COLOR="good"
+          else
+            STATUS="❌ FAILED"
+            COLOR="danger"
+          fi
+          
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{
+              \"attachments\": [{
+                \"color\": \"$COLOR\",
+                \"title\": \"Connexio AI Deployment $STATUS\",
+                \"fields\": [
+                  {\"title\": \"Environment\", \"value\": \"Production\", \"short\": true},
+                  {\"title\": \"URL\", \"value\": \"https://connexio-slack-simple.fly.dev/\", \"short\": true},
+                  {\"title\": \"Features\", \"value\": \"• Claude AI Integration\\n• File Validation\\n• Marketing Assistant\", \"short\": false}
+                ]
+              }]
+            }" \
+            ${{ secrets.SLACK_WEBHOOK_URL }}

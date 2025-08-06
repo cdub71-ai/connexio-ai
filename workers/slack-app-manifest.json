@@ -1,0 +1,67 @@
+{
+  "display_information": {
+    "name": "Connexio AI",
+    "description": "AI-powered marketing operations assistant for data validation and campaign optimization",
+    "background_color": "#2c3e50",
+    "long_description": "Connexio AI helps marketing teams validate email and phone data, analyze data quality, and get intelligent campaign recommendations powered by Claude AI."
+  },
+  "features": {
+    "app_home": {
+      "home_tab_enabled": false,
+      "messages_tab_enabled": false
+    },
+    "bot_user": {
+      "display_name": "Connexio AI",
+      "always_online": true
+    },
+    "slash_commands": [
+      {
+        "command": "/connexio",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "Ask Connexio AI marketing questions",
+        "usage_hint": "[question] - Get AI-powered marketing advice",
+        "should_escape": false
+      },
+      {
+        "command": "/validate-file",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "Upload and validate email/phone data in CSV files",
+        "usage_hint": "[start|status] - Process files or check status",
+        "should_escape": false
+      },
+      {
+        "command": "/help",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "Show available Connexio AI commands",
+        "usage_hint": "Get help with bot commands",
+        "should_escape": false
+      }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "commands",
+        "chat:write",
+        "files:read",
+        "channels:history",
+        "app_mentions:read"
+      ]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "request_url": "https://connexio-slack-simple.fly.dev/slack/events",
+      "bot_events": [
+        "file_shared",
+        "app_mention"
+      ]
+    },
+    "interactivity": {
+      "is_enabled": false
+    },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}
