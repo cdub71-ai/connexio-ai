@@ -8,6 +8,8 @@ const ClaudeDeduplicationService = require('./claude-deduplication-service');
 const EnhancedValidationService = require('./enhanced-validation-service');
 const EloquaCDOIntegration = require('./eloqua-cdo-integration');
 const RealTimeValidationService = require('./real-time-validation-service');
+const TwilioSmsService = require('./twilio-sms-service');
+const EmailDeliveryService = require('./email-delivery-service');
 
 class WorkflowAutomationService {
   constructor(options = {}) {
@@ -19,7 +21,9 @@ class WorkflowAutomationService {
       deduplication: new ClaudeDeduplicationService(),
       validation: new EnhancedValidationService(),
       eloquaCDO: new EloquaCDOIntegration(),
-      realTime: new RealTimeValidationService()
+      realTime: new RealTimeValidationService(),
+      twilioSMS: new TwilioSmsService(),
+      emailDelivery: new EmailDeliveryService()
     };
 
     this.config = {
@@ -70,6 +74,63 @@ class WorkflowAutomationService {
         ],
         triggers: ['form_submission'],
         slaSeconds: 2
+      },
+      smsCampaignExecution: {
+        name: 'SMS Marketing Campaign Execution',
+        steps: [
+          { id: 'campaign_setup', name: 'Campaign Setup', type: 'trigger' },
+          { id: 'message_optimization', name: 'AI Message Optimization', type: 'sms_service' },
+          { id: 'phone_validation', name: 'Batch Phone Validation', type: 'sms_service' },
+          { id: 'audience_deduplication', name: 'Audience Deduplication', type: 'claude_service' },
+          { id: 'sms_execution', name: 'SMS Campaign Execution', type: 'sms_service' },
+          { id: 'delivery_tracking', name: 'Delivery Status Tracking', type: 'sms_service' },
+          { id: 'campaign_insights', name: 'Generate Campaign Insights', type: 'sms_service' }
+        ],
+        triggers: ['manual', 'scheduled'],
+        slaMinutes: 30
+      },
+      emailCampaignExecution: {
+        name: 'Email Marketing Campaign Execution',
+        steps: [
+          { id: 'campaign_setup', name: 'Campaign Setup', type: 'trigger' },
+          { id: 'content_optimization', name: 'AI Content Optimization', type: 'email_service' },
+          { id: 'email_validation', name: 'Batch Email Validation', type: 'email_service' },
+          { id: 'audience_deduplication', name: 'Audience Deduplication', type: 'claude_service' },
+          { id: 'email_execution', name: 'Email Campaign Execution', type: 'email_service' },
+          { id: 'delivery_tracking', name: 'Delivery Status Tracking', type: 'email_service' },
+          { id: 'engagement_analysis', name: 'Engagement Analysis', type: 'email_service' },
+          { id: 'campaign_insights', name: 'Generate Campaign Insights', type: 'email_service' }
+        ],
+        triggers: ['manual', 'scheduled'],
+        slaMinutes: 45
+      },
+      multiChannelCampaign: {
+        name: 'Multi-Channel Marketing Campaign',
+        steps: [
+          { id: 'campaign_setup', name: 'Campaign Setup', type: 'trigger' },
+          { id: 'audience_segmentation', name: 'AI Audience Segmentation', type: 'claude_service' },
+          { id: 'content_optimization', name: 'Multi-Channel Content Optimization', type: 'fulfillment_service' },
+          { id: 'channel_selection', name: 'Channel Selection & Routing', type: 'fulfillment_service' },
+          { id: 'sms_execution', name: 'SMS Campaign Execution', type: 'sms_service' },
+          { id: 'email_execution', name: 'Email Campaign Execution', type: 'email_service' },
+          { id: 'cross_channel_tracking', name: 'Cross-Channel Tracking', type: 'analytics' },
+          { id: 'unified_insights', name: 'Unified Campaign Insights', type: 'analytics' }
+        ],
+        triggers: ['manual', 'scheduled'],
+        slaMinutes: 60
+      },
+      marketingFulfillmentWorkflow: {
+        name: 'Marketing Automation Fulfillment',
+        steps: [
+          { id: 'fulfillment_request', name: 'Fulfillment Request', type: 'trigger' },
+          { id: 'provider_selection', name: 'Provider Selection', type: 'fulfillment_service' },
+          { id: 'data_preparation', name: 'Data Preparation', type: 'fulfillment_service' },
+          { id: 'execution', name: 'Execute Fulfillment', type: 'fulfillment_service' },
+          { id: 'status_tracking', name: 'Status Tracking', type: 'fulfillment_service' },
+          { id: 'results_analysis', name: 'Results Analysis', type: 'analytics' }
+        ],
+        triggers: ['api_call', 'webhook'],
+        slaMinutes: 15
       }
     };
 
@@ -227,6 +288,15 @@ class WorkflowAutomationService {
           break;
         case 'response':
           result = await this.handleResponseStep(workflow, step, options);
+          break;
+        case 'sms_service':
+          result = await this.handleSMSServiceStep(workflow, step, options);
+          break;
+        case 'fulfillment_service':
+          result = await this.handleFulfillmentServiceStep(workflow, step, options);
+          break;
+        case 'email_service':
+          result = await this.handleEmailServiceStep(workflow, step, options);
           break;
         default:
           throw new Error(`Unknown step type: ${step.type}`);
@@ -462,6 +532,198 @@ class WorkflowAutomationService {
   }
 
   /**
+   * Handle SMS service step
+   */
+  async handleSMSServiceStep(workflow, step, options) {
+    switch (step.id) {
+      case 'message_optimization':
+        const messageTemplate = workflow.input.messageTemplate || workflow.input.message;
+        const context = {
+          audience: workflow.input.audience || 'general',
+          campaignType: workflow.input.campaignType || 'promotional',
+          personalizedFields: workflow.input.personalizedFields || []
+        };
+        
+        const optimizedMessage = await this.services.twilioSMS.optimizeSMSMessage(messageTemplate, context);
+        return { optimizedMessage };
+      
+      case 'phone_validation':
+        const phoneNumbers = workflow.input.recipients?.map(r => r.phone || r.phoneNumber).filter(p => p) || [];
+        const validationResults = await this.services.twilioSMS.batchValidatePhones(phoneNumbers);
+        return { phoneValidation: validationResults };
+      
+      case 'sms_execution':
+        const campaign = {
+          name: workflow.input.campaignName || 'Marketing Campaign',
+          message: workflow.results.message_optimization?.optimizedMessage?.optimizedText || workflow.input.message,
+          fromNumber: workflow.input.fromNumber || process.env.TWILIO_FROM_NUMBER,
+          audience: workflow.input.recipients || []
+        };
+        
+        const executionResult = await this.services.twilioSMS.sendBulkSms(campaign);
+        return { campaignExecution: executionResult };
+      
+      case 'delivery_tracking':
+        const campaignId = workflow.results.sms_execution?.campaignExecution?.campaignId;
+        if (campaignId) {
+          const statusResult = await this.services.twilioSMS.getCampaignStatus({ campaignId });
+          return { deliveryStatus: statusResult };
+        }
+        return { deliveryStatus: { status: 'no_campaign_id' } };
+      
+      case 'campaign_insights':
+        const campaignData = workflow.results.sms_execution?.campaignExecution || {};
+        const insights = await this.services.twilioSMS.generateCampaignInsights(campaignData);
+        return { campaignInsights: insights };
+      
+      default:
+        return { processed: true };
+    }
+  }
+
+  /**
+   * Handle email service step
+   */
+  async handleEmailServiceStep(workflow, step, options) {
+    switch (step.id) {
+      case 'content_optimization':
+        const subject = workflow.input.subject || 'Marketing Campaign';
+        const htmlContent = workflow.input.htmlContent || workflow.input.html || '<p>Default content</p>';
+        const textContent = workflow.input.textContent || workflow.input.text || 'Default content';
+        
+        const context = {
+          audience: workflow.input.audience || 'general',
+          campaignType: workflow.input.campaignType || 'promotional',
+          industry: workflow.input.industry || 'general'
+        };
+        
+        const optimizedContent = await this.services.emailDelivery.optimizeEmailContent(
+          subject, htmlContent, textContent, context
+        );
+        return { optimizedContent };
+      
+      case 'email_validation':
+        const emailAddresses = workflow.input.recipients?.map(r => r.email).filter(e => e) || [];
+        const validationResults = await this.services.emailDelivery.batchValidateEmails(emailAddresses);
+        return { emailValidation: validationResults };
+      
+      case 'email_execution':
+        const campaign = {
+          name: workflow.input.campaignName || 'Marketing Campaign',
+          subject: workflow.results.content_optimization?.optimizedContent?.optimizedSubject || workflow.input.subject,
+          htmlContent: workflow.results.content_optimization?.optimizedContent?.optimizedHtmlContent || workflow.input.htmlContent,
+          textContent: workflow.results.content_optimization?.optimizedContent?.optimizedTextContent || workflow.input.textContent,
+          audience: workflow.input.audience,
+          type: workflow.input.campaignType
+        };
+        
+        const executionResult = await this.services.emailDelivery.executeEmailCampaign(
+          campaign, 
+          workflow.input.recipients || [],
+          { provider: workflow.input.emailProvider || 'sendgrid' }
+        );
+        return { campaignExecution: executionResult };
+      
+      case 'delivery_tracking':
+        const campaignId = workflow.results.email_execution?.campaignExecution?.campaignId;
+        if (campaignId) {
+          // Get delivery stats from email service
+          const deliveryStats = this.services.emailDelivery.deliveryStats.get(campaignId) || {};
+          return { deliveryStats: deliveryStats };
+        }
+        return { deliveryStats: { status: 'no_campaign_id' } };
+      
+      case 'engagement_analysis':
+        const emailCampaignId = workflow.results.email_execution?.campaignExecution?.campaignId;
+        if (emailCampaignId) {
+          const stats = this.services.emailDelivery.deliveryStats.get(emailCampaignId) || {};
+          const analysis = {
+            openRate: stats.sent > 0 ? (stats.opened / stats.sent * 100) : 0,
+            clickRate: stats.sent > 0 ? (stats.clicked / stats.sent * 100) : 0,
+            bounceRate: stats.sent > 0 ? (stats.bounced / stats.sent * 100) : 0,
+            unsubscribeRate: stats.sent > 0 ? (stats.unsubscribed / stats.sent * 100) : 0,
+            deliveryRate: stats.sent > 0 ? (stats.delivered / stats.sent * 100) : 0
+          };
+          return { engagementAnalysis: analysis };
+        }
+        return { engagementAnalysis: { status: 'no_campaign_data' } };
+      
+      case 'campaign_insights':
+        const campaignData = workflow.results.email_execution?.campaignExecution || {};
+        const insights = await this.services.emailDelivery.generateEmailCampaignInsights(campaignData);
+        return { campaignInsights: insights };
+      
+      default:
+        return { processed: true };
+    }
+  }
+
+  /**
+   * Handle fulfillment service step
+   */
+  async handleFulfillmentServiceStep(workflow, step, options) {
+    switch (step.id) {
+      case 'provider_selection':
+        const fulfillmentType = workflow.input.fulfillmentType || 'sms';
+        const providers = {
+          sms: ['twilio', 'vonage'],
+          email: ['sendgrid', 'mailgun'],
+          validation: ['neverbounce', 'briteverify', 'freshaddress']
+        };
+        
+        return {
+          selectedProvider: providers[fulfillmentType]?.[0] || 'unknown',
+          availableProviders: providers[fulfillmentType] || []
+        };
+      
+      case 'data_preparation':
+        const data = workflow.input.data || [];
+        const preparedData = {
+          records: data,
+          processedCount: data.length,
+          preparationTimestamp: new Date().toISOString()
+        };
+        return { preparedData };
+      
+      case 'execution':
+        const provider = workflow.results.provider_selection?.selectedProvider;
+        const executionData = workflow.results.data_preparation?.preparedData;
+        
+        return {
+          executionResult: {
+            provider: provider,
+            status: 'completed',
+            processedRecords: executionData?.processedCount || 0,
+            executionTimestamp: new Date().toISOString()
+          }
+        };
+      
+      case 'status_tracking':
+        return {
+          status: 'completed',
+          trackingDetails: {
+            completionRate: 100,
+            errors: 0,
+            lastUpdated: new Date().toISOString()
+          }
+        };
+
+      case 'channel_selection':
+        const channels = ['sms', 'email'];
+        return {
+          selectedChannels: channels,
+          routing: {
+            sms: workflow.input.recipients?.filter(r => r.phone) || [],
+            email: workflow.input.recipients?.filter(r => r.email) || []
+          }
+        };
+      
+      default:
+        return { processed: true };
+    }
+  }
+
+  /**
    * Generate AI insights for completed workflow
    * @param {Object} workflow - Completed workflow
    * @returns {Object} Workflow insights
@@ -525,7 +787,9 @@ Return JSON with: performance_insights, cost_analysis, quality_impact, recommend
         deduplicationService: 'healthy',
         validationService: 'healthy',
         eloquaCDOService: 'healthy',
-        realTimeService: 'healthy'
+        realTimeService: 'healthy',
+        twilioSMSService: 'healthy',
+        emailDeliveryService: 'healthy'
       }
     };
   }

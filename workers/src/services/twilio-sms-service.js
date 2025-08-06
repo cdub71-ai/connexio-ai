@@ -4,6 +4,7 @@ import PQueue from 'p-queue';
 import { v4 as uuidv4 } from 'uuid';
 import config from '../config/index.js';
 import { createContextLogger, createTimer } from '../utils/logger.js';
+const { default: Anthropic } = require('@anthropic-ai/sdk');
 
 /**
  * Twilio SMS/MMS Integration Service
@@ -18,6 +19,11 @@ class TwilioSmsService {
     // Initialize Twilio client
     this.client = twilio(this.accountSid, this.authToken);
 
+    // Initialize Claude AI for message optimization
+    this.claude = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    });
+
     // Rate limiting queue
     this.queue = new PQueue({
       concurrency: config.twilio.maxConcurrent || 10,
@@ -29,6 +35,9 @@ class TwilioSmsService {
 
     // Campaign tracking
     this.activeCampaigns = new Map();
+    
+    // Phone validation cache
+    this.phoneValidationCache = new Map();
     
     // Performance metrics
     this.metrics = {
@@ -304,6 +313,186 @@ class TwilioSmsService {
       messagesSent: campaign.results.sent,
       messagesRemaining: campaign.results.total - campaign.results.sent,
     };
+  }
+
+  /**
+   * AI-optimize SMS message for better engagement
+   * @param {string} messageTemplate - Original message template
+   * @param {Object} context - Campaign context
+   * @returns {Object} Optimized message data
+   */
+  async optimizeSMSMessage(messageTemplate, context = {}) {
+    const prompt = `As a marketing operations expert specializing in SMS campaigns, optimize this message for better engagement and compliance:
+
+**Original Message:**
+"${messageTemplate}"
+
+**Campaign Context:**
+- Audience: ${context.audience || 'general'}
+- Campaign Type: ${context.campaignType || 'promotional'}
+- Personalized Fields: ${JSON.stringify(context.personalizedFields || [])}
+
+**SMS Best Practices to Apply:**
+1. **Character Limit**: Keep under 160 characters for single message
+2. **Call to Action**: Clear, actionable CTA
+3. **Personalization**: Use available personalized fields effectively
+4. **Urgency**: Create appropriate sense of urgency without being pushy
+5. **Brand Voice**: Professional but conversational
+6. **Compliance**: Include opt-out instructions if promotional
+7. **Mobile-First**: Consider mobile reading experience
+
+**Analysis Required:**
+- Character count optimization
+- Engagement improvements
+- Personalization enhancements
+- Compliance recommendations
+- A/B testing suggestions
+
+**Respond with:**
+{
+  "optimizedText": "improved message text",
+  "characterCount": number,
+  "improvements": ["improvement1", "improvement2"],
+  "personalizationFields": ["field1", "field2"],
+  "complianceNotes": ["note1", "note2"],
+  "abTestVariants": ["variant1", "variant2"],
+  "engagementScore": number (1-100),
+  "reasoning": "detailed explanation of changes"
+}`;
+
+    try {
+      const response = await this.claude.messages.create({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 1000,
+        temperature: 0.3,
+        messages: [{ role: 'user', content: prompt }]
+      });
+
+      return JSON.parse(response.content[0].text);
+    } catch (error) {
+      this.logger.error('SMS message optimization failed:', { error: error.message });
+      return {
+        optimizedText: messageTemplate,
+        characterCount: messageTemplate.length,
+        improvements: [],
+        personalizationFields: [],
+        complianceNotes: ['Add STOP to opt out'],
+        abTestVariants: [],
+        engagementScore: 70,
+        reasoning: 'Using original message due to optimization failure'
+      };
+    }
+  }
+
+  /**
+   * Batch validate phone numbers using Twilio Lookup
+   * @param {Array} phoneNumbers - Array of phone numbers
+   * @returns {Array} Validation results
+   */
+  async batchValidatePhones(phoneNumbers) {
+    const results = [];
+    const uniquePhones = [...new Set(phoneNumbers.filter(p => p))];
+
+    this.logger.info('Validating phone numbers', { count: uniquePhones.length });
+
+    for (const phone of uniquePhones) {
+      // Check cache first
+      const cacheKey = this.normalizePhoneNumber(phone);
+      if (this.phoneValidationCache.has(cacheKey)) {
+        results.push(this.phoneValidationCache.get(cacheKey));
+        continue;
+      }
+
+      try {
+        const lookup = await this.client.lookups.v1.phoneNumbers(phone).fetch();
+        
+        const validation = {
+          phone: phone,
+          normalizedPhone: lookup.phoneNumber,
+          isValid: true,
+          carrier: lookup.carrier?.name || 'unknown',
+          countryCode: lookup.countryCode,
+          phoneType: lookup.carrier?.type || 'unknown',
+          validationTimestamp: new Date().toISOString()
+        };
+
+        this.phoneValidationCache.set(cacheKey, validation);
+        results.push(validation);
+
+      } catch (error) {
+        const validation = {
+          phone: phone,
+          isValid: false,
+          error: error.message,
+          validationTimestamp: new Date().toISOString()
+        };
+
+        this.phoneValidationCache.set(cacheKey, validation);
+        results.push(validation);
+      }
+
+      // Rate limiting
+      await this.delay(100);
+    }
+
+    const validCount = results.filter(r => r.isValid).length;
+    this.logger.info('Phone validation complete', { valid: validCount, total: results.length });
+    return results;
+  }
+
+  /**
+   * Generate AI-powered campaign insights and recommendations
+   * @param {Object} campaignData - Campaign data
+   * @returns {Object} Campaign insights
+   */
+  async generateCampaignInsights(campaignData) {
+    const prompt = `Analyze this SMS marketing campaign performance and provide actionable insights:
+
+**Campaign Performance:**
+- Campaign Name: ${campaignData.name || campaignData.spec?.name}
+- Total Recipients: ${campaignData.results?.total || 0}
+- Messages Sent: ${campaignData.results?.sent || 0}
+- Messages Failed: ${campaignData.results?.failed || 0}
+- Success Rate: ${campaignData.results?.total > 0 ? Math.round((campaignData.results.sent / campaignData.results.total) * 100) : 0}%
+
+**Message Details:**
+- Original Message: "${campaignData.spec?.message || 'N/A'}"
+- Character Count: ${campaignData.spec?.message?.length || 0}
+
+**Analysis Required:**
+1. Campaign performance assessment
+2. Message effectiveness analysis
+3. Delivery rate optimization
+4. Cost efficiency calculation
+5. Improvement recommendations
+6. A/B testing suggestions
+
+Provide actionable insights for future SMS campaigns.
+
+Return JSON with: performance_summary, message_effectiveness, delivery_analysis, cost_efficiency, recommendations.`;
+
+    try {
+      const response = await this.claude.messages.create({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 1000,
+        temperature: 0.2,
+        messages: [{ role: 'user', content: prompt }]
+      });
+
+      return JSON.parse(response.content[0].text);
+    } catch (error) {
+      this.logger.error('Campaign insights generation failed:', { error: error.message });
+      return {
+        performance_summary: { 
+          success_rate: campaignData.results?.total > 0 ? 
+            campaignData.results.sent / campaignData.results.total : 0 
+        },
+        message_effectiveness: 'analysis_unavailable',
+        delivery_analysis: 'pending_delivery_data',
+        cost_efficiency: { estimated_cost: (campaignData.results?.sent || 0) * 0.0075 },
+        recommendations: ['Monitor delivery rates', 'A/B test message variations']
+      };
+    }
   }
 
   /**
@@ -742,6 +931,115 @@ class TwilioSmsService {
     } catch (error) {
       this.logger.error('Error during Twilio service shutdown', { error: error.message });
     }
+  }
+
+  /**
+   * Handle Twilio webhook for delivery status updates
+   * @param {string} campaignId - Campaign ID
+   * @param {Object} statusData - Twilio status webhook data
+   * @returns {Object} Processing result
+   */
+  async handleDeliveryStatus(campaignId, statusData) {
+    try {
+      const campaign = this.activeCampaigns.get(campaignId);
+      if (!campaign) {
+        this.logger.warn('Delivery status for unknown campaign', { campaignId });
+        return { processed: false, reason: 'campaign_not_found' };
+      }
+
+      // Find the message in campaign results
+      const messageIndex = campaign.results.messages.findIndex(
+        m => m.twilioSid === statusData.MessageSid
+      );
+
+      if (messageIndex === -1) {
+        this.logger.warn('Message not found in campaign', { 
+          campaignId, 
+          messageSid: statusData.MessageSid 
+        });
+        return { processed: false, reason: 'message_not_found' };
+      }
+
+      // Update message status
+      const message = campaign.results.messages[messageIndex];
+      message.deliveryStatus = statusData.MessageStatus;
+      message.deliveredAt = statusData.EventTimestamp || new Date().toISOString();
+      
+      if (statusData.ErrorCode) {
+        message.errorCode = statusData.ErrorCode;
+        message.errorMessage = statusData.ErrorMessage;
+      }
+
+      // Update campaign delivery statistics
+      this.updateCampaignDeliveryStats(campaign, statusData.MessageStatus);
+
+      this.logger.info('Delivery status updated', {
+        campaignId,
+        messageSid: statusData.MessageSid,
+        status: statusData.MessageStatus,
+        to: statusData.To
+      });
+
+      return {
+        processed: true,
+        campaignId: campaignId,
+        messageSid: statusData.MessageSid,
+        status: statusData.MessageStatus,
+        phone: statusData.To,
+        timestamp: new Date().toISOString()
+      };
+
+    } catch (error) {
+      this.logger.error('Delivery status processing failed', {
+        error: error.message,
+        campaignId,
+        statusData
+      });
+
+      return {
+        processed: false,
+        error: error.message,
+        campaignId,
+        statusData
+      };
+    }
+  }
+
+  /**
+   * Update campaign delivery statistics
+   * @private
+   */
+  updateCampaignDeliveryStats(campaign, messageStatus) {
+    switch (messageStatus) {
+      case 'delivered':
+        campaign.results.delivered = (campaign.results.delivered || 0) + 1;
+        this.metrics.deliveryRates[campaign.type].delivered++;
+        break;
+      case 'failed':
+      case 'undelivered':
+        campaign.results.failed = (campaign.results.failed || 0) + 1;
+        this.metrics.deliveryRates[campaign.type].failed++;
+        break;
+      case 'sent':
+        // Already counted when initially sent
+        break;
+    }
+  }
+
+  /**
+   * Normalize phone number for caching
+   * @private
+   */
+  normalizePhoneNumber(phone) {
+    return phone.replace(/\D/g, '');
+  }
+
+  /**
+   * Delay utility for rate limiting
+   * @private
+   */
+  delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
 
