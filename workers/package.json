@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "Little Horse task workers for Connexio.ai marketing campaigns",
   "main": "src/index.js",
-  "type": "module",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node src/simple-index-cjs.js",
     "start:enhanced": "node src/enhanced-index.js",
     "dev": "nodemon src/index.js",
     "dev:enhanced": "nodemon src/enhanced-index.js",

@@ -1,0 +1,2397 @@
+{
+  "conversations": [
+    [
+      {
+        "text": "@SURESHOT_PROGRAM_MANAGER has joined the channel",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-03-20T18:51:37.937Z",
+        "replies": []
+      },
+      {
+        "text": "@TEAM_MEMBER has joined the channel",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-20T18:52:28.156Z",
+        "replies": []
+      },
+      {
+        "text": "@MARKETING_OPS_EXPERT has joined the channel",
+        "user_id": "MARKETING_OPS_EXPERT",
+        "participant": {
+          "name": "MARKETING_OPS_EXPERT",
+          "role": "Marketing Operations Expert",
+          "persona": "Technical expert providing implementation guidance and best practices",
+          "userId": "U077LEJFWF8",
+          "realNames": [
+            "steve",
+            "organ"
+          ],
+          "slackName": "steve.amedio"
+        },
+        "timestamp": "2025-03-20T18:52:28.333Z",
+        "replies": []
+      },
+      {
+        "text": "@TEAM_MEMBER has joined the channel",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-20T18:52:28.424Z",
+        "replies": []
+      },
+      {
+        "text": "@TEAM_MEMBER has joined the channel",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-20T18:52:28.515Z",
+        "replies": []
+      },
+      {
+        "text": "Creating a channel to make it easy to collaborate with CLIENT_PROGRAM_MANAGERany as we get a few things flowing here",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-03-20T19:14:22.020Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "@TEAM_MEMBER has joined the channel",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-20T20:32:04.322Z",
+        "replies": []
+      },
+      {
+        "text": "Welcome @TEAM_MEMBER. We are working to get a new client org setup in Connect for Xceleration. Once we have that we can keep moving along on our end",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-03-20T20:36:53.572Z",
+        "replies": []
+      },
+      {
+        "text": "alright -- update for @SURESHOT_PROGRAM_MANAGER and @TEAM_MEMBER from our call today:",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-20T20:41:36.749Z",
+        "replies": []
+      },
+      {
+        "text": "all the contacts i want to validate are in CRM, but the segment name field we discussed is not getting updated because of an issue on the 6sense side. i'm reaching out to them now -- TBD on the fix/timing there.\n\nhere's a 60-second video with some context on what i'm seeing: <CLIENT_URL/share/52f87ef6c1e94b538940fe4422e14d67?sid=710a79fa-d0a0-43ad-821a-a1d4e5ec2cee>\n\nhopefully 6sense can fix the issue quickly -- i'd like to wait until maybe midday tomorrow to see if they can get the automation engine working again. that said, i do have a manual workaround for updating the field. i won't let this hold us up, so if 6sense can't get it together in time for us, i'll go the manual route early tomorrow afternoon.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-20T20:45:13.678Z",
+        "thread_ts": "1742503513.678419",
+        "replies": [
+          {
+            "text": "hello! so here's what i'm seeing:\n\n7,653 records needed to be validated, but i only see results for 18.\n\nwhat are you seeing on your side? should i be seeing more than 18 results?\n\nfyi, here's the full file -- all 7,653 records with the neverbounce fields populated for 18 of them.",
+            "files": [
+              {
+                "id": "F08KKD9GCEM",
+                "created": 1742915004,
+                "timestamp": 1742915004,
+                "name": "hubspot-crm-exports-all-contacts-2025-03-25.csv",
+                "title": "hubspot-crm-exports-all-contacts-2025-03-25.csv",
+                "mimetype": "text/csv",
+                "filetype": "csv",
+                "pretty_type": "CSV",
+                "user": "U070DQW6C3F",
+                "user_team": "T0BGWJB2N",
+                "editable": false,
+                "size": 1814201,
+                "mode": "hosted",
+                "is_external": false,
+                "external_type": "",
+                "is_public": false,
+                "public_url_shared": false,
+                "display_as_bot": false,
+                "username": "",
+                "url_private": "https://files.slack.com/files-pri/T0BGWJB2N-F08KKD9GCEM/hubspot-crm-exports-all-contacts-2025-03-25.csv",
+                "url_private_download": "https://files.slack.com/files-pri/T0BGWJB2N-F08KKD9GCEM/download/hubspot-crm-exports-all-contacts-2025-03-25.csv",
+                "media_display_type": "unknown",
+                "permalink": "https://xcelerationdev.slack.com/files/U0992PDD6RY/F08KKD9GCEM/hubspot-crm-exports-all-contacts-2025-03-25.csv",
+                "permalink_public": "https://slack-files.com/T0BGWJB2N-F08KKD9GCEM-d9483bb5d1",
+                "source_team": "T0BGWJB2N",
+                "is_starred": false,
+                "skipped_shares": true,
+                "has_rich_preview": false,
+                "file_access": "visible"
+              }
+            ],
+            "upload": false,
+            "user": "U070DQW6C3F",
+            "display_as_bot": false,
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "V6cNG",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "hello! so here's what i'm seeing:\n\n7,653 records needed to be validated, but i only see results for 18.\n\nwhat are you seeing on your side? should i be seeing more than 18 results?\n\nfyi, here's the full file -- all 7,653 records with the neverbounce fields populated for 18 of them."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "type": "message",
+            "ts": "1742915008.113359",
+            "client_msg_id": "53bf539d-c62b-4ebe-a083-40f2fad04df6",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1742915999.688829",
+            "client_msg_id": "2a6cf879-0f27-4d82-bfce-4e2d46074145",
+            "text": "I didn’t see any activity since yesterday.  In order to get into the flow the 6sense segment needs to change in value, so we are not pulling into the segment directly (although i can set it up that way).\n\ni can load the list you provided manually, which will cover the historical records and then the private app to send the changes will hopefully resolve this moving forward.",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "v923V",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "I didn’t see any activity since yesterday.  In order to get into the flow the 6sense segment needs to change in value, so we are not pulling into the segment directly (although i can set it up that way).\n\ni can load the list you provided manually, which will cover the historical records and then the private app to send the changes will hopefully resolve this moving forward."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1742916069.691269",
+            "client_msg_id": "a1b8cc78-b2ee-4776-82a2-0eb510a3a845",
+            "text": "that works great. long-term setup is fine to look only for values where the segment name changes. but if you can run this whole list so we can have a one-time snapshot of everyone, that'd be amazing.",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "9mqPn",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "that works great. long-term setup is fine to look only for values where the segment name changes. but if you can run this whole list so we can have a one-time snapshot of everyone, that'd be amazing."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1742917549.478599",
+            "client_msg_id": "52ec5394-03f2-4d7a-9f2a-2dc676029b59",
+            "text": "ok you’ll start seeing the list trickle in with validation results",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "qd89R",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "ok you’ll start seeing the list trickle in with validation results"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "raised_hands",
+                "users": [
+                  "U070DQW6C3F"
+                ],
+                "count": 1
+              },
+              {
+                "name": "man-surfing::skin-tone-3",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1742918179.424499",
+            "client_msg_id": "b583e666-ccfb-4e54-a27a-a9834bad8c22",
+            "text": "I also added in a change that would filter out records that have been validated before, in the instance of a record being sent multiple times with the segment change",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "m85rf",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "I also added in a change that would filter out records that have been validated before, in the instance of a record being sent multiple times with the segment change"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "+1::skin-tone-3",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1742942062.824519",
+            "client_msg_id": "713b45b7-01b6-4688-b7ad-bc6b643552b1",
+            "text": "Just a heads up that all the records have finished processing so you should see the validation results for the entire segment",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "+1osV",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Just a heads up that all the records have finished processing so you should see the validation results for the entire segment"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "party_dino",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1,
+                "url": "https://emoji.slack-edge.com/T0A4RDKRT/party_dino/27c3cd4dce761020.gif"
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1743002116.483329",
+            "client_msg_id": "cd83bcb2-7ad6-4f87-9cbc-c812ea5915a5",
+            "text": "thank you!! i am going to be heads-down on this today -- will have updates for you this afternoon!",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "mqauC",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "thank you!! i am going to be heads-down on this today -- will have updates for you this afternoon!"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "rocket",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1743020787.988869",
+            "client_msg_id": "b21ef891-a3a0-480a-b2a8-ac30a0e49710",
+            "text": "alright, got an update!\n\ndata is flowing in beautifully. got all the results filtered down and we're only going to be marketing to those with a \"valid\" status from NB.\n\nour first marketing campaign is hopefully launching tomorrow! so i'll be able to tell you what the actual results are so we can compare email deliverability against the data.\n\nstay tuned...thank you!!",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "p2iLz",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "alright, got an update!\n\ndata is flowing in beautifully. got all the results filtered down and we're only going to be marketing to those with a \"valid\" status from NB.\n\nour first marketing campaign is hopefully launching tomorrow! so i'll be able to tell you what the actual results are so we can compare email deliverability against the data.\n\nstay tuned...thank you!!"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "rocket",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1743021003.458979",
+            "client_msg_id": "3504469a-5ccb-4441-8e67-6e2d78b4a933",
+            "text": "wonderful, glad it went well and crossing my fingers for the campaign tomorrow!",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "yjpUV",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "wonderful, glad it went well and crossing my fingers for the campaign tomorrow!"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "100",
+                "users": [
+                  "U070DQW6C3F"
+                ],
+                "count": 1
+              },
+              {
+                "name": "sunglasses",
+                "users": [
+                  "U070DQW6C3F"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1743182401.008129",
+            "client_msg_id": "aeefbbd3-c61c-4dfd-9063-91e8586a74a5",
+            "text": "hello all! update here -- campaign is launching monday or tuesday. hubspot had an outage yesterday that affected email sends. so we got some other emails out the door, but not the one that included the recipients from the validation job.\n\ni will keep y'all posted here!",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "JRQ/O",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "hello all! update here -- campaign is launching monday or tuesday. hubspot had an outage yesterday that affected email sends. so we got some other emails out the door, but not the one that included the recipients from the validation job.\n\ni will keep y'all posted here!"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1743185977.770549",
+            "client_msg_id": "6896383a-e906-44a1-bbd0-5343dee1a8af",
+            "text": "Awesome, great",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "GsQgU",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Awesome, great"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1743186026.761419",
+            "edited": {
+              "user": "U081JLY6AE5",
+              "ts": "1743186080.000000"
+            },
+            "client_msg_id": "05631a11-ad3c-4ab6-a4aa-eaa461063274",
+            "text": "Looking forward to hearing how it goes. I am back out of the weeds, ultimately what will success look like here @TEAM_MEMBER",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "XrTdO",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Looking forward to hearing how it goes. I am back out of the weeds, ultimately what will success look like here "
+                      },
+                      {
+                        "type": "user",
+                        "user_id": "U070DQW6C3F"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1743186141.886109",
+            "client_msg_id": "2c6ece84-3dfc-465e-bb9e-26b76ff247da",
+            "text": "for me success is in the delivery rate and bounce rate. i'm looking for 95%+ inbox placement ideally -- that will be the key metric.",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "aBKNs",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "for me success is in the delivery rate and bounce rate. i'm looking for 95%+ inbox placement ideally -- that will be the key metric."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1743188045.619889",
+            "client_msg_id": "95461db8-f4c4-4d1c-8289-1cfc28e4c3a6",
+            "text": "Great, love having something objective to grade against. And what are you at now?",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "tdi9S",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Great, love having something objective to grade against. And what are you at now?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1743188652.986409",
+            "client_msg_id": "4dc0b8ed-b71b-42b1-94da-edcd26f53e85",
+            "text": "right now we're closer to 90%",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1742503513.678419",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "BzyC0",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "right now we're closer to 90%"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "reactions": [
+              {
+                "name": "+1::skin-tone-3",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "text": "hello! now that we have made progress with the neverbounce project, i would love to explore how you all could help us with another piece.\n\nwe still see issues with 6sense a) not having all the right people with the right titles in their db (but we can find them on linkedin, rocketreach), and b) not providing us with workable phone numbers.\n\nis this something we could talk about? maybe leadspace-via-sureshot can help us here?",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-28T17:22:17.230Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "Yes. Absolutely, we are signing the Leadspace contract today and will have ability to use for both Sureshot and Xceleration. You want to have a check-in next week, or maybe early the following week (I am out April 2-7). We can check-in on the current Hubspot flow and talk thru this one",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-03-28T18:28:29.335Z",
+        "replies": []
+      },
+      {
+        "text": "perfect! would love next week if we can squeeze it in before you head out -- lmk if that works. thank you!!",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-28T18:31:41.851Z",
+        "replies": []
+      },
+      {
+        "text": "I'll look for a time for us early next week",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-03-28T18:50:48.097Z",
+        "replies": []
+      },
+      {
+        "text": "invite accepted -- thanks!",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-03-28T19:00:00.339Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "ill be on in one moment, previous call is running over",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-03-31T20:00:47.397Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "hello! i have _plenty_ of updates for you from the marketing goings-on this week -- getting myself MARKETING_OPS_EXPERTized so i can share a snapshot of what neverbounce told us vs. what actually happened and also what our sales reps are seeing as they use the NB validation in their day-to-day.\n\nas i'm wrapping that up: i'm seeing about 900 records in CRM that should have gone through NB yesterday, but did not. here's that CSV.\n\nare you seeing these records hung up on your end? fyi, there was a bit batch that went through yesterday -- about 2.5K iirc -- and only this small didn't get processed.\n\ncc @SURESHOT_PROGRAM_MANAGER @TEAM_MEMBER",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-04T16:09:46.083Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "Hey @TEAM_MEMBER yes I can see 840 failures in the workflow, which I can fix moving forward.  The issue is I needed to throttle the records checking Hubspot for the email address, as there are 429 errors which means we used the Hubspot API too much with concurrent requests.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-04T16:44:14.149Z",
+        "replies": []
+      },
+      {
+        "text": "ahh, okay! that makes total sense. lmk if my process needs to change at all -- but sounds like it doesn't and the issue is solved now on your side.\n\nthank you!!",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-04T16:48:23.551Z",
+        "replies": []
+      },
+      {
+        "text": "lmk if/when that batch is done -- then i'll hop back in and finish up my reporting for y'all",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-04T16:48:36.573Z",
+        "replies": []
+      },
+      {
+        "text": "i already made the fix moving forward, and I’m reprocessing all the errors from yesterday so you should see the results trickling in the next hour or so.  Nothing is needed from your end.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-04T16:53:05.331Z",
+        "replies": []
+      },
+      {
+        "text": "wonderful -- thanks!",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-04T16:59:48.167Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "hello! finally sharing -- results from our first email send:",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-07T16:13:21.907Z",
+        "replies": []
+      },
+      {
+        "text": "very pleased with delivery rate and bounce rate! hubspot has very aggressive bounce rate thresholds -- they aim for under .3% -- but i am happy with this. also worth mentioning -- not all were hard bounces (there were some soft bounces).",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-07T16:14:33.384Z",
+        "thread_ts": "1744042473.384169",
+        "replies": [
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744235554.762989",
+            "client_msg_id": "08ffdd49-fa19-4fa6-9819-6f746c2c1b0d",
+            "text": "@TEAM_MEMBER jumping back in to get up to speed here. what was our bounce rate before we began doing validation, ~10%?",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744042473.384169",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "5lJSS",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "user",
+                        "user_id": "U070DQW6C3F"
+                      },
+                      {
+                        "type": "text",
+                        "text": " jumping back in to get up to speed here. what was our bounce rate before we began doing validation, ~10%?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1744297084.627429",
+            "client_msg_id": "6c02a6f8-d033-4251-a87f-fae113483a09",
+            "text": "gonna give you a long-winded answer...bear with me.\n\nthere are two types of emails we send:\n\n• sequence emails -- automated from BDMs via HubSpot prospecting tools -- that rate was close to 10%, is now closer to 8.5%. we are making good progress. goal is to get it under 5%.\n• then there are marketing emails -- batched, volume sends to larger audiences. we have done MUCH less of this, so the data is still coming in. but i can say we saw a bounce rate under 1.5% for the first send where we used NB results, and that was very good to see.\nso yes, one of our baselines was close to 10%, and so far we are seeing good movement there.",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1744042473.384169",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "gY/K2",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "gonna give you a long-winded answer...bear with me.\n\nthere are two types of emails we send:\n\n"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "rich_text_list",
+                    "elements": [
+                      {
+                        "type": "rich_text_section",
+                        "elements": [
+                          {
+                            "type": "text",
+                            "text": "sequence emails -- automated from BDMs via HubSpot prospecting tools -- that rate was close to 10%, is now closer to 8.5%. we are making good progress. goal is to get it under 5%."
+                          }
+                        ]
+                      },
+                      {
+                        "type": "rich_text_section",
+                        "elements": [
+                          {
+                            "type": "text",
+                            "text": "then there are marketing emails -- batched, volume sends to larger audiences. we have done MUCH less of this, so the data is still coming in. but i can say we saw a bounce rate under 1.5% for the first send where we used NB results, and that was very good to see."
+                          }
+                        ]
+                      }
+                    ],
+                    "style": "bullet",
+                    "indent": 0,
+                    "border": 0
+                  },
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "\nso yes, one of our baselines was close to 10%, and so far we are seeing good movement there."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "+1::skin-tone-3",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744316060.213649",
+            "client_msg_id": "571d67a1-8724-4d99-a754-0844a0d02c91",
+            "text": "got it, thanks for sharing the JIRA link, that helped fill in the details for me",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744042473.384169",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "G7++Z",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "got it, thanks for sharing the JIRA link, that helped fill in the details for me"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744316237.472679",
+            "client_msg_id": "1b129137-cb52-4e23-9138-60fedda4e754",
+            "text": "Also, any qualitative data on how the SDR team is feeling about the contacts coming thru (after validation)?",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744042473.384169",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "XqUmu",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Also, any qualitative data on how the SDR team is feeling about the contacts coming thru (after validation)?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1744735684.343459",
+            "client_msg_id": "68d9df45-74d4-4192-a1c6-7c60dc1dc991",
+            "text": "hi! i am getting myself MARKETING_OPS_EXPERTized to provide more feedback to you -- will arrive by end of week!",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1744042473.384169",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "S+9Y0",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "hi! i am getting myself organized to provide more feedback to you -- will arrive by end of week!"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "+1::skin-tone-3",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          }
+        ]
+      },
+      {
+        "text": "additional info:\n\nwe've run just about all the records in CRM against neverbounce, so we are \"caught up\" so to speak -- here's what we've got in CRM by email status:",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-07T16:15:02.983Z",
+        "thread_ts": "1744042502.983149",
+        "replies": [
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744235761.758569",
+            "client_msg_id": "ace761f4-035b-431e-9c20-1a09090670d3",
+            "text": "@TEAM_MEMBER are you all sending to any of the catchall addresses?",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744042502.983149",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "7nEX6",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "user",
+                        "user_id": "U070DQW6C3F"
+                      },
+                      {
+                        "type": "text",
+                        "text": " are you all sending to any of the catchall addresses?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1744296803.372119",
+            "client_msg_id": "512b8ea3-b093-4c81-8453-da84228858d4",
+            "text": "we are not! playing it EXTRA safe up front. valid only for now.",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1744042502.983149",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "b9cs0",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "we are not! playing it EXTRA safe up front. valid only for now."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "reactions": [
+              {
+                "name": "+1::skin-tone-3",
+                "users": [
+                  "U081JLY6AE5"
+                ],
+                "count": 1
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          }
+        ]
+      },
+      {
+        "text": "the 124 in the bottom-left with \"No Value\" are a few i need to look into -- investigate if they should have gone to y'all, and if so, why not.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-07T16:15:31.325Z",
+        "replies": []
+      },
+      {
+        "text": "little bit more about the folks who bounced:\n\n• of the 22, only 16 were hard bounced (list attached here)\n• the remaining 6 were soft bounces all from the same company -- walgreens and walgreens-boots alliance. having marketed and sold to them before, i can confirm they're hard to reach due to inbound email policies on their side. not surprised by the soft bounces.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-07T16:41:32.895Z",
+        "replies": []
+      },
+      {
+        "text": "final thing -- question for @TEAM_MEMBER -- when the segment name changes on a contact record, approx how long until y'all send the results back to hubspot? 10-15 minutes? writing some documentation, hence the ask.\n\nthank you!",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-07T16:42:09.252Z",
+        "replies": []
+      },
+      {
+        "text": "that would sound about under a light load, but the response would be delayed if a large volume of changes occured at one time, since I need to throttle the records for both hubspot and neverbounce.   If you had 1000 records at one time I would say it would take an hour.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-07T16:46:08.622Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "Before we start discussing any enrichment pieces, just want to check in @TEAM_MEMBER to see how things are going at the moment and if you feel like we have a good working solution for the validation piece? I am sure we will make some refinements but just want to make sure we have that in a good place before we layer on some additional steps and data.",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-09T22:16:04.584Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "i do feel good about what we have in place. bounce rates aren't SUPER down, but they are down and i'm confident we'll see them decrease even more in the coming weeks/months.\n\nfor your information: here's the documentation on how we're using the process. this is technical requirements and end-user documentation. it also includes bounce rate tracking by month. i can confirm that april's numbers are looking good! but of course want to give it a little more time.\n\n<CLIENT_URL/wiki/x/GAB21g>",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-10T14:53:09.101Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "Ok, great. lets now start taking a look at the Leadspace enrichment piece. @TEAM_MEMBER and I got access this week.",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-10T20:12:33.459Z",
+        "replies": []
+      },
+      {
+        "text": "Pasting in what you sent me earlier @TEAM_MEMBER looks like here is what we are hoping to do with the Leadspace data:",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-10T20:12:59.448Z",
+        "thread_ts": "1744315979.448719",
+        "replies": [
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1744331703.382819",
+            "client_msg_id": "97406d0f-4f06-4737-9195-c6962c684399",
+            "text": "I’m indifferent if it was a scoping call or requirements are just spelled out here where we can continue the dialogue.\n\nThese are the things I would need to know to start:\n\n1. The trigger: what actions and/or data should take place in Hubspot to trigger an enrichment update (created or modified in Hubspot)\n2. Any filters to consider to filter in or out\n3. The enrichment fields that you would like to map over to Hubspot.  Person Phone seems like the most of interest, but there are other fields that can come along the way that could provide value.  @SURESHOT_PROGRAM_MANAGER Perhaps you can provide your sample list to highlight the fields that could be mapped over.\n    a. For each field you want to map over you would just need to make sure a contact field exists for this to be mapped in Hubspot",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "rK08R",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "I’m indifferent if it was a scoping call or requirements are just spelled out here where we can continue the dialogue.\n\nThese are the things I would need to know to start:\n\n"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "rich_text_list",
+                    "elements": [
+                      {
+                        "type": "rich_text_section",
+                        "elements": [
+                          {
+                            "type": "text",
+                            "text": "The trigger: what actions and/or data should take place in Hubspot to trigger an enrichment update (created or modified in Hubspot)"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "rich_text_section",
+                        "elements": [
+                          {
+                            "type": "text",
+                            "text": "Any filters to consider to filter in or out"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "rich_text_section",
+                        "elements": [
+                          {
+                            "type": "text",
+                            "text": "The enrichment fields that you would like to map over to Hubspot.  Person Phone seems like the most of interest, but there are other fields that can come along the way that could provide value.  "
+                          },
+                          {
+                            "type": "user",
+                            "user_id": "U081JLY6AE5"
+                          },
+                          {
+                            "type": "text",
+                            "text": " Perhaps you can provide your sample list to highlight the fields that could be mapped over."
+                          }
+                        ]
+                      }
+                    ],
+                    "style": "ordered",
+                    "indent": 0,
+                    "border": 0
+                  },
+                  {
+                    "type": "rich_text_list",
+                    "elements": [
+                      {
+                        "type": "rich_text_section",
+                        "elements": [
+                          {
+                            "type": "text",
+                            "text": "For each field you want to map over you would just need to make sure a contact field exists for this to be mapped in Hubspot"
+                          }
+                        ]
+                      }
+                    ],
+                    "style": "ordered",
+                    "indent": 1,
+                    "border": 0
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1744332659.131559",
+            "client_msg_id": "9e0fca6a-6a8e-4d08-aa0e-071c2da8202c",
+            "text": "actually better yet here are the fields:  <CLIENT_URL/hc/en-us/articles/360006155659-Available-Leadspace-Fields-and-Custom-Fields-Guide>",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "t+xbc",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "actually better yet here are the fields:  "
+                      },
+                      {
+                        "type": "link",
+                        "url": "https://support.leadspace.com/hc/en-us/articles/360006155659-Available-Leadspace-Fields-and-Custom-Fields-Guide"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744380608.199479",
+            "client_msg_id": "325e3223-1cf1-41d0-8309-5b30489ce3f2",
+            "text": "@TEAM_MEMBER you want to keep working here in Slack or would you prefer a call to work thru everything?",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "nOQ2Y",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "user",
+                        "user_id": "U070DQW6C3F"
+                      },
+                      {
+                        "type": "text",
+                        "text": " you want to keep working here in Slack or would you prefer a call to work thru everything?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1744595521.454099",
+            "client_msg_id": "C423C274-D683-4022-AEBE-49CE0386F6DA",
+            "text": "slack is fine! i need a little bit to get MARKETING_OPS_EXPERTized. when is your next call with leadspace? will try to pace accordingly…",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "tvySw",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "slack is fine! i need a little bit to get organized. when is your next call with leadspace? will try to pace accordingly"
+                      },
+                      {
+                        "type": "text",
+                        "text": "…"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1744735721.571199",
+            "client_msg_id": "70d3d498-90d8-4633-8e85-7d9dd1256914",
+            "text": "hello! following up here -- when's your next leadspace call? should we sync quickly beforehand to make sure i'm getting you and the team all the right info for requirements, etc?",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "qYaoy",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "hello! following up here -- when's your next leadspace call? should we sync quickly beforehand to make sure i'm getting you and the team all the right info for requirements, etc?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744739984.801209",
+            "client_msg_id": "5bdae29e-7ad7-416b-b4c2-626cce82c7f5",
+            "text": "We actually had a call with them yesterday, but we have them in our Slack org now if we need something specific from them between calls",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "95jP3",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "We actually had a call with them yesterday, but we have them in our Slack org now if we need something specific from them between calls"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744740031.756599",
+            "client_msg_id": "f973aeb4-e3f7-4287-b78d-27a91495fc48",
+            "text": "Also, MARKETING_OPS_EXPERT and I have access to the Leadspace Studio (both prod &amp; sandbox) so we are getting up to speed",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "S9iyH",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Also, Steve and I have access to the Leadspace Studio (both prod & sandbox) so we are getting up to speed"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744740045.600119",
+            "client_msg_id": "d4f84564-610b-4ae8-8d13-6c8627583d1f",
+            "text": "Is there anything specific you were wanting to find out from Leadspace?",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "2K2gr",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Is there anything specific you were wanting to find out from Leadspace?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1744742185.256969",
+            "client_msg_id": "b9f12049-8e70-4bb5-818c-4454b4fc6bee",
+            "text": "nothing specific! just want to make sure i'm giving you everything you need to sync with them/explore possibilities.\n\nfield mapping/trigger rules for the phone append i will get to you today (per @TEAM_MEMBER’s note from last thursday.)\n\ni have not mapped out any requirements for the process to acquire new contacts at specific accounts. is that something we need to talk through?",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "++7Jl",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "nothing specific! just want to make sure i'm giving you everything you need to sync with them/explore possibilities.\n\nfield mapping/trigger rules for the phone append i will get to you today (per "
+                      },
+                      {
+                        "type": "user",
+                        "user_id": "U02N3CQHNDC"
+                      },
+                      {
+                        "type": "text",
+                        "text": "’s note from last thursday.)\n\ni have not mapped out any requirements for the process to acquire new contacts at specific accounts. is that something we need to talk through?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U081JLY6AE5",
+            "type": "message",
+            "ts": "1744745034.336219",
+            "client_msg_id": "33661632-a13f-476e-b19a-a43904631b72",
+            "text": "Maybe it would be good for us to setup another quick call to discuss the contact discovery and any oustanding stuff. I'll find us a time to connect",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1744315979.448719",
+            "parent_user_id": "U081JLY6AE5",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "kwitr",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Maybe it would be good for us to setup another quick call to discuss the contact discovery and any oustanding stuff. I'll find us a time to connect"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "SURESHOT_PROGRAM_MANAGER"
+          }
+        ]
+      },
+      {
+        "text": "• _*first, we want to use leadspace to get phone numbers for specific people.*_\n    ◦ _there is a single field we’ll look at – “6sense account temperature” – and when the value is “Hot” or “Hot (New)”, we want to run the contact to append phone number._\n    ◦ _direct lines are preferred – either mobile or office with extension/direct link to desk phone._\n• _the other thing we talked about that requires more exploration: *could Leadspace help us identify more contacts at the companies we’re targeting?*_\n    ◦ _6sense doesn’t always have the best people or titles – so, if we sent a list of accounts to leadspace, could they return targets that meet our persona criteria?_\n",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-10T20:13:19.953Z",
+        "replies": []
+      },
+      {
+        "text": "@TEAM_MEMBER how would you like to start working on this piece? Do you want to have a call with CLIENT_PROGRAM_MANAGER to talk thru the details, or do you feel like you have what you need to get started?",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-10T20:15:41.350Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "hey y'all! some cool stuff to share -- here's a week-by-week snapshot of our bounce rates since march 20:",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-17T18:43:19.023Z",
+        "replies": []
+      },
+      {
+        "text": "",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-17T18:43:25.949Z",
+        "replies": []
+      },
+      {
+        "text": "obviously our volume is down -- but still, those rates are going in the right direction for sure. wanted to share! fodder for a case study if you ever need it :smile:",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-17T18:43:54.183Z",
+        "replies": []
+      },
+      {
+        "text": "Awesome @TEAM_MEMBER thanks for sharing that",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-17T18:55:24.043Z",
+        "replies": []
+      },
+      {
+        "text": "You might see this again next week in that meetup presentation I am doing",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-17T18:55:39.283Z",
+        "replies": []
+      },
+      {
+        "text": "haha yes! i do plan to be there -- arriving in CLT wednesday leaving friday.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-04-17T18:56:15.617Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "@TEAM_MEMBER here is the updated flow chart based on our conversation earlier today. Let me know if this reflects your understanding",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-18T21:23:44.445Z",
+        "replies": []
+      },
+      {
+        "text": "FYI @TEAM_MEMBER ^^",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-04-18T21:24:35.441Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "Hey @TEAM_MEMBER I hope you are doing well.  I just thought I would follow up regarding shoring up some of the requirements around discovery.  You probably have a million things on the go, but let me know if you would like to setup another time for a call if you think that would be better to hammer it out.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-05-05T22:45:43.115Z",
+        "thread_ts": "1746485143.115879",
+        "replies": [
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1746546342.492749",
+            "client_msg_id": "29103180-f4ea-4c6c-8100-0457a44b51eb",
+            "text": "thank you for the follow up! i owe y'all info -- this is in my queue and i hope to have you unblocked by tomorrow at noon.",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1746485143.115879",
+            "parent_user_id": "U02N3CQHNDC",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "MQPgC",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "thank you for the follow up! i owe y'all info -- this is in my queue and i hope to have you unblocked by tomorrow at noon."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U070DQW6C3F",
+            "type": "message",
+            "ts": "1747417394.802779",
+            "client_msg_id": "7c4721ae-40c7-43ac-a385-648ed74816ea",
+            "text": "swear i have not forgotten! but i have had to prioritize other stuff -- i really, really hope to come back to this early-next week. i will be in sales/marketing ops mode FULLY as we are actively onboarding a new seller. so that puts pressure on me to keep this top of mind. if i don't have something to you by this time next week, feel free to blow up my notifications :smile:",
+            "team": "T0A4RDKRT",
+            "user_team": "T0BGWJB2N",
+            "source_team": "T0BGWJB2N",
+            "user_profile": {
+              "avatar_hash": "8e5ad3791946",
+              "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+              "first_name": "Britt",
+              "real_name": "Britt Forrestal",
+              "display_name": "Britt Forrestal",
+              "team": "T0BGWJB2N",
+              "name": "bforrestal",
+              "is_restricted": false,
+              "is_ultra_restricted": false
+            },
+            "thread_ts": "1746485143.115879",
+            "parent_user_id": "U02N3CQHNDC",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "S8auD",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "swear i have not forgotten! but i have had to prioritize other stuff -- i really, really hope to come back to this early-next week. i will be in sales/marketing ops mode FULLY as we are actively onboarding a new seller. so that puts pressure on me to keep this top of mind. if i don't have something to you by this time next week, feel free to blow up my notifications "
+                      },
+                      {
+                        "type": "emoji",
+                        "name": "smile",
+                        "unicode": "1f604"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1747418982.243409",
+            "client_msg_id": "75130994-9575-4bce-8d2b-fe8650ab3465",
+            "text": "Ok sounds good, i’ll set a reminder to touch base next week if we don’t hear from you.  Hope you have a great weekend",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1746485143.115879",
+            "parent_user_id": "U02N3CQHNDC",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "gICKL",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Ok sounds good, i’ll set a reminder to touch base next week if we don’t hear from you.  Hope you have a great weekend"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "language": {
+              "locale": "en",
+              "is_reliable": true
+            },
+            "user_id": "UNKNOWN_USER"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "text": "Hey @TEAM_MEMBER sorry about not connecting last week but I was still hoping to nudge you regarding initiating the enrichment and discovery project.  Let me know if there is a good time this or next week to connect.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-05-29T13:37:24.595Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "hi @TEAM_MEMBER! i am finally coming back to this -- thank you so much for your patience and follow-up!",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-06-02T15:08:37.162Z",
+        "replies": []
+      },
+      {
+        "text": "i would love to chat with you/y'all sometime this week re: phone number enrichment. i am going to send over my thoughts re: a) a first batch run (we have a list that needs one-time enrichment) and then b) how to build this to scale like the NB integration.\n\ni'll be in CLT this week, traveling up today, so it will likely be tomorrow/wednesday before i have everything in written format. but stay tuned -- i will have info to you and excited to make some progress!",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-06-02T15:10:49.033Z",
+        "thread_ts": "1748877049.033589",
+        "replies": [
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1748877808.973169",
+            "client_msg_id": "bd1b0cea-8179-4644-b952-c52887d80ca5",
+            "text": "ok that’s great! Do you want me to put something tentative on the calendar now? or I can wait to hear from you in terms of the time that works best as you solidify your schedule",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1748877049.033589",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "gIsLW",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "ok that’s great! Do you want me to put something tentative on the calendar now? or I can wait to hear from you in terms of the time that works best as you solidify your schedule"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "subtype": "thread_broadcast",
+            "user": "U070DQW6C3F",
+            "thread_ts": "1748877049.033589",
+            "root": {
+              "user": "U070DQW6C3F",
+              "type": "message",
+              "ts": "1748877049.033589",
+              "client_msg_id": "e2db622e-43a6-4ef6-9e6a-a3f1f228fe2c",
+              "text": "i would love to chat with you/y'all sometime this week re: phone number enrichment. i am going to send over my thoughts re: a) a first batch run (we have a list that needs one-time enrichment) and then b) how to build this to scale like the NB integration.\n\ni'll be in CLT this week, traveling up today, so it will likely be tomorrow/wednesday before i have everything in written format. but stay tuned -- i will have info to you and excited to make some progress!",
+              "team": "T0A4RDKRT",
+              "user_team": "T0BGWJB2N",
+              "source_team": "T0BGWJB2N",
+              "user_profile": {
+                "avatar_hash": "8e5ad3791946",
+                "image_72": "https://avatars.slack-edge.com/2025-07-22/9236023894274_8e5ad3791946ab8b67d9_72.jpg",
+                "first_name": "Britt",
+                "real_name": "Britt Forrestal",
+                "display_name": "Britt Forrestal",
+                "team": "T0BGWJB2N",
+                "name": "bforrestal",
+                "is_restricted": false,
+                "is_ultra_restricted": false
+              },
+              "thread_ts": "1748877049.033589",
+              "reply_count": 3,
+              "reply_users_count": 2,
+              "latest_reply": "1749040866.239769",
+              "reply_users": [
+                "U02N3CQHNDC",
+                "U070DQW6C3F"
+              ],
+              "is_locked": false,
+              "subscribed": false,
+              "blocks": [
+                {
+                  "type": "rich_text",
+                  "block_id": "o0HqF",
+                  "elements": [
+                    {
+                      "type": "rich_text_section",
+                      "elements": [
+                        {
+                          "type": "text",
+                          "text": "i would love to chat with you/y'all sometime this week re: phone number enrichment. i am going to send over my thoughts re: a) a first batch run (we have a list that needs one-time enrichment) and then b) how to build this to scale like the NB integration.\n\ni'll be in CLT this week, traveling up today, so it will likely be tomorrow/wednesday before i have everything in written format. but stay tuned -- i will have info to you and excited to make some progress!"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "message",
+            "ts": "1748998750.532129",
+            "client_msg_id": "09b3d1b7-1dc6-4ad8-9ecb-6c46595a4236",
+            "text": "let's put something on the schedule for thursday before 2pm. does that work for you? if so i will send an invite to you + SURESHOT_PROGRAM_MANAGER.",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "HjY4l",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "let's put something on the schedule for thursday before 2pm. does that work for you? if so i will send an invite to you + russ."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          },
+          {
+            "user": "U02N3CQHNDC",
+            "type": "message",
+            "ts": "1749040866.239769",
+            "client_msg_id": "9546ef56-0180-41cb-940d-38a1bebe9630",
+            "text": "Hi @TEAM_MEMBER that works for me and SURESHOT_PROGRAM_MANAGER looks free for the first 30 mins.",
+            "team": "T0A4RDKRT",
+            "thread_ts": "1748877049.033589",
+            "parent_user_id": "U070DQW6C3F",
+            "blocks": [
+              {
+                "type": "rich_text",
+                "block_id": "L1LRj",
+                "elements": [
+                  {
+                    "type": "rich_text_section",
+                    "elements": [
+                      {
+                        "type": "text",
+                        "text": "Hi "
+                      },
+                      {
+                        "type": "user",
+                        "user_id": "U070DQW6C3F"
+                      },
+                      {
+                        "type": "text",
+                        "text": " that works for me and Russ looks free for the first 30 mins."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "user_id": "UNKNOWN_USER"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "text": "let's put something on the schedule for thursday before 2pm. does that work for you? if so i will send an invite to you + SURESHOT_PROGRAM_MANAGER.",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-06-04T00:59:10.532Z",
+        "thread_ts": "1748877049.033589",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "Let's meet today while we are all in the office.",
+        "user_id": "MARKETING_OPS_EXPERT",
+        "participant": {
+          "name": "MARKETING_OPS_EXPERT",
+          "role": "Marketing Operations Expert",
+          "persona": "Technical expert providing implementation guidance and best practices",
+          "userId": "U077LEJFWF8",
+          "realNames": [
+            "steve",
+            "organ"
+          ],
+          "slackName": "steve.amedio"
+        },
+        "timestamp": "2025-06-04T12:49:47.059Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "I am back to back all day, so please meet without me and let me know afterwards where things end up",
+        "user_id": "SURESHOT_PROGRAM_MANAGER",
+        "participant": {
+          "name": "SURESHOT_PROGRAM_MANAGER",
+          "role": "Sureshot Program Manager",
+          "persona": "Project coordinator managing client relationships and deliverables",
+          "userId": "U081JLY6AE5",
+          "realNames": [
+            "russ",
+            "hammond"
+          ],
+          "slackName": "russ.hammond"
+        },
+        "timestamp": "2025-06-04T14:27:11.542Z",
+        "replies": []
+      },
+      {
+        "text": "perfect -- grabbed time on the calendar from 1-1:30 today. we'll meet upstairs at Xcel office.\n\n@TEAM_MEMBER if that's not a good time for you i'll look for alternatives.\n\nthank you!",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-06-04T14:32:08.630Z",
+        "replies": []
+      },
+      {
+        "text": "works for me.  looking forward",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-06-04T14:35:07.966Z",
+        "replies": []
+      }
+    ],
+    [
+      {
+        "text": "@TEAM_MEMBER has joined the channel",
+        "user_id": "UNKNOWN_USER",
+        "participant": null,
+        "timestamp": "2025-08-06T12:04:15.029Z",
+        "replies": []
+      }
+    ]
+  ],
+  "marketingTopics": [
+    {
+      "topic": "automation",
+      "count": 1
+    },
+    {
+      "topic": "crm",
+      "count": 3
+    },
+    {
+      "topic": "email",
+      "count": 4
+    }
+  ],
+  "clientQuestions": [],
+  "expertSolutions": [
+    {
+      "text": "@MARKETING_OPS_EXPERT has joined the channel",
+      "timestamp": "2025-03-20T18:52:28.333Z",
+      "context": "@TEAM_MEMBER has joined the channel",
+      "persona": "Technical expert providing implementation guidance and best practices"
+    },
+    {
+      "text": "Let's meet today while we are all in the office.",
+      "timestamp": "2025-06-04T12:49:47.059Z",
+      "context": null,
+      "persona": "Technical expert providing implementation guidance and best practices"
+    }
+  ],
+  "tactics": [],
+  "metadata": {
+    "totalMessages": 54,
+    "dateRange": {
+      "start": "2025-03-20T18:51:37.937Z",
+      "end": "2025-08-06T12:04:15.029Z"
+    },
+    "participants": {
+      "client": {
+        "name": "CLIENT_PROGRAM_MANAGER",
+        "role": "Client Program Manager",
+        "persona": "Strategic client asking for campaign guidance and results",
+        "userId": null,
+        "realNames": [
+          "britt",
+          "forestal"
+        ]
+      },
+      "pm": {
+        "name": "SURESHOT_PROGRAM_MANAGER",
+        "role": "Sureshot Program Manager",
+        "persona": "Project coordinator managing client relationships and deliverables",
+        "userId": "U081JLY6AE5",
+        "realNames": [
+          "russ",
+          "hammond"
+        ],
+        "slackName": "russ.hammond"
+      },
+      "expert": {
+        "name": "MARKETING_OPS_EXPERT",
+        "role": "Marketing Operations Expert",
+        "persona": "Technical expert providing implementation guidance and best practices",
+        "userId": "U077LEJFWF8",
+        "realNames": [
+          "steve",
+          "organ"
+        ],
+        "slackName": "steve.amedio"
+      }
+    }
+  }
+}

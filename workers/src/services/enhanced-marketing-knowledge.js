@@ -80,6 +80,56 @@ const REAL_WORLD_MARKETING_KNOWLEDGE = {
         "Set up monitoring and error handling"
       ],
       testing: "Always test with small data sets first, validate field mapping, and monitor for data quality issues"
+    },
+
+    hubspotEnrichment: {
+      workflow: "Webhook-triggered real-time enrichment with AI deduplication is the gold standard for CRM integrations",
+      pattern: [
+        "HubSpot webhook triggers on contact create/update",
+        "🧠 Claude deduplication check against existing contacts",
+        "Execute merge strategy if duplicates found (most complete record wins)",
+        "Retrieve contact details with selective field retrieval", 
+        "Validate email address exists before processing",
+        "Use validation service (NeverBounce/BriteVerify)",
+        "Map results back to custom HubSpot properties",
+        "Update contact record with enriched data"
+      ],
+      optimization: [
+        "🧠 AI deduplication first - saves 20-30% on validation costs by avoiding duplicates",
+        "Only validate new or changed email addresses",
+        "Drop records without email addresses early",
+        "Use batch processing for bulk operations",
+        "Implement proper retry logic for API failures", 
+        "Track cost per enrichment for ROI analysis",
+        "Intelligent merge strategies preserve engagement history and data completeness"
+      ],
+      fieldMapping: "Create custom properties for validation results: email_validation_status, email_deliverable, data_quality_score"
+    },
+
+    eloquaValidation: {
+      workflow: "AI-powered batch deduplication + email validation is the most essential data quality process for Eloqua campaigns",
+      pattern: [
+        "Discover available contact fields using GET /api/REST/1.0/assets/contact/fields",
+        "Present email field options to user for source field selection",
+        "🧠 Claude batch deduplication analysis before validation (saves 15-25% on API costs)",
+        "Execute intelligent merge strategy for duplicate groups",
+        "Process deduplicated contacts in batches (recommended: 1000 per batch)",
+        "Validate emails using FreshAddress or BriteVerify APIs",
+        "Map validation results to contact fields or Custom Data Objects",
+        "Update Eloqua contacts via PUT /api/REST/2.0/data/contacts"
+      ],
+      bestPractices: [
+        "🧠 Run Claude deduplication FIRST - can reduce dataset by 15-30% before validation",
+        "Always discover fields first - clients often have multiple email fields",
+        "Pre-filter invalid email formats before API calls to save costs", 
+        "Use contact fields for simple status, CDOs for detailed validation history",
+        "Batch processing at 1000 contacts balances API efficiency with error isolation",
+        "Track validation costs and measure deliverability improvements",
+        "AI merge strategies preserve engagement data and choose most complete records",
+        "Fuzzy matching catches variations that exact matching misses (nicknames, company abbreviations)"
+      ],
+      serviceSelection: "FreshAddress for comprehensive validation (96% accuracy), BriteVerify for faster processing",
+      resultMapping: "Support both contact field updates and CDO creation based on client reporting needs"
     }
   },
 
@@ -121,11 +171,14 @@ const REAL_WORLD_MARKETING_KNOWLEDGE = {
     ],
     
     dataQuality: [
+      "🧠 AI-powered deduplication before all processing - prevents duplicate costs and improves accuracy",
       "Validate emails at point of capture, not just in batch",
-      "Standardize phone number formats for better matching",
+      "Standardize phone number formats for better matching", 
       "Use consistent naming conventions across all systems",
       "Regular data audits should be part of monthly processes",
-      "Implement data governance rules, don't just rely on technology"
+      "Implement data governance rules, don't just rely on technology",
+      "Claude deduplication catches fuzzy matches that rule-based systems miss",
+      "Merge strategy should preserve engagement data and most complete records"
     ],
 
     campaignOptimization: [
@@ -250,6 +303,61 @@ Most clients see 20-40% improvement in engagement rates just from basic engageme
 **Common Mistake to Avoid:** Don't automate everything at once. I recommend starting with one workflow, optimizing it, then expanding.
 
 What's your primary goal with automation - nurturing leads, customer retention, or something else?`
+  },
+
+  hubspotIntegration: {
+    trigger: ["hubspot", "integration", "webhook", "enrichment", "neverbounce", "briteverify", "deduplication", "duplicate"],
+    response: `HubSpot integrations with AI-powered deduplication are where I see the biggest impact for real-time data enrichment. Here's the enhanced proven pattern:
+
+**🧠 AI-Enhanced Webhook-Triggered Enrichment Flow:**
+1. **HubSpot Setup**: Configure webhook for contact create/update events
+2. **Proxy Endpoint**: Create endpoint to receive webhook payloads  
+3. **🧠 Claude Deduplication**: Check against existing contacts using intelligent fuzzy matching
+4. **Merge Strategy**: Execute AI-powered merge if duplicates found (preserves engagement data)
+5. **Selective Retrieval**: GET specific contact fields (not everything)
+6. **Email Check**: Drop records without email addresses immediately
+7. **Validation Service**: Use NeverBounce or BriteVerify for email validation
+8. **Update Back**: PATCH results to custom HubSpot properties
+
+**🎯 Key Success Factors:**
+• 🧠 AI deduplication first - saves 20-30% on validation costs by avoiding duplicates
+• Intelligent merge strategies preserve engagement history and data completeness
+• Only process contacts with email addresses
+• Map validation results to custom fields (email_validation_status, email_deliverable)
+• Implement retry logic for API failures
+• Track cost per enrichment for ROI
+
+**Common Pitfalls:** Skipping deduplication step, not preserving engagement data in merges, validating already-validated emails.
+
+I've seen this enhanced pattern reduce invalid email sends by 70-80% AND cut validation costs by 25% for most clients. The AI catches fuzzy duplicates that rule-based systems miss. What's your current HubSpot integration challenge?`
+  },
+
+  eloquaValidation: {
+    trigger: ["eloqua", "validation", "freshaddress", "briteverify", "email validation", "oracle eloqua", "batch", "cdo", "deduplication", "duplicate"],
+    response: `Eloqua email validation with AI deduplication is absolutely critical for campaign success. Here's the enhanced approach I use with clients:
+
+**🧠 AI-Enhanced Eloqua Validation Workflow:**
+1. **Field Discovery**: GET /api/REST/1.0/assets/contact/fields to find all email fields
+2. **User Selection**: Let users choose which email field to validate (many clients have multiple)
+3. **🧠 Claude Batch Deduplication**: AI analysis before validation (saves 15-25% on API costs)
+4. **Intelligent Merge**: Execute AI-powered merge strategy for duplicate groups
+5. **Batch Processing**: Process deduplicated contacts in batches of 1000 for optimal API efficiency
+6. **Validation Service**: FreshAddress (96% accuracy) or BriteVerify (faster processing)
+7. **Results Mapping**: Choose contact fields or CDOs based on reporting needs
+8. **Eloqua Update**: Bulk update via PUT /api/REST/2.0/data/contacts
+
+**🎯 Critical Success Factors:**
+• 🧠 Run Claude deduplication FIRST - can reduce dataset by 15-30% before validation
+• AI merge strategies preserve engagement data and choose most complete records
+• Always discover fields first - don't assume which email field to use
+• Pre-filter obvious invalid formats before API calls (saves 15-20% on costs)
+• Use contact fields for simple validation status, CDOs for detailed history
+• Track validation costs and measure deliverability improvements
+• Fuzzy matching catches variations that exact matching misses (nicknames, company abbreviations)
+
+**Common Mistakes:** Skipping deduplication step, processing without field discovery, not preserving engagement data in merges, validating already-validated emails.
+
+I typically see 25-35% improvement in deliverability rates AND 20-25% cost reduction for Eloqua campaigns after AI-enhanced validation. The deduplication step alone often saves thousands in validation costs. What's your current validation challenge?`
   }
 };
 

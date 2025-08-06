@@ -1,0 +1,7 @@
+email,first_name,last_name,phone,company,title,city,state
+john.doe@gmail.com,John,Doe,555-123-4567,Acme Corp,Software Engineer,San Francisco,CA
+jane.smith@yahoo.com,Jane,Smith,(415) 987-6543,Tech Solutions,Product Manager,Los Angeles,CA
+invalid-email@,Bob,Johnson,5551234567,StartupXYZ,CTO,Austin,TX
+alice@disposable.com,Alice,Brown,+1-555-999-8888,Big Company,Sales Director,New York,NY
+test@gmai.com,Test,User,555.111.2222,Test Corp,Analyst,Seattle,WA
+valid@company.org,Valid,Person,15551112222,Real Company,Manager,Denver,CO

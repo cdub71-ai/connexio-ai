@@ -5,6 +5,7 @@ const {
   CLIENT_CONVERSATION_TEMPLATES,
   REAL_WORLD_MARKETING_KNOWLEDGE
 } = require('./services/enhanced-marketing-knowledge');
+const ClaudeDeduplicationService = require('./services/claude-deduplication-service');
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -12,11 +13,14 @@ const app = new App({
   socketMode: false,
 });
 
-// Initialize Claude client
+// Initialize Claude client and deduplication service
 const claude = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
   timeout: 30000,
 });
+
+// Initialize AI-powered deduplication service
+const deduplicationService = new ClaudeDeduplicationService();
 
 // Processing status tracking
 const processingSessions = new Map();
