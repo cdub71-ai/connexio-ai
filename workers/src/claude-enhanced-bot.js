@@ -1,5 +1,10 @@
 const { App } = require('@slack/bolt');
 const { default: Anthropic } = require('@anthropic-ai/sdk');
+const { 
+  ENHANCED_CONNEXIO_SYSTEM_PROMPT,
+  CLIENT_CONVERSATION_TEMPLATES,
+  REAL_WORLD_MARKETING_KNOWLEDGE
+} = require('./services/enhanced-marketing-knowledge');
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -16,27 +21,29 @@ const claude = new Anthropic({
 // Processing status tracking
 const processingSessions = new Map();
 
-// Connexio AI system prompt
-const CONNEXIO_SYSTEM_PROMPT = `You are Connexio AI, an expert Marketing Operations assistant specializing in:
+// Template matching function to find best conversation template
+function findBestTemplate(userText) {
+  const lowerText = userText.toLowerCase();
+  
+  for (const [templateName, template] of Object.entries(CLIENT_CONVERSATION_TEMPLATES)) {
+    const matchScore = template.trigger.reduce((score, trigger) => {
+      return lowerText.includes(trigger.toLowerCase()) ? score + 1 : score;
+    }, 0);
+    
+    if (matchScore > 0) {
+      return {
+        name: templateName,
+        score: matchScore,
+        response: template.response
+      };
+    }
+  }
+  
+  return null;
+}
 
-🎯 **Your Expertise:**
-- Email deliverability and validation best practices
-- Phone number formatting and international standards  
-- Data quality assessment and improvement
-- Marketing list hygiene and segmentation
-- Campaign optimization and audience insights
-
-📊 **Your Personality:**
-- Professional but approachable
-- Data-driven and analytical
-- Helpful with actionable recommendations
-- Focused on business outcomes
-- Clear and concise communication
-
-🔍 **Your Role:**
-Help marketing teams optimize their data quality, improve campaign performance, and make data-driven decisions. Always provide practical, actionable advice.
-
-Keep responses concise, professional, and focused on marketing operations best practices.`;
+// Enhanced system prompt with real client-agency experience
+const CONNEXIO_SYSTEM_PROMPT = ENHANCED_CONNEXIO_SYSTEM_PROMPT;
 
 // Enhanced Connexio AI command with real Claude integration
 app.command('/connexio', async ({ command, ack, respond }) => {
@@ -59,28 +66,58 @@ app.command('/connexio', async ({ command, ack, respond }) => {
   });
 
   try {
-    // Call Claude API for intelligent response
-    const response = await claude.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 800,
-      temperature: 0.3,
-      system: CONNEXIO_SYSTEM_PROMPT,
-      messages: [
-        {
-          role: 'user',
-          content: `As a marketing operations expert, please help with this question: "${text}"
+    // Check for conversation template matches
+    const templateMatch = findBestTemplate(text);
+    let responseText;
 
-Provide a practical, actionable response focused on marketing best practices. Use emojis and formatting to make it engaging.`,
-        },
-      ],
-    });
+    if (templateMatch) {
+      // Use template response enhanced by Claude
+      const templateResponse = templateMatch.response;
+      const response = await claude.messages.create({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 800,
+        temperature: 0.3,
+        system: CONNEXIO_SYSTEM_PROMPT,
+        messages: [
+          {
+            role: 'user',
+            content: `A client is asking about: "${text}"
 
-    const claudeResponse = response.content[0]?.text;
+I have this template response based on similar client conversations:
+${templateResponse}
 
-    if (claudeResponse) {
+Please enhance this response with additional insights and make it more personalized to their specific question. Keep the consultative tone and practical approach.`,
+          },
+        ],
+      });
+      responseText = response.content[0]?.text;
+    } else {
+      // Use standard Claude response with enhanced prompt
+      const response = await claude.messages.create({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 800,
+        temperature: 0.3,
+        system: CONNEXIO_SYSTEM_PROMPT,
+        messages: [
+          {
+            role: 'user',
+            content: `As an experienced marketing operations consultant, please help with this question: "${text}"
+
+Draw from your knowledge of real client situations and provide practical, actionable guidance. Use a consultative tone and focus on business outcomes.`,
+          },
+        ],
+      });
+      responseText = response.content[0]?.text;
+    }
+
+    if (responseText) {
       // Send formatted response
+      const enhancementNote = templateMatch ? 
+        "✨ _Enhanced with real client-agency experience_" : 
+        "🎯 _Powered by marketing operations expertise_";
+      
       await respond({
-        text: `🤖 **Connexio AI Response:**\n\n${claudeResponse}\n\n---\n_💡 Need file validation? Use \`/validate-file\` to upload and analyze your data._\n_Powered by Claude AI • ${response.usage.input_tokens + response.usage.output_tokens} tokens used_`,
+        text: `🤖 **Connexio AI - Marketing Operations Expert:**\n\n${responseText}\n\n---\n_💡 Need file validation? Use \`/validate-file\` to upload and analyze your data._\n${enhancementNote}`,
         response_type: 'in_channel',
         replace_original: true,
       });

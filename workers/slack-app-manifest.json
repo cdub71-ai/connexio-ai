@@ -45,6 +45,10 @@
         "chat:write",
         "files:read",
         "channels:history",
+        "channels:read",
+        "groups:history",
+        "groups:read",
+        "users:read",
         "app_mentions:read"
       ]
     }
