@@ -6,6 +6,7 @@
 const { App } = require('@slack/bolt');
 const ProductionFileProcessor = require('./services/production-file-processor.js');
 const DownloadServer = require('./api/download-server.js');
+const ConversationManager = require('./services/conversation-manager.js');
 const { createContextLogger } = require('./utils/logger.js');
 
 class ProductionBot {
@@ -40,6 +41,9 @@ class ProductionBot {
       }
     });
 
+    // Initialize conversation manager
+    this.conversationManager = new ConversationManager();
+
     this.setupCommands();
     this.setupEventHandlers();
     this.setupErrorHandling();
@@ -65,11 +69,26 @@ class ProductionBot {
         return;
       }
 
-      // Handle marketing questions with enhanced knowledge
-      await respond({
-        text: `🤖 **Connexio AI Response:**\n\nI understand you're asking about: _"${text}"_\n\nI can help with production-grade data processing:\n• Real SendGrid email validation\n• AI-powered deduplication with cost optimization\n• Secure file processing and delivery\n• Campaign readiness analysis\n\n💡 **For file validation**, upload your CSV and use \`/validate-file start\` - I'll process it with real validation services and provide secure download links!\n\n_Powered by production SendGrid API integration_`,
-        response_type: 'ephemeral',
-      });
+      // Check if this is a validation-related inquiry
+      const validationKeywords = ['validation', 'validate', 'verify', 'check', 'clean', 'data quality', 'email', 'deliverability', 'bounce', 'duplicate'];
+      const isValidationInquiry = validationKeywords.some(keyword => text.toLowerCase().includes(keyword));
+
+      if (isValidationInquiry) {
+        // Post the inquiry response to channel to start conversation thread
+        const message = await respond({
+          text: this.conversationManager.generateValidationInquiryResponse(),
+          response_type: 'in_channel', // Post to channel so we can thread
+        });
+
+        // Note: We'll start tracking the conversation when we receive the first threaded response
+        // The conversation manager will handle thread detection automatically
+      } else {
+        // Handle general marketing questions
+        await respond({
+          text: `🤖 **Connexio AI Response:**\n\nI understand you're asking about: _"${text}"_\n\nI can help with production-grade data processing:\n• Real SendGrid email validation\n• AI-powered deduplication with cost optimization\n• Secure file processing and delivery\n• Campaign readiness analysis\n\n💡 **For file validation**, upload your CSV and use \`/validate-file start\` - I'll process it with real validation services and provide secure download links!\n\n_Powered by production SendGrid API integration_`,
+          response_type: 'ephemeral',
+        });
+      }
     });
 
     // Production file validation command
@@ -209,6 +228,40 @@ class ProductionBot {
       }
     });
 
+    // Handle thread responses - this is the key addition for conversation flow
+    this.app.message(async ({ message, say, client }) => {
+      try {
+        // Skip messages from the bot itself
+        if (this.conversationManager.isFromBot(message.user)) {
+          return;
+        }
+
+        // Only process threaded messages (replies to bot messages)
+        if (!message.thread_ts) {
+          return;
+        }
+
+        // Process thread response through conversation manager
+        const response = await this.conversationManager.processThreadResponse(message);
+        
+        if (response) {
+          await say({
+            text: response.response,
+            thread_ts: message.thread_ts
+          });
+
+          this.logger.info('Thread response processed', {
+            userId: message.user,
+            threadTs: message.thread_ts,
+            conversationId: response.conversationId
+          });
+        }
+
+      } catch (error) {
+        this.logger.error('Thread message processing error', { error: error.message });
+      }
+    });
+
     // Handle app mentions
     this.app.event('app_mention', async ({ event, say }) => {
       try {
@@ -275,9 +328,15 @@ class ProductionBot {
 
       // Start Slack app
       await this.app.start(port);
+      
+      // Get bot user ID for conversation management
+      const authResult = await this.app.client.auth.test();
+      this.conversationManager.setBotUserId(authResult.user_id);
+      
       this.logger.info('Production bot started', { 
         port,
-        downloadPort: this.downloadServer.config.port
+        downloadPort: this.downloadServer.config.port,
+        botUserId: authResult.user_id
       });
 
       // Log startup confirmation
@@ -290,6 +349,7 @@ class ProductionBot {
       // Start cleanup scheduler
       setInterval(() => {
         this.fileProcessor.cleanupOldSessions();
+        this.conversationManager.cleanupOldConversations();
       }, 6 * 60 * 60 * 1000); // Every 6 hours
 
     } catch (error) {
@@ -327,6 +387,7 @@ class ProductionBot {
   async getStats() {
     const processorStats = await this.fileProcessor.getProcessorStats();
     const downloadStats = this.downloadServer.getStats();
+    const conversationStats = this.conversationManager.getStats();
     
     return {
       bot: {
@@ -335,7 +396,8 @@ class ProductionBot {
         timestamp: new Date().toISOString()
       },
       processor: processorStats,
-      download: downloadStats
+      download: downloadStats,
+      conversations: conversationStats
     };
   }
 }
