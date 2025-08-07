@@ -232,13 +232,70 @@ class ConversationManager {
     response += `• **Clean Records**: ~${sourceStats.clean.toLocaleString()} campaign-ready contacts\n`;
     response += `• **Cost Savings**: ${sourceStats.costSavings}% vs validating all records\n\n`;
     
-    response += `**Next Step**: Upload your CSV file and use \`/validate-file start\` for immediate processing with real SendGrid validation + AI deduplication.\n\n`;
+    // Add campaign routing and processing recommendations
+    response += this.generateCampaignRouting(source, issues, volume);
     
-    response += `Processing time: ${this.getProcessingTime(volume)} for your file size.\n\n`;
+    response += `**Next Steps:**\n`;
+    response += `1. Upload your CSV file to this channel\n`;
+    response += `2. Use \`/validate-file start\` for immediate processing\n`;
+    response += `3. Processing time: ${this.getProcessingTime(volume)}\n`;
+    response += `4. Receive secure download link with validated results\n\n`;
     
-    response += `---\n💡 **Ready when you are!** Upload your file and I'll handle the rest with production-grade validation.`;
+    response += `I'll process your file with enterprise validation + AI deduplication for production-grade results.`;
 
     return response;
+  }
+
+  /**
+   * Generate campaign routing and processing recommendations
+   * @param {string} source - Data source type
+   * @param {Array} issues - Issues identified
+   * @param {number} volume - Number of records
+   * @returns {string} Campaign routing guidance
+   */
+  generateCampaignRouting(source, issues, volume) {
+    let routing = `**Campaign Routing & Processing:**\n`;
+    
+    // Route based on data source and issues
+    if (source === 'trade_show') {
+      routing += `• **Trade Show Follow-up Campaign**: High-intent leads, expect 25-35% duplicate rate\n`;
+      routing += `• **Priority**: High (time-sensitive follow-up)\n`;
+      routing += `• **Recommended Validation**: Full enterprise validation + AI deduplication\n`;
+      routing += `• **Special Processing**: Check for business card scanning errors\n`;
+    } else if (source === 'event' || source === 'webinar') {
+      routing += `• **Event-based Nurture Campaign**: Engaged audience, moderate duplicates\n`;
+      routing += `• **Priority**: Medium-High (engaged leads)\n`;
+      routing += `• **Recommended Validation**: Standard enterprise validation\n`;
+      routing += `• **Special Processing**: Segment by attendance/engagement\n`;
+    } else if (source === 'purchased_list') {
+      routing += `• **Cold Outreach Campaign**: Unknown quality, high validation needs\n`;
+      routing += `• **Priority**: Low-Medium (requires extra validation)\n`;
+      routing += `• **Recommended Validation**: Enhanced enterprise validation + compliance check\n`;
+      routing += `• **Special Processing**: Extra duplicate detection, consent verification\n`;
+    } else {
+      routing += `• **General Campaign**: Standard processing recommended\n`;
+      routing += `• **Priority**: Medium\n`;
+      routing += `• **Recommended Validation**: Full enterprise validation\n`;
+    }
+    
+    // Add issue-specific routing
+    if (issues.includes('deliverability')) {
+      routing += `• **Deliverability Focus**: Will prioritize email validation accuracy\n`;
+    }
+    if (issues.includes('duplicates')) {
+      routing += `• **Deduplication Focus**: Enhanced AI duplicate detection enabled\n`;
+    }
+    if (issues.includes('compliance')) {
+      routing += `• **Compliance Check**: Will include GDPR/CCPA compliance validation\n`;
+    }
+    
+    // Volume-based routing
+    if (volume > 10000) {
+      routing += `• **Enterprise Processing**: Large volume will be processed in optimized batches\n`;
+    }
+    
+    routing += `\n`;
+    return routing;
   }
 
   /**
@@ -343,11 +400,7 @@ From my experience working with similar clients, validation services can signifi
 
 Once you provide these details, I can recommend the most appropriate validation approach and implementation steps based on what's worked best for companies in similar situations.
 
-Would you mind sharing those details so I can provide more specific guidance?
-
----
-💡 Need file validation? Use /validate-file to upload and analyze your data.
-🎯 Powered by marketing operations expertise`;
+Would you mind sharing those details so I can provide more specific guidance?`;
   }
 
   /**
@@ -376,13 +429,25 @@ Would you mind sharing those details so I can provide more specific guidance?
     // Look for common indicators of validation responses
     const indicators = [
       'records', 'contacts', 'leads', 'data', 'emails', 'addresses',
-      'trade show', 'event', 'webinar', 'list', 'database', 
-      'duplicate', 'bounce', 'deliverability', 'validation',
-      'csv', 'excel', 'file', 'upload'
+      'trade show', 'tradeshow', 'event', 'webinar', 'list', 'database', 
+      'duplicate', 'duplicates', 'bounce', 'deliverability', 'validation',
+      'csv', 'excel', 'file', 'upload', 'contact data', 'received from'
+    ];
+
+    // Check for specific patterns that indicate validation responses
+    const patterns = [
+      /\d+\s*(records?|contacts?|leads?|entries?)/i,
+      /contact\s+data/i,
+      /trade\s*show/i,
+      /deliverability/i,
+      /duplicate/i,
+      /fields.*validate/i,
+      /validate.*fields/i,
+      /approximately?\s*\d+/i
     ];
 
     return indicators.some(indicator => lowerText.includes(indicator)) ||
-           /\d+\s*(records?|contacts?|leads?|entries?)/i.test(text);
+           patterns.some(pattern => pattern.test(text));
   }
 
   /**

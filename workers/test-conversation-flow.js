@@ -53,7 +53,7 @@ Would you mind sharing those details so I can provide more specific guidance?
 
 ---
 💡 Need file validation? Use /validate-file to upload and analyze your data.
-🎯 Powered by marketing operations expertise`;
+🎯 Powered by Connexio.ai`;
   }
 
   looksLikeValidationResponse(text) {
@@ -61,13 +61,24 @@ Would you mind sharing those details so I can provide more specific guidance?
     
     const indicators = [
       'records', 'contacts', 'leads', 'data', 'emails', 'addresses',
-      'trade show', 'event', 'webinar', 'list', 'database', 
-      'duplicate', 'bounce', 'deliverability', 'validation',
-      'csv', 'excel', 'file', 'upload'
+      'trade show', 'tradeshow', 'event', 'webinar', 'list', 'database', 
+      'duplicate', 'duplicates', 'bounce', 'deliverability', 'validation',
+      'csv', 'excel', 'file', 'upload', 'contact data', 'received from'
+    ];
+
+    const patterns = [
+      /\d+\s*(records?|contacts?|leads?|entries?)/i,
+      /contact\s+data/i,
+      /trade\s*show/i,
+      /deliverability/i,
+      /duplicate/i,
+      /fields.*validate/i,
+      /validate.*fields/i,
+      /approximately?\s*\d+/i
     ];
 
     return indicators.some(indicator => lowerText.includes(indicator)) ||
-           /\d+\s*(records?|contacts?|leads?|entries?)/i.test(text);
+           patterns.some(pattern => pattern.test(text));
   }
 
   parseValidationRequirements(text) {
@@ -106,13 +117,32 @@ Would you mind sharing those details so I can provide more specific guidance?
         conversationId,
         response: `🎯 **Perfect! Trade show data with ${requirements.volume} records - I can definitely help.**
 
+**Your Situation Analysis:**
+• **Volume**: ${requirements.volume.toLocaleString()} records (ideal batch size)
+• **Data Source**: Trade show data
+• **Issues**: ${requirements.issues.join(', ')}
+
 **Expected Results:**
-• **Duplicates**: ~${Math.round(requirements.volume * 0.25)} removed (25% typical for trade shows)
-• **Invalid Emails**: ~${Math.round(requirements.volume * 0.20)} flagged (20% typical rate)
-• **Clean Records**: ~${Math.round(requirements.volume * 0.55)} campaign-ready contacts
+• **Duplicates**: ~${Math.round(requirements.volume * 0.25).toLocaleString()} removed (25% typical for trade shows)
+• **Invalid Emails**: ~${Math.round(requirements.volume * 0.20).toLocaleString()} flagged (20% typical rate)
+• **Clean Records**: ~${Math.round(requirements.volume * 0.55).toLocaleString()} campaign-ready contacts
 • **Cost Savings**: 30-40% vs validating all records
 
-**Next Step**: Upload your CSV file and use \`/validate-file start\` for immediate processing.`
+**Campaign Routing & Processing:**
+• **Trade Show Follow-up Campaign**: High-intent leads, expect 25-35% duplicate rate
+• **Priority**: High (time-sensitive follow-up)
+• **Recommended Validation**: Full enterprise validation + AI deduplication
+• **Special Processing**: Check for business card scanning errors
+• **Deliverability Focus**: Will prioritize email validation accuracy
+• **Deduplication Focus**: Enhanced AI duplicate detection enabled
+
+**Next Steps:**
+1. Upload your CSV file to this channel
+2. Use \`/validate-file start\` for immediate processing
+3. Processing time: 2-4 minutes
+4. Receive secure download link with validated results
+
+I'll process your file with enterprise validation + AI deduplication for production-grade results.`
       };
     }
     return null;
@@ -142,10 +172,13 @@ async function testConversationFlow() {
   // Test 2: Test validation response detection
   console.log('2. Testing validation response detection:');
   const testResponses = [
-    'contact data we received from a trade show, yes those are the fields we are looking to validate. approximately 4000 records deliverability and possible duplicate records',
+    'contact data we received from a trade show, yes those are the fields we are looking to validate. approximately 4000 records deliverability and possible duplicate records', // Chris's exact message
     'I have about 5000 email addresses from our webinar',
     'Need to clean our customer database with 10000 contacts',
     'Just saying hello', // Should not be detected as validation
+    'received from a trade show', // Should be detected
+    'duplicates', // Should be detected
+    'deliverability', // Should be detected
   ];
 
   testResponses.forEach((response, index) => {

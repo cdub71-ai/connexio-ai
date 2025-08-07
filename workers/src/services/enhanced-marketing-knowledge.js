@@ -482,25 +482,25 @@ Ready to start? Use \`/plan-campaign\` to get AI-powered automation recommendati
 
   hubspotEmailValidation: {
     trigger: ["hubspot", "email validation", "hubspot list", "hubspot contacts", "sendgrid hubspot", "validate hubspot emails"],
-    response: `I can validate your HubSpot email lists directly through my SendGrid integration! Here's how I can help you:
+    response: `I can validate your HubSpot email lists directly through my enterprise integration! Here's how I can help you:
 
 **🚀 What I Do For You RIGHT NOW:**
 • **Direct HubSpot List Processing** - Export your contacts and I'll validate them immediately
-• **SendGrid Integration** - I use SendGrid's advanced validation API for 99%+ accuracy
+• **Enterprise Integration** - I use advanced validation APIs for 99%+ accuracy
 • **AI-Powered Deduplication** - I remove duplicates first to save you 15-30% on validation costs
-• **Campaign-Ready Results** - You get clean, segmented lists ready for SendGrid campaigns
+• **Campaign-Ready Results** - You get clean, segmented lists ready for email campaigns
 
 **⚡ Use My Validation Service:**
 • Export your HubSpot contact list as CSV
 • Use \`/validate-file\` and upload the CSV file directly here in Slack
-• I'll process everything automatically with AI deduplication + SendGrid validation
+• I'll process everything automatically with AI deduplication + enterprise validation
 • Get results in minutes with detailed quality scoring and recommendations
 
 **💰 What You Save:**
 • **15-30% cost reduction** through automatic duplicate removal
 • **Immediate processing** - no waiting for manual exports/imports
 • **Campaign optimization** through quality scoring and segmentation
-• **SendGrid-ready lists** that improve deliverability rates
+• **Campaign-ready lists** that improve deliverability rates
 
 **📊 What You Get:**
 • Clean email list with deliverability scores
@@ -547,16 +547,16 @@ Ready to automate your HubSpot data quality? Use \`/setup-hubspot\` to get start
 
   sendgridValidation: {
     trigger: ["sendgrid", "validation", "testing", "email validation", "validate file", "file validation", "sendgrid test", "validation test"],
-    response: `I can perform SendGrid validation for you using our integrated service! My automated validation capabilities include:
+    response: `I can perform enterprise validation for you using our integrated service! My automated validation capabilities include:
 
 **🚀 Automatic File Validation Service:**
 • Use \`/validate-file\` to upload your CSV file
-• I'll automatically process it using SendGrid's advanced validation API
+• I'll automatically process it using advanced validation APIs
 • Get results in minutes with comprehensive quality scoring
 
 **🧠 What I Do Automatically:**
 1. **AI-Powered Deduplication First** - Removes duplicates to save 15-30% on validation costs
-2. **SendGrid API Integration** - 99%+ accuracy email validation
+2. **Enterprise API Integration** - 99%+ accuracy email validation
 3. **Quality Scoring** - Multi-dimensional data quality analysis
 4. **Campaign Readiness Assessment** - Immediate deployment guidance
 

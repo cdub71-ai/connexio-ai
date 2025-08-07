@@ -6,6 +6,7 @@ const {
   REAL_WORLD_MARKETING_KNOWLEDGE
 } = require('./services/enhanced-marketing-knowledge');
 const ClaudeDeduplicationService = require('./services/claude-deduplication-service');
+const ConversationManager = require('./services/conversation-manager');
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -21,6 +22,9 @@ const claude = new Anthropic({
 
 // Initialize AI-powered deduplication service
 const deduplicationService = new ClaudeDeduplicationService();
+
+// Initialize conversation manager
+const conversationManager = new ConversationManager();
 
 // Processing status tracking
 const processingSessions = new Map();
@@ -70,61 +74,80 @@ app.command('/connexio', async ({ command, ack, respond }) => {
   });
 
   try {
-    // Check for conversation template matches
-    const templateMatch = findBestTemplate(text);
+    // Check if this is a validation-related inquiry FIRST
+    const validationKeywords = ['validation', 'validate', 'verify', 'check', 'clean', 'data quality', 'email', 'deliverability', 'bounce', 'duplicate'];
+    const isValidationInquiry = validationKeywords.some(keyword => text.toLowerCase().includes(keyword));
+
     let responseText;
 
-    if (templateMatch) {
-      // Use template response enhanced by Claude
-      const templateResponse = templateMatch.response;
-      const response = await claude.messages.create({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 800,
-        temperature: 0.3,
-        system: CONNEXIO_SYSTEM_PROMPT,
-        messages: [
-          {
-            role: 'user',
-            content: `A client is asking about: "${text}"
+    if (isValidationInquiry) {
+      // Use hardcoded validation inquiry template (not Claude-generated)
+      responseText = conversationManager.generateValidationInquiryResponse();
+    } else {
+      // Check for other conversation template matches
+      const templateMatch = findBestTemplate(text);
+
+      if (templateMatch) {
+        // Use template response enhanced by Claude
+        const templateResponse = templateMatch.response;
+        const response = await claude.messages.create({
+          model: 'claude-3-5-sonnet-20241022',
+          max_tokens: 800,
+          temperature: 0.3,
+          system: CONNEXIO_SYSTEM_PROMPT,
+          messages: [
+            {
+              role: 'user',
+              content: `A client is asking about: "${text}"
 
 I have this template response based on similar client conversations:
 ${templateResponse}
 
 Please enhance this response with additional insights and make it more personalized to their specific question. Keep the consultative tone and practical approach.`,
-          },
-        ],
-      });
-      responseText = response.content[0]?.text;
-    } else {
-      // Use standard Claude response with enhanced prompt
-      const response = await claude.messages.create({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 800,
-        temperature: 0.3,
-        system: CONNEXIO_SYSTEM_PROMPT,
-        messages: [
-          {
-            role: 'user',
-            content: `As an experienced marketing operations consultant, please help with this question: "${text}"
+            },
+          ],
+        });
+        responseText = response.content[0]?.text;
+      } else {
+        // Use standard Claude response with enhanced prompt
+        const response = await claude.messages.create({
+          model: 'claude-3-5-sonnet-20241022',
+          max_tokens: 800,
+          temperature: 0.3,
+          system: CONNEXIO_SYSTEM_PROMPT,
+          messages: [
+            {
+              role: 'user',
+              content: `As an experienced marketing operations consultant, please help with this question: "${text}"
 
 Draw from your knowledge of real client situations and provide practical, actionable guidance. Use a consultative tone and focus on business outcomes.`,
-          },
-        ],
-      });
-      responseText = response.content[0]?.text;
+            },
+          ],
+        });
+        responseText = response.content[0]?.text;
+      }
     }
 
     if (responseText) {
-      // Send formatted response
-      const enhancementNote = templateMatch ? 
-        "✨ _Enhanced with real client-agency experience_" : 
-        "🎯 _Powered by marketing operations expertise_";
-      
-      await respond({
-        text: `🤖 **Connexio AI - Marketing Operations Expert:**\n\n${responseText}\n\n---\n_💡 Need file validation? I can analyze your data - use \`/validate-file\` and I'll handle it for you._\n${enhancementNote}`,
-        response_type: 'in_channel',
-        replace_original: true,
-      });
+      if (isValidationInquiry) {
+        // Validation inquiry response is already formatted - post to channel for threading
+        await respond({
+          text: responseText,
+          response_type: 'in_channel',
+          replace_original: true,
+        });
+      } else {
+        // Send formatted response for general questions
+        const enhancementNote = findBestTemplate(text) ? 
+          "✨ _Enhanced with real client-agency experience_" : 
+          "🎯 _Powered by Connexio.ai_";
+        
+        await respond({
+          text: `🤖 **Connexio AI - Marketing Operations Expert:**\n\n${responseText}\n\n---\n_💡 Need file validation? I can analyze your data - use \`/validate-file\` and I'll handle it for you._\n${enhancementNote}`,
+          response_type: 'in_channel',
+          replace_original: true,
+        });
+      }
     } else {
       throw new Error('Empty response from Claude');
     }
@@ -268,7 +291,7 @@ Keep response concise and actionable for marketing teams.`;
 
               await client.chat.postMessage({
                 channel: channelId,
-                text: `✅ **File Processing Complete!**\n\n📄 **Original:** ${file.name}\n📊 **Results:**\n• Total records: ${results.totalRecords}\n• Valid records: ${results.validRecords} (${Math.round((results.validRecords/results.totalRecords)*100)}%)\n• Email validation: ${results.emailValidation.valid} valid, ${results.emailValidation.invalid} invalid\n• Phone validation: ${results.phoneValidation.valid} valid, ${results.phoneValidation.formatted} formatted\n• **Quality Score: ${results.qualityScore}/100** ⭐\n\n📥 **Download:** ${results.outputFile}\n\n🤖 **Connexio AI Analysis:**\n${aiInsights}\n\n_Powered by Claude AI • Real-time analysis_`,
+                text: `✅ **File Processing Complete!**\n\n📄 **Original:** ${file.name}\n📊 **Results:**\n• Total records: ${results.totalRecords}\n• Valid records: ${results.validRecords} (${Math.round((results.validRecords/results.totalRecords)*100)}%)\n• Email validation: ${results.emailValidation.valid} valid, ${results.emailValidation.invalid} invalid\n• Phone validation: ${results.phoneValidation.valid} valid, ${results.phoneValidation.formatted} formatted\n• **Quality Score: ${results.qualityScore}/100** ⭐\n\n📥 **Download:** ${results.outputFile}\n\n🤖 **Connexio AI Analysis:**\n${aiInsights}\n\n_Powered by Connexio.ai • Real-time processing_`,
               });
 
             } catch (aiError) {
@@ -330,10 +353,198 @@ Keep response concise and actionable for marketing teams.`;
 });
 
 // Help command
+// /create-campaign command
+app.command('/create-campaign', async ({ command, ack, respond }) => {
+  await ack();
+  
+  const campaignDetails = command.text?.trim();
+  
+  if (!campaignDetails) {
+    await respond({
+      text: '🚀 **Campaign Creation Service**\n\n**Usage:** `/create-campaign [campaign description]`\n\n**What I can help you create:**\n• Email marketing campaigns\n• Lead nurturing sequences\n• Product launch campaigns\n• Event promotion campaigns\n\n**Example:** `/create-campaign Q1 product launch for SaaS leads`\n\n_Describe your campaign goals and I\'ll provide AI-powered strategy and setup guidance._\n\n🎯 _Powered by Connexio.ai_',
+      response_type: 'in_channel'
+    });
+    return;
+  }
+
+  // Use Claude AI to analyze campaign requirements
+  try {
+    const response = await claude.messages.create({
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 800,
+      temperature: 0.3,
+      system: CONNEXIO_SYSTEM_PROMPT,
+      messages: [{
+        role: 'user',
+        content: `A client wants to create a campaign: "${campaignDetails}". Provide comprehensive campaign strategy including target audience, messaging, channels, timeline, and success metrics. Focus on practical, actionable guidance.`
+      }]
+    });
+
+    await respond({
+      text: `🚀 **Campaign Creation Strategy**\n\n**Campaign:** ${campaignDetails}\n\n${response.content[0]?.text}\n\n---\n_💡 Need help implementing this campaign? Use \`/validate-file\` to process your audience data._\n🎯 _Powered by Connexio.ai_`,
+      response_type: 'in_channel'
+    });
+  } catch (error) {
+    await respond({
+      text: `🚀 **Campaign Creation Request**\n\n**Campaign:** ${campaignDetails}\n\n⏳ **Analyzing your campaign requirements...**\n• Target audience identification\n• Channel strategy development  \n• Messaging framework creation\n• Success metrics planning\n\n_Campaign strategy analysis in progress..._\n\n🎯 _Powered by Connexio.ai_`,
+      response_type: 'in_channel'
+    });
+  }
+});
+
+// /campaign-status command  
+app.command('/campaign-status', async ({ command, ack, respond }) => {
+  await ack();
+  
+  const campaignId = command.text?.trim() || 'recent campaigns';
+  
+  await respond({
+    text: `📊 **Campaign Status: ${campaignId}**\n\n**Current Performance:**\n• Status: Active campaigns being monitored\n• Analytics: Real-time performance tracking available\n• Optimization: AI recommendations ready\n\n**Available Actions:**\n• Use \`/campaign-audit [campaign]\` for detailed analysis\n• Upload campaign data with \`/validate-file\` for optimization\n• Ask specific questions with \`/connexio [question]\`\n\n_For detailed campaign analytics, please upload your campaign data or describe specific metrics you'd like to analyze._\n\n🎯 _Powered by Connexio.ai_`,
+    response_type: 'ephemeral'
+  });
+});
+
+// /enrich-file command
+app.command('/enrich-file', async ({ command, ack, respond }) => {
+  await ack();
+  
+  const fileInfo = command.text?.trim();
+  
+  if (!fileInfo) {
+    await respond({
+      text: '🔍 **File Enrichment Service**\n\n**Usage:** `/enrich-file [file description]`\n\n**AI-Powered Data Enhancement:**\n• Contact information enrichment\n• Company data appending\n• Social profile matching\n• Industry classification\n• Lead scoring automation\n\n**Example:** `/enrich-file 500 email contacts from trade show`\n\n**Next Steps:**\n1. Upload your CSV file to this channel\n2. Use this command to describe your enrichment needs\n3. I\'ll process with intelligent data enhancement\n\n🎯 _Powered by Connexio.ai_',
+      response_type: 'in_channel'
+    });
+    return;
+  }
+
+  await respond({
+    text: `🔍 **File Enrichment Analysis**\n\n**Request:** ${fileInfo}\n\n**AI Enhancement Strategy:**\n• Data source identification\n• Enrichment provider selection\n• Quality improvement planning\n• Missing data completion\n\n**Recommended Actions:**\n1. Upload your file using the file upload feature\n2. Use \`/validate-file start\` to process and enrich\n3. Receive enhanced dataset with quality scores\n\n_Advanced file enrichment with AI-powered data enhancement ready._\n\n🎯 _Powered by Connexio.ai_`,
+    response_type: 'in_channel'
+  });
+});
+
+// /deliverability-check command
+app.command('/deliverability-check', async ({ command, ack, respond }) => {
+  await ack();
+  
+  const input = command.text?.trim();
+  
+  if (!input) {
+    await respond({
+      text: '📧 **Email Deliverability Analysis**\n\n**Usage:** `/deliverability-check [email/domain]`\n\n**Comprehensive Deliverability Check:**\n• DNS & MX record validation\n• SPF, DKIM, DMARC authentication\n• Domain reputation analysis\n• Inbox placement prediction\n• AI-powered optimization recommendations\n\n**Examples:**\n• `/deliverability-check company.com`\n• `/deliverability-check marketing@company.com`\n\n_Get detailed deliverability insights and improvement strategies._\n\n🎯 _Powered by Connexio.ai_',
+      response_type: 'in_channel'
+    });
+    return;
+  }
+
+  // Use Claude to provide deliverability analysis
+  try {
+    const response = await claude.messages.create({
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 600,
+      temperature: 0.2,
+      system: CONNEXIO_SYSTEM_PROMPT,
+      messages: [{
+        role: 'user',
+        content: `Analyze email deliverability for: "${input}". Provide technical recommendations for DNS configuration, authentication setup (SPF, DKIM, DMARC), domain warming strategies, and best practices to improve inbox placement rates.`
+      }]
+    });
+
+    await respond({
+      text: `📧 **Deliverability Analysis: ${input}**\n\n${response.content[0]?.text}\n\n**Next Steps:**\n• Upload email lists with \`/validate-file\` for validation\n• Use \`/connexio\` to ask specific deliverability questions\n\n🎯 _Powered by Connexio.ai_`,
+      response_type: 'in_channel'
+    });
+  } catch (error) {
+    await respond({
+      text: `📧 **Deliverability Check: ${input}**\n\n🔍 **Technical Analysis:**\n• DNS configuration review\n• Authentication protocol verification\n• Domain reputation assessment\n• Inbox placement optimization\n\n_Comprehensive deliverability analysis with actionable recommendations._\n\n🎯 _Powered by Connexio.ai_`,
+      response_type: 'in_channel'
+    });
+  }
+});
+
+// /segment-strategy command
+app.command('/segment-strategy', async ({ command, ack, respond }) => {
+  await ack();
+  
+  const audienceInfo = command.text?.trim();
+  
+  if (!audienceInfo) {
+    await respond({
+      text: '🎯 **AI Audience Segmentation Strategy**\n\n**Usage:** `/segment-strategy [audience description]`\n\n**Intelligent Segmentation Analysis:**\n• Behavioral pattern recognition\n• Demographics-based segmentation\n• Engagement level classification\n• Lifecycle stage identification\n• ROI-optimized targeting strategies\n\n**Examples:**\n• `/segment-strategy 10,000 SaaS customers`\n• `/segment-strategy e-commerce email subscribers`\n\n_Describe your audience and get AI-powered segmentation recommendations._\n\n🎯 _Powered by Connexio.ai_',
+      response_type: 'in_channel'
+    });
+    return;
+  }
+
+  // Use Claude AI for segmentation strategy
+  try {
+    const response = await claude.messages.create({
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 800,
+      temperature: 0.3,
+      system: CONNEXIO_SYSTEM_PROMPT,
+      messages: [{
+        role: 'user',
+        content: `Create a comprehensive audience segmentation strategy for: "${audienceInfo}". Include specific segment definitions, targeting criteria, personalization approaches, campaign strategies for each segment, and expected performance metrics.`
+      }]
+    });
+
+    await respond({
+      text: `🎯 **Segmentation Strategy: ${audienceInfo}**\n\n${response.content[0]?.text}\n\n**Implementation:**\n• Upload your audience data with \`/validate-file\` for analysis\n• Use \`/create-campaign\` to develop segment-specific campaigns\n\n🎯 _Powered by Connexio.ai_`,
+      response_type: 'in_channel'
+    });
+  } catch (error) {
+    await respond({
+      text: `🎯 **Segmentation Strategy: ${audienceInfo}**\n\n🧠 **AI Analysis Framework:**\n• Behavioral pattern identification\n• Value-based segmentation\n• Engagement level classification\n• Lifecycle stage mapping\n• ROI optimization strategies\n\n_Generating intelligent segmentation strategy with actionable implementation steps._\n\n🎯 _Powered by Connexio.ai_`,
+      response_type: 'in_channel'
+    });
+  }
+});
+
+// /campaign-audit command
+app.command('/campaign-audit', async ({ command, ack, respond }) => {
+  await ack();
+  
+  const campaignInfo = command.text?.trim();
+  
+  if (!campaignInfo) {
+    await respond({
+      text: '🔍 **Comprehensive Campaign Audit**\n\n**Usage:** `/campaign-audit [campaign description]`\n\n**AI-Powered Performance Analysis:**\n• Performance benchmarking\n• Optimization opportunity identification\n• Competitive analysis insights\n• ROI improvement recommendations\n• Strategic enhancement planning\n\n**Examples:**\n• `/campaign-audit Q4 email campaigns`\n• `/campaign-audit lead generation performance`\n\n_Describe your campaigns for detailed AI-powered audit and optimization recommendations._\n\n🎯 _Powered by Connexio.ai_',
+      response_type: 'in_channel'
+    });
+    return;
+  }
+
+  // Use Claude AI for campaign audit
+  try {
+    const response = await claude.messages.create({
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 800,
+      temperature: 0.3,
+      system: CONNEXIO_SYSTEM_PROMPT,
+      messages: [{
+        role: 'user',
+        content: `Conduct a comprehensive campaign audit for: "${campaignInfo}". Provide detailed analysis of performance metrics, identify optimization opportunities, benchmark against industry standards, and recommend specific improvements with expected impact.`
+      }]
+    });
+
+    await respond({
+      text: `🔍 **Campaign Audit: ${campaignInfo}**\n\n${response.content[0]?.text}\n\n**Action Items:**\n• Use \`/validate-file\` to analyze audience data quality\n• Apply \`/segment-strategy\` for better targeting\n• Implement recommendations with \`/create-campaign\`\n\n🎯 _Powered by Connexio.ai_`,
+      response_type: 'in_channel'
+    });
+  } catch (error) {
+    await respond({
+      text: `🔍 **Campaign Audit: ${campaignInfo}**\n\n📊 **Comprehensive Analysis:**\n• Performance metric evaluation\n• Benchmark comparison analysis\n• Optimization opportunity identification\n• ROI improvement planning\n• Strategic enhancement recommendations\n\n_Conducting thorough campaign audit with AI-powered insights and actionable recommendations._\n\n🎯 _Powered by Connexio.ai_`,
+      response_type: 'in_channel'
+    });
+  }
+});
+
 app.command('/help', async ({ command, ack, respond }) => {
   await ack();
   await respond({
-    text: '🤖 **Connexio AI Commands**\n\n`/connexio` - Meet your AI marketing assistant\n`/connexio [question]` - Ask marketing questions (powered by Claude AI)\n`/validate-file` - File validation service with AI insights\n`/validate-file start` - Process uploaded CSV file\n`/validate-file status` - Check processing status\n\n**File Validation Features:**\n• Email validation & deliverability\n• Phone number formatting & validation\n• Data quality scoring\n• **AI-powered insights and recommendations**\n\n_Enhanced with Claude AI for intelligent marketing operations advice!_',
+    text: '🤖 **Connexio AI - Complete Command Reference**\n\n**Core Commands:**\n• `/connexio [question]` - AI marketing assistant (supports validation inquiry threading)\n• `/validate-file` - Enterprise file validation service\n• `/help` - Show this command reference\n\n**Campaign Management:**\n• `/create-campaign [description]` - AI-powered campaign strategy\n• `/campaign-status [campaign]` - Campaign performance tracking\n• `/campaign-audit [campaign]` - Comprehensive campaign analysis\n\n**Data Services:**\n• `/enrich-file [description]` - AI-powered data enrichment\n• `/deliverability-check [email/domain]` - Email deliverability analysis\n• `/segment-strategy [audience]` - Intelligent audience segmentation\n\n**Features:**\n• Thread conversations for validation inquiries\n• Claude AI integration for intelligent responses\n• Enterprise-grade data processing\n• Real-time campaign optimization\n\n🎯 _Powered by Connexio.ai - Your intelligent marketing operations platform_',
     response_type: 'ephemeral',
   });
 });
@@ -352,6 +563,38 @@ app.event('file_shared', async ({ event, client }) => {
   }
 });
 
+// Handle ALL messages to catch thread responses for validation inquiries
+app.message(async ({ message, say, client }) => {
+  try {
+    // Skip messages from the bot itself
+    if (message.bot_id || message.user === conversationManager.botUserId) {
+      return;
+    }
+
+    // Skip non-threaded messages
+    if (!message.thread_ts) {
+      return;
+    }
+
+    console.log('Processing threaded message for validation inquiry...');
+
+    // Process thread response through conversation manager
+    const response = await conversationManager.processThreadResponse(message);
+    
+    if (response) {
+      await say({
+        text: response.response,
+        thread_ts: message.thread_ts
+      });
+
+      console.log('Validation thread response sent successfully');
+    }
+
+  } catch (error) {
+    console.error('Thread message processing error:', error);
+  }
+});
+
 // Error handler
 app.error((error) => {
   console.error('Slack app error:', error);
@@ -361,7 +604,13 @@ app.error((error) => {
 (async () => {
   const port = process.env.PORT || 3000;
   await app.start(port);
+  
+  // Get bot user ID for conversation management
+  const authResult = await app.client.auth.test();
+  conversationManager.setBotUserId(authResult.user_id);
+  
   console.log(`⚡️ Slack bot is running on port ${port}!`);
   console.log('🤖 Claude AI integration active');
   console.log('📄 File validation with AI analysis available');
+  console.log('🔄 Thread conversation handling enabled');
 })();

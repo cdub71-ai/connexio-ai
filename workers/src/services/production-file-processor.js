@@ -210,7 +210,7 @@ class ProductionFileProcessor {
         deduplicationThreshold: options.deduplicationThreshold || 85,
         batchSize: options.batchSize || 100,
         useEnhancedValidation: options.useEnhancedValidation !== false,
-        forceService: 'sendgrid', // Ensure SendGrid is used for client test
+        forceService: 'enterprise', // Ensure enterprise service is used for client test
         priority: 'accuracy',
         source: 'production-client-test'
       });
@@ -333,7 +333,7 @@ class ProductionFileProcessor {
           validation.score || 0,
           validation.deliverable || 'unknown',
           validation.riskLevel || 'unknown',
-          validation.provider || 'sendgrid',
+          validation.provider || 'enterprise',
           this.escapeCsvField((validation.flags || []).join(';')),
           this.escapeCsvField(validation.suggested_correction || ''),
           validation.cost || 0.001,

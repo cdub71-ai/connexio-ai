@@ -63,7 +63,7 @@ class ProductionBot {
       
       if (!text) {
         await respond({
-          text: '👋 **Hello! I\'m Connexio AI** - your production marketing operations assistant.\n\n🎯 **What I do:**\n• Validate and clean your email/phone data with real SendGrid integration\n• AI-powered deduplication with cost savings\n• Generate campaign-ready results with secure download links\n• Provide detailed quality analysis and recommendations\n\n📋 **Available Commands:**\n• `/validate-file` - Upload and validate CSV files\n• `/validate-file start` - Process uploaded files\n• `/validate-file status` - Check processing status\n• `/connexio [question]` - Ask me marketing questions\n\n💡 **Ready to process your data with production-grade validation!**',
+          text: '👋 **Hello! I\'m Connexio AI** - your production marketing operations assistant.\n\n🎯 **What I do:**\n• Validate and clean your email/phone data with enterprise-grade integration\n• AI-powered deduplication with cost savings\n• Generate campaign-ready results with secure download links\n• Provide detailed quality analysis and recommendations\n\n📋 **Available Commands:**\n• `/validate-file` - Upload and validate CSV files\n• `/validate-file start` - Process uploaded files\n• `/validate-file status` - Check processing status\n• `/connexio [question]` - Ask me marketing questions\n\n💡 **Ready to process your data with production-grade validation!**',
           response_type: 'ephemeral',
         });
         return;
@@ -85,7 +85,7 @@ class ProductionBot {
       } else {
         // Handle general marketing questions
         await respond({
-          text: `🤖 **Connexio AI Response:**\n\nI understand you're asking about: _"${text}"_\n\nI can help with production-grade data processing:\n• Real SendGrid email validation\n• AI-powered deduplication with cost optimization\n• Secure file processing and delivery\n• Campaign readiness analysis\n\n💡 **For file validation**, upload your CSV and use \`/validate-file start\` - I'll process it with real validation services and provide secure download links!\n\n_Powered by production SendGrid API integration_`,
+          text: `🤖 **Connexio AI Response:**\n\nI understand you're asking about: _"${text}"_\n\nI can help with production-grade data processing:\n• Enterprise email validation\n• AI-powered deduplication with cost optimization\n• Secure file processing and delivery\n• Campaign readiness analysis\n\n💡 **For file validation**, upload your CSV and use \`/validate-file start\` - I'll process it with real validation services and provide secure download links!\n\n_Powered by Connexio.ai_`,
           response_type: 'ephemeral',
         });
       }
@@ -102,7 +102,7 @@ class ProductionBot {
         
         if (!text) {
           await respond({
-            text: '🤖 **Production File Validation Service**\n\nI can validate your files using real SendGrid integration:\n\n**How to use:**\n1. Upload your CSV file to this channel\n2. Use `/validate-file start` - I\'ll process it automatically\n3. Get secure download link with validated results\n\n**What I provide:**\n• Real SendGrid email validation (99%+ accuracy)\n• AI-powered deduplication (15-30% cost savings)\n• Secure encrypted file storage\n• Campaign-ready CSV with quality scores\n• Detailed recommendations and analysis\n\n**File Requirements:**\n• CSV format with email column\n• Up to 50MB file size\n• Supports Excel files (.xls, .xlsx)\n\n_Production-grade processing with enterprise security!_',
+            text: '🤖 **Production File Validation Service**\n\nI can validate your files using enterprise-grade integration:\n\n**How to use:**\n1. Upload your CSV file to this channel\n2. Use `/validate-file start` - I\'ll process it automatically\n3. Get secure download link with validated results\n\n**What I provide:**\n• Enterprise email validation (99%+ accuracy)\n• AI-powered deduplication (15-30% cost savings)\n• Secure encrypted file storage\n• Campaign-ready CSV with quality scores\n• Detailed recommendations and analysis\n\n**File Requirements:**\n• CSV format with email column\n• Up to 50MB file size\n• Supports Excel files (.xls, .xlsx)\n\n_Production-grade processing with enterprise security!_',
             response_type: 'ephemeral',
           });
           return;
@@ -200,7 +200,7 @@ class ProductionBot {
     this.app.command('/help', async ({ command, ack, respond }) => {
       await ack();
       await respond({
-        text: '🤖 **Connexio AI - Production Bot Commands**\n\n`/connexio` - Meet your AI marketing assistant\n`/connexio [question]` - Ask marketing questions\n`/validate-file` - Production file validation service\n`/validate-file start` - Process uploaded CSV files\n`/validate-file status` - Check processing status\n\n**Production Features:**\n• Real SendGrid API integration (99%+ accuracy)\n• AI-powered deduplication (cost savings)\n• Secure encrypted file storage\n• Enterprise-grade download delivery\n• Detailed quality analysis and recommendations\n\n_Production-ready marketing operations automation!_',
+        text: '🤖 **Connexio AI - Production Bot Commands**\n\n`/connexio` - Meet your AI marketing assistant\n`/connexio [question]` - Ask marketing questions\n`/validate-file` - Production file validation service\n`/validate-file start` - Process uploaded CSV files\n`/validate-file status` - Check processing status\n\n**Production Features:**\n• Enterprise API integration (99%+ accuracy)\n• AI-powered deduplication (cost savings)\n• Secure encrypted file storage\n• Enterprise-grade download delivery\n• Detailed quality analysis and recommendations\n\n_Production-ready marketing operations automation!_',
         response_type: 'ephemeral',
       });
     });
@@ -219,7 +219,7 @@ class ProductionBot {
         if (this.isValidationFile(file)) {
           await client.chat.postMessage({
             channel: event.channel_id,
-            text: `📄 **File Detected:** ${file.name}\n\n✨ I'm ready to validate your data with production SendGrid integration!\n\n**What I'll do:**\n• AI-powered deduplication (saves 15-30% on costs)\n• Real SendGrid email validation (99%+ accuracy)\n• Generate campaign-ready results\n• Provide secure download link\n\n**To start processing:** Use \`/validate-file start\`\n\n_Processing time: 2-5 minutes • Enterprise-grade security_`,
+            text: `📄 **File Detected:** ${file.name}\n\n✨ I'm ready to validate your data with production-grade integration!\n\n**What I'll do:**\n• AI-powered deduplication (saves 15-30% on costs)\n• Enterprise email validation (99%+ accuracy)\n• Generate campaign-ready results\n• Provide secure download link\n\n**To start processing:** Use \`/validate-file start\`\n\n_Processing time: 2-5 minutes • Enterprise-grade security_`,
             thread_ts: event.file.shares?.public ? Object.keys(event.file.shares.public)[0] : undefined
           });
         }
@@ -228,18 +228,24 @@ class ProductionBot {
       }
     });
 
-    // Handle thread responses - this is the key addition for conversation flow
+    // Handle ALL messages to catch thread responses
     this.app.message(async ({ message, say, client }) => {
       try {
         // Skip messages from the bot itself
-        if (this.conversationManager.isFromBot(message.user)) {
+        if (message.bot_id || message.user === this.conversationManager.botUserId) {
           return;
         }
 
-        // Only process threaded messages (replies to bot messages)
+        // Skip non-threaded messages unless they mention validation keywords
         if (!message.thread_ts) {
           return;
         }
+
+        this.logger.info('Processing threaded message', {
+          userId: message.user,
+          threadTs: message.thread_ts,
+          text: message.text?.substring(0, 50) + '...'
+        });
 
         // Process thread response through conversation manager
         const response = await this.conversationManager.processThreadResponse(message);
@@ -250,22 +256,31 @@ class ProductionBot {
             thread_ts: message.thread_ts
           });
 
-          this.logger.info('Thread response processed', {
+          this.logger.info('Thread response sent successfully', {
             userId: message.user,
             threadTs: message.thread_ts,
             conversationId: response.conversationId
           });
+        } else {
+          this.logger.debug('No response generated for thread message', {
+            userId: message.user,
+            threadTs: message.thread_ts
+          });
         }
 
       } catch (error) {
-        this.logger.error('Thread message processing error', { error: error.message });
+        this.logger.error('Thread message processing error', { 
+          error: error.message,
+          stack: error.stack,
+          message: message?.text 
+        });
       }
     });
 
     // Handle app mentions
     this.app.event('app_mention', async ({ event, say }) => {
       try {
-        const response = `🤖 Hi there! I'm your production marketing operations assistant.\n\n**I can help you with:**\n• Real-time email validation using SendGrid API\n• AI-powered data deduplication with cost savings\n• Secure file processing with encrypted storage\n• Campaign readiness analysis and recommendations\n\n**Quick start:** Upload a CSV file and use \`/validate-file start\`\n\n_What would you like me to help you with?_`;
+        const response = `🤖 Hi there! I'm your production marketing operations assistant.\n\n**I can help you with:**\n• Real-time email validation using enterprise APIs\n• AI-powered data deduplication with cost savings\n• Secure file processing with encrypted storage\n• Campaign readiness analysis and recommendations\n\n**Quick start:** Upload a CSV file and use \`/validate-file start\`\n\n_What would you like me to help you with?_`;
         
         await say({
           text: response,
@@ -344,7 +359,7 @@ class ProductionBot {
       console.log(`📡 Slack Bot: http://localhost:${port}`);
       console.log(`📥 Download Server: http://localhost:${this.downloadServer.config.port}`);
       console.log(`🔗 Health Check: http://localhost:${this.downloadServer.config.port}/health`);
-      console.log(`🚀 Ready for production file processing with SendGrid integration!`);
+      console.log(`🚀 Ready for production file processing with enterprise integration!`);
 
       // Start cleanup scheduler
       setInterval(() => {

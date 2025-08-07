@@ -282,7 +282,7 @@ class SlackFileHandler {
    */
   generateProcessingConfirmation(fileInfo, processId) {
     return {
-      text: `🚀 **Processing Started**\n\n📄 **File:** ${fileInfo.originalName}\n📊 **Size:** ${this.formatFileSize(fileInfo.size)}\n🆔 **Process ID:** ${processId}\n\n⏳ **I'm processing your file with:**\n• AI-powered deduplication\n• SendGrid email validation\n• Quality scoring and analysis\n• Campaign optimization recommendations\n\n_Processing time: 2-5 minutes for most files_\n_I'll notify you when complete with download link!_`,
+      text: `🚀 **Processing Started**\n\n📄 **File:** ${fileInfo.originalName}\n📊 **Size:** ${this.formatFileSize(fileInfo.size)}\n🆔 **Process ID:** ${processId}\n\n⏳ **I'm processing your file with:**\n• AI-powered deduplication\n• Enterprise email validation\n• Quality scoring and analysis\n• Campaign optimization recommendations\n\n_Processing time: 2-5 minutes for most files_\n_I'll notify you when complete with download link!_`,
       response_type: 'ephemeral'
     };
   }

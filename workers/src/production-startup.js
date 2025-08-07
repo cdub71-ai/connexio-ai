@@ -34,9 +34,9 @@ async function startProductionSystem() {
     retentionDays: parseInt(process.env.RETENTION_DAYS) || 30,
     downloadPort: parseInt(process.env.DOWNLOAD_PORT) || 3001,
     
-    // Optional SendGrid configuration
-    sendgridApiKey: process.env.SENDGRID_API_KEY,
-    claudeApiKey: process.env.CLAUDE_API_KEY || process.env.ANTHROPIC_API_KEY
+    // Optional Enterprise API configuration
+    validationApiKey: process.env.VALIDATION_API_KEY,
+    aiApiKey: process.env.AI_API_KEY
   };
 
   console.log('📋 Configuration:');
@@ -44,8 +44,8 @@ async function startProductionSystem() {
   console.log(`   Max File Size: ${Math.round(config.maxFileSize / (1024 * 1024))}MB`);
   console.log(`   File Retention: ${config.retentionDays} days`);
   console.log(`   Download Port: ${config.downloadPort}`);
-  console.log(`   SendGrid API: ${config.sendgridApiKey ? '✅ Configured' : '⚠️  Not configured (demo mode)'}`);
-  console.log(`   Claude API: ${config.claudeApiKey ? '✅ Configured' : '⚠️  Not configured (demo mode)'}\n`);
+  console.log(`   Validation API: ${config.validationApiKey ? '✅ Configured' : '⚠️  Not configured (demo mode)'}`);
+  console.log(`   AI API: ${config.aiApiKey ? '✅ Configured' : '⚠️  Not configured (demo mode)'}\n`);
 
   try {
     // Create production bot instance
@@ -65,8 +65,8 @@ async function startProductionSystem() {
     console.log('   /validate-file start - Process uploaded files');
     console.log('   /validate-file status - Check processing status');
     console.log('\n🔧 System Features:');
-    console.log('   • Real SendGrid email validation');
-    console.log('   • AI-powered deduplication with Claude');
+    console.log('   • Enterprise email validation');
+    console.log('   • AI-powered deduplication');
     console.log('   • Secure encrypted file storage');
     console.log('   • Temporary download links with expiration');
     console.log('   • Rate limiting and access controls');
