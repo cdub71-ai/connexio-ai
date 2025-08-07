@@ -144,7 +144,7 @@ class SimpleSlackBot {
     const msg = message.toLowerCase();
     
     if (msg.includes('help') || msg.includes('?')) {
-      return `**Available Commands:**\n• \`/connexio [request]\` - Ask me anything about marketing\n• \`/create-campaign [details]\` -  Create a new campaign\n• \`/campaign-status [id]\` - Check campaign status\n• **@connexio-ai** - Mention me for assistance\n\n**Example:** \`/connexio create email campaign for new leads\``;
+      return `**My Available Commands:**\n• \`/connexio [request]\` - I'll answer your marketing questions\n• \`/create-campaign [details]\` -  I'll create a new campaign for you\n• \`/campaign-status [id]\` - I'll check your campaign status\n• **@connexio-ai** - Mention me for assistance\n\n**Example:** \`/connexio create email campaign for new leads\` - I'll handle it!`;
     }
     
     if (msg.includes('campaign') || msg.includes('email') || msg.includes('marketing')) {

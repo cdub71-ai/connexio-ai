@@ -1,9 +1,11 @@
 /**
  * Enhanced Multi-Service Email Validation System
  * Phase 2: Smart service routing and advanced validation features
+ * Now includes SendGrid Email Validation API integration
  */
 
-const { default: Anthropic } = require('@anthropic-ai/sdk');
+import Anthropic from '@anthropic-ai/sdk';
+import fetch from 'node-fetch';
 
 class EnhancedValidationService {
   constructor(apiKeys = {}) {
@@ -34,6 +36,15 @@ class EnhancedValidationService {
         avgResponseTime: 180,
         features: ['syntax', 'domain', 'mailbox', 'risk_scoring', 'deliverability_prediction'],
         limits: { requestsPerSecond: 8, dailyLimit: 25000 }
+      },
+      sendgrid: {
+        apiKey: apiKeys.sendgrid || process.env.SENDGRID_API_KEY,
+        baseUrl: 'https://api.sendgrid.com/v3',
+        costPerValidation: 0.001, // $1 per 1000 (estimated)
+        accuracy: 0.95,
+        avgResponseTime: 200,
+        features: ['syntax', 'domain', 'mailbox', 'deliverability', 'reputation'],
+        limits: { requestsPerSecond: 10, dailyLimit: 100000 }
       }
     };
 
@@ -80,7 +91,7 @@ ${Object.entries(this.services).map(([name, config]) => {
 - Service reliability
 - Domain-specific performance
 
-Respond with just the service name (neverbounce, briteverify, or freshaddress).`;
+Respond with just the service name (neverbounce, briteverify, freshaddress, or sendgrid).`;
 
     try {
       const response = await this.claude.messages.create({
@@ -255,6 +266,8 @@ Respond with just the service name (neverbounce, briteverify, or freshaddress).`
         return await this.callBriteVerify(email, options);
       case 'freshaddress':
         return await this.callFreshAddress(email, options);
+      case 'sendgrid':
+        return await this.callSendGrid(email, options);
       default:
         throw new Error(`Unsupported service: ${service}`);
     }
@@ -373,6 +386,65 @@ Respond with just the service name (neverbounce, briteverify, or freshaddress).`
     };
   }
 
+  /**
+   * SendGrid Email Validation API integration
+   */
+  async callSendGrid(email, options = {}) {
+    const config = this.services.sendgrid;
+    const url = `${config.baseUrl}/validations/email`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config.apiKey}`,
+        'User-Agent': 'Connexio-AI/1.0'
+      },
+      body: JSON.stringify({
+        email: email,
+        source: options.source || 'connexio-ai-enhanced-validation'
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`SendGrid API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const result = data.result || data;
+    
+    return {
+      email: email,
+      status: this.normalizeStatus(result.verdict || result.status, 'sendgrid'),
+      deliverability: this.mapDeliverability(result.verdict || result.status),
+      flags: this.extractSendGridFlags(result),
+      suggested_correction: result.suggestion || null,
+      quality_score: result.score || this.calculateQualityScore(result.verdict || result.status),
+      raw_response: data,
+      cost: config.costPerValidation,
+      sendgrid_details: {
+        local: result.local,
+        host: result.host,
+        checks: result.checks || {},
+        verdict: result.verdict
+      }
+    };
+  }
+
+  /**
+   * Extract SendGrid-specific flags
+   */
+  extractSendGridFlags(data) {
+    const flags = [];
+    if (data.checks) {
+      if (data.checks.domain?.has_mx_record === false) flags.push('no_mx_record');
+      if (data.checks.local?.is_suspected_role === true) flags.push('role_account');
+      if (data.checks.additional?.has_known_bounces === true) flags.push('known_bouncer');
+      if (data.checks.additional?.has_suspected_bounces === true) flags.push('suspected_bouncer');
+    }
+    return flags;
+  }
+
   // Helper methods
   normalizeStatus(status, service) {
     const statusMap = {
@@ -390,6 +462,16 @@ Respond with just the service name (neverbounce, briteverify, or freshaddress).`
         'unknown': 'unknown'
       },
       freshaddress: {
+        'valid': 'valid',
+        'invalid': 'invalid',
+        'risky': 'risky',
+        'unknown': 'unknown'
+      },
+      sendgrid: {
+        'Valid': 'valid',
+        'Invalid': 'invalid',
+        'Risky': 'risky',
+        'Unknown': 'unknown',
         'valid': 'valid',
         'invalid': 'invalid',
         'risky': 'risky',
@@ -443,8 +525,9 @@ Respond with just the service name (neverbounce, briteverify, or freshaddress).`
   getFallbackService(primaryService) {
     const fallbacks = {
       neverbounce: 'briteverify',
-      briteverify: 'freshaddress',
-      freshaddress: 'neverbounce'
+      briteverify: 'freshaddress', 
+      freshaddress: 'sendgrid',
+      sendgrid: 'neverbounce'
     };
     return fallbacks[primaryService];
   }
@@ -484,4 +567,4 @@ Respond with just the service name (neverbounce, briteverify, or freshaddress).`
   }
 }
 
-module.exports = EnhancedValidationService;
+export default EnhancedValidationService;

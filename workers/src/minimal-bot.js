@@ -27,11 +27,11 @@ app.command('/connexio', async ({ command, ack, respond }) => {
   const responses = {
     'segment': '🎯 **Email Segmentation Best Practices:**\n\n• **By Engagement:** Active (opened recently), Inactive (90+ days), Re-engagement candidates\n• **By Demographics:** Age, location, job title, company size\n• **By Behavior:** Purchase history, website activity, email preferences\n• **By Quality Score:** High-quality contacts first, then nurture others\n\n💡 **Pro Tip:** Start with engagement-based segments - they typically see 20-30% higher open rates!',
     
-    'deliverability': '📧 **Email Deliverability Essentials:**\n\n• **Clean Lists:** Remove bounces, invalid emails, and inactive subscribers\n• **Authentication:** Set up SPF, DKIM, and DMARC records properly\n• **Reputation:** Monitor sender reputation and warm up new domains\n• **Content:** Avoid spam triggers, maintain good text-to-image ratio\n• **Engagement:** Focus on subscribers who actually engage\n\n⚠️ **Red Flags:** High bounce rates (>2%), low engagement (<20%), spam complaints\n\n🎯 Use `/validate-file` to check your list quality first!',
+    'deliverability': '📧 **Email Deliverability Essentials:**\n\n• **Clean Lists:** Remove bounces, invalid emails, and inactive subscribers\n• **Authentication:** Set up SPF, DKIM, and DMARC records properly\n• **Reputation:** Monitor sender reputation and warm up new domains\n• **Content:** Avoid spam triggers, maintain good text-to-image ratio\n• **Engagement:** Focus on subscribers who actually engage\n\n⚠️ **Red Flags:** High bounce rates (>2%), low engagement (<20%), spam complaints\n\n🎯 I can check your list quality - just use `/validate-file` and I'll handle it!',
     
     'campaign': '🚀 **Effective Email Campaign Elements:**\n\n• **Subject Line:** Clear, benefit-focused, 30-50 characters ideal\n• **Personalization:** Use name, company, previous interactions\n• **Value Proposition:** What\'s in it for them? Be specific.\n• **Call-to-Action:** Single, clear, compelling action\n• **Mobile-First:** 60%+ opens happen on mobile devices\n• **Timing:** Test send times, generally Tue-Thu 10am-2pm work well\n\n📊 **Success Metrics:**\n• Open Rate: 20-25% (industry average)\n• Click Rate: 2-5% (varies by industry)\n• Conversion Rate: 1-3% (depends on offer)',
     
-    'quality': '⭐ **Data Quality Indicators:**\n\n• **Email Format:** Proper syntax, real domains\n• **Deliverability:** Not on suppress lists, valid MX records\n• **Engagement History:** Opens, clicks, replies\n• **Completeness:** Has name, company info\n• **Freshness:** Recently updated, not stale\n\n🎯 **Quality Score Breakdown:**\n• 90-100: Excellent (premium campaigns)\n• 75-89: Good (standard campaigns)\n• 60-74: Fair (nurture sequences)\n• <60: Poor (needs cleaning)\n\nUpload a file with `/validate-file` for AI-powered quality analysis!'
+    'quality': '⭐ **Data Quality Indicators:**\n\n• **Email Format:** Proper syntax, real domains\n• **Deliverability:** Not on suppress lists, valid MX records\n• **Engagement History:** Opens, clicks, replies\n• **Completeness:** Has name, company info\n• **Freshness:** Recently updated, not stale\n\n🎯 **Quality Score Breakdown:**\n• 90-100: Excellent (premium campaigns)\n• 75-89: Good (standard campaigns)\n• 60-74: Fair (nurture sequences)\n• <60: Poor (needs cleaning)\n\nI can analyze your data quality - upload a file and use `/validate-file` for my AI-powered analysis!'
   };
 
   // Find matching response
@@ -47,7 +47,7 @@ app.command('/connexio', async ({ command, ack, respond }) => {
   
   // Default AI response
   if (!response) {
-    response = `🤖 **Connexio AI Analysis:**\n\nI understand you're asking about: _"${text}"_\n\nAs your marketing operations assistant, I can help with:\n• Data quality and validation strategies\n• Campaign optimization techniques\n• Email deliverability best practices\n• List segmentation and targeting\n• Performance analysis and improvements\n\n💡 **For specific data analysis**, upload your CSV file and use \`/validate-file start\` - I'll provide personalized insights about your data!\n\n📚 **Need more help?** Try asking about:\n_"segmentation", "deliverability", "campaign best practices", or "data quality"_`;
+    response = `🤖 **Connexio AI Analysis:**\n\nI understand you're asking about: _"${text}"_\n\nAs your marketing operations assistant, I can help with:\n• Data quality and validation strategies\n• Campaign optimization techniques\n• Email deliverability best practices\n• List segmentation and targeting\n• Performance analysis and improvements\n\n💡 **For specific data analysis**, I can analyze your CSV file - use \`/validate-file start\` and I'll provide personalized insights!\n\n📚 **Need more help?** Try asking about:\n_"segmentation", "deliverability", "campaign best practices", or "data quality"_`;
   }
 
   await respond({
@@ -66,7 +66,7 @@ app.command('/validate-file', async ({ command, ack, respond, client }) => {
     
     if (!text) {
       await respond({
-        text: '📄 **File Validation Service**\n\nTo validate a file:\n1. Upload your CSV file to this channel\n2. Use `/validate-file start` to begin processing\n3. Supported formats: CSV (Excel coming in Phase 2)\n\n**What we validate:**\n• Email addresses (format, deliverability, domain quality)\n• Phone numbers (format, type detection, country codes)\n• Data completeness and quality scoring\n\n**Output:** Clean, standardized CSV with validation results',
+        text: '🤖 **I Can Validate Your Files**\n\nHere\'s how I help you:\n1. Upload your CSV file to this channel\n2. Use `/validate-file start` and I\'ll process it automatically\n3. I support CSV format (Excel coming in Phase 2)\n\n**What I validate for you:**\n• Email addresses (format, deliverability, domain quality)\n• Phone numbers (format, type detection, country codes)\n• Data completeness and quality scoring\n\n**What you get:** Clean, standardized CSV with my validation results',
         response_type: 'ephemeral',
       });
       return;
@@ -90,7 +90,7 @@ app.command('/validate-file', async ({ command, ack, respond, client }) => {
 
       if (!fileMessage) {
         await respond({
-          text: '❌ No CSV file found in recent messages. Please upload a CSV file first, then run `/validate-file start`.',
+          text: '❌ I don\'t see a CSV file to validate. Please upload your CSV file first, then I\'ll process it with `/validate-file start`.',
           response_type: 'ephemeral',
         });
         return;
@@ -213,7 +213,7 @@ app.event('file_shared', async ({ event, client }) => {
     if (event.file.mimetype === 'text/csv' || event.file.name.endsWith('.csv')) {
       await client.chat.postMessage({
         channel: event.channel_id,
-        text: `📄 CSV file detected: **${event.file.name}**\n\n✨ Ready to validate your data!\n\nRun \`/validate-file start\` to begin processing.\n\n_I'll check email formats, phone numbers, and provide a clean, standardized output file._`,
+        text: `📄 CSV file detected: **${event.file.name}**\n\n✨ I'm ready to validate your data!\n\nRun \`/validate-file start\` and I'll begin processing it automatically.\n\n_I'll check email formats, phone numbers, and provide you with a clean, standardized output file._`,
       });
     }
   } catch (error) {

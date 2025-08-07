@@ -103,6 +103,17 @@ const configSchema = Joi.object({
     timeout: Joi.number().integer().min(1000).default(30000),
   }).required(),
 
+  // SendGrid Email Validation configuration
+  sendgrid: Joi.object({
+    apiKey: Joi.string().required(),
+    baseUrl: Joi.string().uri().default('https://api.sendgrid.com/v3'),
+    maxConcurrent: Joi.number().integer().min(1).default(5),
+    intervalCap: Joi.number().integer().min(1).default(200),
+    interval: Joi.number().integer().min(1000).default(60000),
+    timeout: Joi.number().integer().min(1000).default(30000),
+    rateLimitDelay: Joi.number().integer().min(50).default(100),
+  }).required(),
+
   // Data enrichment configuration
   dataEnrichment: Joi.object({
     maxConcurrent: Joi.number().integer().min(1).default(5),
@@ -228,6 +239,15 @@ const rawConfig = {
     intervalCap: parseInt(process.env.LEADSPACE_INTERVAL_CAP) || 100,
     interval: parseInt(process.env.LEADSPACE_INTERVAL) || 60000,
     timeout: parseInt(process.env.LEADSPACE_TIMEOUT) || 30000,
+  },
+  sendgrid: {
+    apiKey: process.env.SENDGRID_API_KEY,
+    baseUrl: process.env.SENDGRID_BASE_URL || 'https://api.sendgrid.com/v3',
+    maxConcurrent: parseInt(process.env.SENDGRID_MAX_CONCURRENT) || 5,
+    intervalCap: parseInt(process.env.SENDGRID_INTERVAL_CAP) || 200,
+    interval: parseInt(process.env.SENDGRID_INTERVAL) || 60000,
+    timeout: parseInt(process.env.SENDGRID_TIMEOUT) || 30000,
+    rateLimitDelay: parseInt(process.env.SENDGRID_RATE_LIMIT_DELAY) || 100,
   },
   dataEnrichment: {
     maxConcurrent: parseInt(process.env.DATA_ENRICHMENT_MAX_CONCURRENT) || 5,

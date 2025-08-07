@@ -300,14 +300,14 @@ class SimpleSlackBot {
         
         if (!fileInfo) {
           await respond({
-            text: `✅ **File Validation Service**\n\n**Usage:** \`/validate-file [file-description]\`\n\n**Validation Features:**\n• Email format validation\n• Phone number verification\n• Data quality assessment\n• Duplicate detection\n• Compliance checking\n\n**Examples:**\n• \`/validate-file customer email list\`\n• \`/validate-file contact database CSV\`\n\n_Upload your file or describe validation requirements._`,
+            text: `🤖 **I Can Validate Your Files**\n\n**Usage:** \`/validate-file [file-description]\`\n\n**What I validate for you:**\n• Email format validation\n• Phone number verification\n• Data quality assessment\n• Duplicate detection\n• Compliance checking\n\n**Examples:**\n• \`/validate-file customer email list\`\n• \`/validate-file contact database CSV\`\n\n_Upload your file or describe validation requirements and I'll handle it._`,
             response_type: 'ephemeral'
           });
           return;
         }
 
         await respond({
-          text: `✅ **File Validation in Progress**\n\n**File:** ${fileInfo}\n\n🔍 **Validation checks:**\n• Format verification\n• Data quality analysis\n• Compliance validation\n• Error identification\n\n_Processing file validation. Results will include detailed quality report._`,
+          text: `✅ **I'm Validating Your File**\n\n**File:** ${fileInfo}\n\n🔍 **My validation checks:**\n• Format verification\n• Data quality analysis\n• Compliance validation\n• Error identification\n\n_I'm processing your file validation. My results will include a detailed quality report._`,
           response_type: 'ephemeral'
         });
 
@@ -319,7 +319,7 @@ class SimpleSlackBot {
       } catch (error) {
         logger.error('File validation command error:', error);
         await respond({
-          text: 'Sorry, I encountered an error processing your file validation request. Please try again.',
+          text: 'Sorry, I encountered an error processing your file validation request. Please try again and I\'ll handle it.',
           response_type: 'ephemeral'
         });
       }
@@ -358,7 +358,7 @@ class SimpleSlackBot {
     const msg = message.toLowerCase();
     
     if (msg.includes('help') || msg.includes('?')) {
-      return `**📋 Available Commands:**\n\n**🤖 Core Commands:**\n• \`/connexio [request]\` - AI marketing assistant\n• \`/create-campaign [details]\` - Create new campaigns\n• \`/campaign-status [id]\` - Check campaign status\n\n**📧 Data & Analytics:**\n• \`/validate-file [description]\` - File validation service\n• \`/enrich-file [description]\` - External data enrichment\n• \`/deliverability-check [email/domain]\` - Email deliverability analysis\n\n**🎯 Strategy & Optimization:**\n• \`/segment-strategy [audience]\` - AI audience segmentation\n• \`/campaign-audit [campaigns]\` - Performance audit & optimization\n\n**💬 Chat:**\n• **@connexio-ai** - Mention me for assistance\n\n_Enterprise AI-powered marketing operations at your fingertips!_`;
+      return `**📋 My Available Commands:**\n\n**🤖 Core Commands:**\n• \`/connexio [request]\` - I'm your AI marketing assistant\n• \`/create-campaign [details]\` - I'll create new campaigns for you\n• \`/campaign-status [id]\` - I'll check campaign status\n\n**📧 Data & Analytics:**\n• \`/validate-file [description]\` - I'll validate your files\n• \`/enrich-file [description]\` - I'll enrich your data externally\n• \`/deliverability-check [email/domain]\` - I'll analyze email deliverability\n\n**🎯 Strategy & Optimization:**\n• \`/segment-strategy [audience]\` - I'll provide AI audience segmentation\n• \`/campaign-audit [campaigns]\` - I'll audit and optimize performance\n\n**💬 Chat:**\n• **@connexio-ai** - Mention me for assistance\n\n_I'm your enterprise AI-powered marketing operations assistant!_`;
     }
     
     if (msg.includes('campaign') || msg.includes('email') || msg.includes('marketing')) {

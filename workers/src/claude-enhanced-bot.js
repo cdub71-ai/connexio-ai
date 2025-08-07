@@ -121,7 +121,7 @@ Draw from your knowledge of real client situations and provide practical, action
         "🎯 _Powered by marketing operations expertise_";
       
       await respond({
-        text: `🤖 **Connexio AI - Marketing Operations Expert:**\n\n${responseText}\n\n---\n_💡 Need file validation? Use \`/validate-file\` to upload and analyze your data._\n${enhancementNote}`,
+        text: `🤖 **Connexio AI - Marketing Operations Expert:**\n\n${responseText}\n\n---\n_💡 Need file validation? I can analyze your data - use \`/validate-file\` and I'll handle it for you._\n${enhancementNote}`,
         response_type: 'in_channel',
         replace_original: true,
       });
@@ -136,7 +136,7 @@ Draw from your knowledge of real client situations and provide practical, action
     const fallbackResponses = {
       'segment': '🎯 **Email Segmentation Best Practices:**\n\n• **By Engagement:** Active (opened recently), Inactive (90+ days), Re-engagement candidates\n• **By Demographics:** Age, location, job title, company size\n• **By Behavior:** Purchase history, website activity, email preferences\n• **By Quality Score:** High-quality contacts first, then nurture others\n\n💡 **Pro Tip:** Start with engagement-based segments - they typically see 20-30% higher open rates!',
       
-      'deliverability': '📧 **Email Deliverability Essentials:**\n\n• **Clean Lists:** Remove bounces, invalid emails, and inactive subscribers\n• **Authentication:** Set up SPF, DKIM, and DMARC records properly\n• **Reputation:** Monitor sender reputation and warm up new domains\n• **Content:** Avoid spam triggers, maintain good text-to-image ratio\n• **Engagement:** Focus on subscribers who actually engage\n\n⚠️ **Red Flags:** High bounce rates (>2%), low engagement (<20%), spam complaints\n\n🎯 Use `/validate-file` to check your list quality first!'
+      'deliverability': '📧 **Email Deliverability Essentials:**\n\n• **Clean Lists:** Remove bounces, invalid emails, and inactive subscribers\n• **Authentication:** Set up SPF, DKIM, and DMARC records properly\n• **Reputation:** Monitor sender reputation and warm up new domains\n• **Content:** Avoid spam triggers, maintain good text-to-image ratio\n• **Engagement:** Focus on subscribers who actually engage\n\n⚠️ **Red Flags:** High bounce rates (>2%), low engagement (<20%), spam complaints\n\n🎯 I can check your list quality - just use `/validate-file` and I'll handle it!'
     };
 
     const lowerText = text.toLowerCase();
@@ -150,7 +150,7 @@ Draw from your knowledge of real client situations and provide practical, action
     }
 
     if (!fallbackResponse) {
-      fallbackResponse = `🤖 **Connexio AI (Fallback Mode):**\n\nI'm having trouble connecting to my AI engine right now, but I can still help with:\n• Data quality and validation strategies\n• Campaign optimization techniques\n• Email deliverability best practices\n• List segmentation and targeting\n\n💡 **For specific data analysis**, upload your CSV file and use \`/validate-file start\`!\n\n_AI connection will be restored shortly._`;
+      fallbackResponse = `🤖 **Connexio AI (Fallback Mode):**\n\nI'm having trouble connecting to my AI engine right now, but I can still help with:\n• Data quality and validation strategies\n• Campaign optimization techniques\n• Email deliverability best practices\n• List segmentation and targeting\n\n💡 **For specific data analysis**, I can analyze your CSV file - use \`/validate-file start\` and I'll handle it!\n\n_AI connection will be restored shortly._`;
     }
 
     await respond({
@@ -171,7 +171,7 @@ app.command('/validate-file', async ({ command, ack, respond, client }) => {
     
     if (!text) {
       await respond({
-        text: '📄 **File Validation Service**\n\nTo validate a file:\n1. Upload your CSV file to this channel\n2. Use `/validate-file start` to begin processing\n3. Supported formats: CSV (Excel coming in Phase 2)\n\n**What we validate:**\n• Email addresses (format, deliverability, domain quality)\n• Phone numbers (format, type detection, country codes)\n• Data completeness and quality scoring\n\n**Output:** Clean, standardized CSV with validation results\n\n🤖 **Plus AI Analysis:** Get intelligent insights and campaign recommendations!',
+        text: '🤖 **I Can Validate Your Files**\n\nHere\'s how I help you:\n1. Upload your CSV file to this channel\n2. Use `/validate-file start` and I\'ll process it automatically\n3. I support CSV format (Excel coming in Phase 2)\n\n**What I validate for you:**\n• Email addresses (format, deliverability, domain quality)\n• Phone numbers (format, type detection, country codes)\n• Data completeness and quality scoring\n\n**What you get:** Clean, standardized CSV with my validation results\n\n🤖 **Plus my AI Analysis:** I provide intelligent insights and campaign recommendations!',
         response_type: 'ephemeral',
       });
       return;
@@ -194,7 +194,7 @@ app.command('/validate-file', async ({ command, ack, respond, client }) => {
 
       if (!fileMessage) {
         await respond({
-          text: '❌ No CSV file found in recent messages. Please upload a CSV file first, then run `/validate-file start`.',
+          text: '❌ I don\'t see a CSV file to validate. Please upload your CSV file first, then I\'ll process it with `/validate-file start`.',
           response_type: 'ephemeral',
         });
         return;
@@ -215,7 +215,7 @@ app.command('/validate-file', async ({ command, ack, respond, client }) => {
       });
 
       await respond({
-        text: `🚀 **Processing Started**\n\n📄 File: ${file.name}\n📊 Size: ${Math.round(file.size / 1024)}KB\n🆔 Process ID: ${processId}\n\n⏳ Processing your file with AI analysis... This may take a few minutes.\n\n_You'll receive an update when processing is complete._`,
+        text: `🚀 **I'm Processing Your File**\n\n📄 File: ${file.name}\n📊 Size: ${Math.round(file.size / 1024)}KB\n🆔 Process ID: ${processId}\n\n⏳ I'm processing your file with AI analysis... This may take a few minutes.\n\n_I'll send you an update when my processing is complete._`,
         response_type: 'ephemeral',
       });
 
