@@ -1,9 +1,9 @@
 {
   "display_information": {
     "name": "Connexio AI",
-    "description": "AI-powered marketing operations assistant for data validation and campaign optimization",
+    "description": "Enterprise AI marketing automation platform with advanced data operations and campaign optimization",
     "background_color": "#2c3e50",
-    "long_description": "Connexio AI helps marketing teams validate email and phone data, analyze data quality, and get intelligent campaign recommendations powered by Claude AI."
+    "long_description": "Connexio AI delivers enterprise-grade marketing operations through Slack with data enrichment, deliverability analysis, AI segmentation, campaign auditing, and intelligent optimization powered by Claude AI."
   },
   "features": {
     "app_home": {
@@ -26,7 +26,49 @@
         "command": "/validate-file",
         "url": "https://connexio-slack-simple.fly.dev/slack/events",
         "description": "Upload and validate email/phone data in CSV files",
-        "usage_hint": "[start|status] - Process files or check status",
+        "usage_hint": "[description] - Validate file data quality",
+        "should_escape": false
+      },
+      {
+        "command": "/enrich-file",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "Enrich CSV files with external data sources",
+        "usage_hint": "[description] - Apollo, Clearbit, Hunter enrichment",
+        "should_escape": false
+      },
+      {
+        "command": "/deliverability-check",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "Analyze email deliverability and domain reputation",
+        "usage_hint": "[email/domain] - DNS, SPF, DKIM analysis",
+        "should_escape": false
+      },
+      {
+        "command": "/segment-strategy",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "AI-powered audience segmentation and targeting",
+        "usage_hint": "[audience description] - Strategic segmentation",
+        "should_escape": false
+      },
+      {
+        "command": "/campaign-audit",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "Comprehensive campaign performance analysis",
+        "usage_hint": "[campaign details] - Performance optimization",
+        "should_escape": false
+      },
+      {
+        "command": "/create-campaign",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "Create new marketing campaigns",
+        "usage_hint": "[campaign details] - Campaign creation",
+        "should_escape": false
+      },
+      {
+        "command": "/campaign-status",
+        "url": "https://connexio-slack-simple.fly.dev/slack/events",
+        "description": "Check campaign status and metrics",
+        "usage_hint": "[campaign id] - Status monitoring",
         "should_escape": false
       },
       {

@@ -3,7 +3,7 @@ app = "connexio-ai-littlehorse"
 primary_region = "iad"
 
 [build]
-  image = "littlehorsecorp/littlehorse:latest"
+  image = "ghcr.io/littlehorse-enterprises/littlehorse/lh-standalone:latest"
 
 [env]
   # Little Horse Kernel configuration
@@ -51,6 +51,7 @@ primary_region = "iad"
 [[services]]
   internal_port = 9090
   protocol = "tcp"
+  processes = ["app"]
   
   [[services.ports]]
     port = 9090
@@ -65,6 +66,7 @@ primary_region = "iad"
 [[services]]
   internal_port = 1822
   protocol = "tcp"
+  processes = ["app"]
   
   [[services.ports]]
     port = 1822
@@ -80,7 +82,7 @@ primary_region = "iad"
 [vm]
   cpu_kind = "performance"
   cpus = 4
-  memory = "8gb"
+  memory = "16gb"
 
 [[vm.files]]
   guest_path = "/app/config/server.properties"
@@ -112,7 +114,6 @@ tls.enabled=true
   destination = "/app/data"
 
 [deploy]
-  release_command = "/app/scripts/migrate.sh"
   strategy = "rolling"
 
 [[statics]]

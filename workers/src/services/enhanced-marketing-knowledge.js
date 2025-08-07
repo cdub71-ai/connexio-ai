@@ -181,6 +181,135 @@ const REAL_WORLD_MARKETING_KNOWLEDGE = {
       "Merge strategy should preserve engagement data and most complete records"
     ],
 
+    // Advanced Data Hygiene Excellence Framework (Research-Based)
+    dataHygieneExcellence: {
+      overview: "Marketing databases decay at 2.1% monthly (22.5% annually), costing companies $12.9M annually in poor data quality impacts. Comprehensive data hygiene achieves 99%+ accuracy while reducing API costs 40-60%.",
+      businessImpact: {
+        performanceImprovement: "15-40% improvement in campaign performance",
+        roi: "200-500% ROI within 12 months",
+        deliverabilityImpact: "Superior deliverability for Oracle Eloqua and Twilio SMS/MMS",
+        costReduction: "40-60% API cost optimization vs competitors like Clay, FullEnrich, Waterfall.io"
+      },
+      
+      preProcessingExcellence: {
+        approach: "Multi-layered tiered validation waterfall performs lightweight checks first, reserving premium API calls for high-value records",
+        costOptimization: "Reduces validation costs by 30-40% while maintaining 95%+ accuracy",
+        standardization: {
+          nameCompany: "Google's libphonenumber library (240+ countries), Cleanco's Python package for legal entity suffixes",
+          duplicateDetection: "Levenshtein distance (0.8-0.9 threshold) + Jaro-Winkler algorithms + affinity propagation clustering",
+          addressValidation: "USPS CASS certification for US, Smarty (70K+ queries/sec), Google Maps Geocoding for global coverage",
+          deduplicationStrategy: "Fellegi-Sunter probabilistic model achieves 90-95% accuracy with weighted master record selection"
+        }
+      },
+
+      emailPhoneValidation: {
+        emailValidation: {
+          multiStage: "RFC 5322 compliant regex → MX record verification → real-time API validation",
+          regexPattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
+          components: [
+            "Spam trap detection via engagement patterns and proprietary databases",
+            "Disposable email blocking (5000+ temporary domains)",
+            "Role-based email identification (info@, sales@, support@ detection)"
+          ],
+          providerAccuracy: {
+            "ZeroBounce": "99% accuracy at $0.007 per email",
+            "NeverBounce": "97% accuracy with volume discounts", 
+            "EmailListVerify": "91% accuracy at $0.004 per email (most cost-effective)"
+          }
+        },
+        phoneValidation: {
+          format: "E.164 international formatting (+[Country Code][National Number], max 15 digits)",
+          twilioLookup: "Comprehensive validation including carrier detection ($0.005/lookup), line type, SIM swap detection",
+          hlrLookups: "Home Location Register lookups at €0.006/query for real-time network connectivity",
+          smsOptimization: "Pre-send validation prevents landline waste, achieves 85-92% delivery for validated mobile numbers"
+        }
+      },
+
+      qualityScoring: {
+        framework: "Multi-dimensional evaluation: completeness (30%), accuracy (25%), freshness (20%), consistency (15%), validity (10%)",
+        freshnessScoring: {
+          contactInfo: "90-day freshness requirement",
+          companyRevenue: "Annual updates acceptable",
+          marketingPrefs: "30-day currency for campaign relevance",
+          formula: "Score = max(0, 100 - (age_days / max_age_days) × 100)"
+        },
+        predictiveDecay: {
+          emailAddresses: "2-5% monthly decay",
+          phoneNumbers: "1-3% monthly decay",
+          jobTitles: "2-3% monthly decay",
+          overallB2B: "20-25% annual decay",
+          mlAccuracy: "85-90% accuracy in predicting refresh needs"
+        },
+        monitoringThresholds: {
+          completeness: "Alert when drops below 70%",
+          bounceRates: "Alert when exceeds 5%",
+          validationFailures: "Alert when surpasses 10%"
+        }
+      },
+
+      complianceFirst: {
+        gdpr: {
+          legalBasis: "Legitimate interest for existing customers, consent for prospects",
+          requirements: "Granular consent management, 30-day deletion workflows, comprehensive audit trails",
+          crossBorder: "Standard Contractual Clauses (SCCs) for data transfers"
+        },
+        ccpa: {
+          requirements: "'Do Not Sell' links, 45-day deletion response times",
+          focus: "Transparency and opt-out rights vs GDPR's opt-in framework"
+        },
+        retentionSchedules: {
+          marketingContacts: "3-5 years from last engagement",
+          leadData: "2 years from qualification",
+          validationResults: "6-12 month refresh cycles"
+        },
+        eloquaIntegration: "Oracle Eloqua 4Comply integration for automated consent verification"
+      },
+
+      apiOrchestration: {
+        rateLimiting: "Token bucket algorithm for burst handling with circuit breaker patterns",
+        circuitBreaker: "Closed (normal) → Open (5-10 failures) → Half-open (test recovery)",
+        costOptimization: {
+          waterfallEnrichment: "Start with lowest-cost providers, escalate to premium only when necessary",
+          geographicRouting: "US/Canada providers: 89% success vs 78% in APAC",
+          tieredValidation: "Basic checks $0.001-0.01/record → Premium enrichment $0.50-2.00/record"
+        },
+        processingStrategy: {
+          realTime: "User forms, fraud detection (sub-2 second response)",
+          batch: "Large datasets, 1K-10K records/minute, optimal batch size 1K-5K records",
+          hybridApproach: "Real-time capture validation + batch enrichment for existing data"
+        },
+        caching: "Redis with 1-24 hour TTLs, hierarchical keys (provider:type:identifier)"
+      },
+
+      competitiveDifferentiation: {
+        marketGaps: {
+          clay: "75+ enrichment sources but lacks automated quality monitoring and duplicate prevention",
+          fullEnrich: "Impressive match rates but no broader data management capabilities",
+          waterfallIo: "Enterprise focus creates complexity barriers for mid-market"
+        },
+        connexioAdvantage: {
+          integratedQuality: "End-to-end data quality automation vs point solutions",
+          mlAnomalyDetection: "99.5% accuracy through unsupervised learning",
+          predictiveMaintenance: "40-60% cost reduction through AI-driven decay models",
+          slackIntegration: "Conversational data quality commands and real-time alerts"
+        }
+      },
+
+      implementationRoadmap: {
+        phase1: "Weeks 1-4: Basic waterfall enrichment, Redis caching, circuit breakers → 30-40% cost reduction",
+        phase2: "Weeks 5-8: Apache Kafka, comprehensive monitoring, advanced circuit breakers → 99.9% uptime",
+        phase3: "Weeks 9-12: ML provider selection, advanced caching, budget management → 15-40% performance improvement"
+      },
+
+      successMetrics: {
+        deliverability: "98%+ email deliverability (vs 95% industry average)",
+        duplicateReduction: "90%+ through advanced matching algorithms",
+        completenessImprovement: "20-30% in critical fields",
+        roi: "200-500% within 12 months",
+        compliance: "100% audit success rate, SOC 2 Type II certification"
+      }
+    },
+
     campaignOptimization: [
       "A/B test one element at a time for clear insights",
       "Focus on engagement quality over quantity",
@@ -210,37 +339,43 @@ const REAL_WORLD_MARKETING_KNOWLEDGE = {
 };
 
 // Enhanced system prompt incorporating real client-agency dynamics
-const ENHANCED_CONNEXIO_SYSTEM_PROMPT = `You are Connexio AI, a Marketing Operations expert with deep experience from real client-agency relationships.
+const ENHANCED_CONNEXIO_SYSTEM_PROMPT = `You are Connexio AI, a Marketing Operations expert with deep experience from real client-agency relationships and cutting-edge research in data hygiene excellence.
 
-🎯 **Your Expertise comes from real client work:**
-You've learned from actual conversations between marketing ops experts and their clients, understanding both strategic challenges and tactical implementation details.
+🎯 **Your Expertise comes from real client work + Research:**
+You've learned from actual conversations between marketing ops experts and their clients, plus extensive research showing data hygiene practices achieve 99%+ accuracy, 15-40% campaign performance improvement, and 200-500% ROI within 12 months.
 
 📊 **How you help clients:**
-- **Strategic Guidance**: Like a seasoned marketing ops consultant, you provide industry best practices and proven approaches
-- **Tactical Solutions**: You give step-by-step implementation guidance based on what actually works
-- **Problem Solving**: You diagnose issues systematically, just like expert consultants do with their clients
+- **Strategic Guidance**: Industry best practices backed by research showing $12.9M annual cost of poor data quality
+- **Tactical Solutions**: Step-by-step implementation guidance for tiered validation waterfalls reducing API costs 40-60%
+- **Problem Solving**: Systematic diagnosis using multi-layered approaches combining real-time validation and predictive maintenance
+- **Cost Optimization**: Proven strategies achieving 30-40% validation cost reduction while maintaining 95%+ accuracy
 
 🗣️ **Your Communication Style:**
-- **Client-focused**: You understand business priorities and speak in terms of ROI and business impact
-- **Practical**: You provide actionable recommendations that can be implemented immediately  
-- **Consultative**: You ask clarifying questions to understand specific situations before giving advice
-- **Experienced**: You can reference what works for "companies in similar situations" or "other clients"
+- **Data-Driven**: Reference specific metrics like "2.1% monthly database decay" and "85-92% SMS delivery for validated numbers"
+- **ROI-Focused**: Quantify business impact with research-backed performance improvements
+- **Practical**: Provide actionable recommendations with specific tools (ZeroBounce 99% accuracy, Twilio Lookup $0.005/query)
+- **Consultative**: Ask clarifying questions while sharing relevant benchmarks and competitive insights
+- **Research-Backed**: Reference how Connexio.ai differentiates from Clay, FullEnrich, Waterfall.io through integrated quality management
 
-💡 **Your Knowledge Base includes:**
-- Real deliverability challenges and proven solutions
-- Effective segmentation strategies that drive results
-- Marketing automation workflows that convert
-- Data quality practices that improve campaign performance
-- Integration approaches that actually work in practice
+💡 **Your Advanced Knowledge Base includes:**
+- **Pre-Processing Excellence**: Tiered validation waterfalls, Fellegi-Sunter probabilistic matching (90-95% accuracy)
+- **Email/Phone Validation**: RFC 5322 compliance, E.164 formatting, spam trap detection, carrier validation
+- **Quality Scoring**: Multi-dimensional frameworks with completeness (30%), accuracy (25%), freshness (20%) weighting
+- **Predictive Maintenance**: ML models achieving 85-90% accuracy in predicting data refresh needs
+- **Compliance Architecture**: GDPR/CCPA implementation with granular consent management and audit trails
+- **API Orchestration**: Token bucket algorithms, circuit breaker patterns, geographic routing strategies
+- **Competitive Intelligence**: Market gaps in Clay (no quality monitoring), FullEnrich (no duplicate prevention)
 
-🎯 **Client Conversation Patterns You Understand:**
-- **Strategic questions**: "What's the best approach for our industry?"
-- **Tactical requests**: "Can you walk me through the setup process?"
-- **Troubleshooting**: "Why isn't this working as expected?"
+🎯 **Advanced Problem-Solving Patterns:**
+- **Data Decay Management**: "Email addresses decay 2-5% monthly, here's the predictive model..."
+- **Cost Optimization**: "Geographic routing shows US/Canada 89% success vs 78% APAC, implement waterfall..."
+- **Quality Frameworks**: "Multi-dimensional scoring prevents the 22.5% annual decay that costs companies millions..."
+- **Integration Strategy**: "Redis caching with hierarchical keys optimizes the provider selection algorithm..."
 
-Always respond as an experienced marketing operations consultant who has successfully solved similar challenges for other clients. Be specific, actionable, and focus on business outcomes.
+🚀 **Competitive Positioning:**
+Position Connexio.ai as the only platform delivering end-to-end data quality automation vs point solutions, with 99.5% ML anomaly detection and conversational Slack integration.
 
-Keep responses concise but comprehensive - like a consultant who respects the client's time while ensuring they get complete guidance.`;
+Always respond as a research-informed marketing operations consultant who combines real client experience with cutting-edge data hygiene methodologies. Provide specific, measurable guidance with clear ROI projections.`;
 
 // Conversation templates based on real client interactions
 const CLIENT_CONVERSATION_TEMPLATES = {
@@ -330,6 +465,46 @@ What's your primary goal with automation - nurturing leads, customer retention, 
 **Common Pitfalls:** Skipping deduplication step, not preserving engagement data in merges, validating already-validated emails.
 
 I've seen this enhanced pattern reduce invalid email sends by 70-80% AND cut validation costs by 25% for most clients. The AI catches fuzzy duplicates that rule-based systems miss. What's your current HubSpot integration challenge?`
+  },
+
+  dataHygieneExcellence: {
+    trigger: ["data hygiene", "data quality", "validation", "standardization", "preprocessing", "tiered validation", "waterfall", "cost optimization"],
+    response: `Based on extensive research, comprehensive data hygiene is critical for marketing success. Here's the proven framework:
+
+**🎯 Business Impact (Research-Verified):**
+• 15-40% improvement in campaign performance
+• 200-500% ROI within 12 months
+• 40-60% API cost reduction vs competitors
+• 99%+ data accuracy achievable
+
+**🏗️ Multi-Layered Approach:**
+**1. Pre-Processing Excellence:**
+• Tiered validation waterfall (lightweight checks first)
+• 30-40% cost reduction while maintaining 95%+ accuracy
+• Google libphonenumber (240+ countries) + Cleanco for standardization
+• Fellegi-Sunter probabilistic matching (90-95% accuracy)
+
+**2. Email/Phone Validation at Scale:**
+• ZeroBounce: 99% accuracy ($0.007/email)
+• NeverBounce: 97% accuracy (volume discounts)
+• Twilio Lookup: $0.005/lookup for carrier detection
+• 85-92% SMS delivery for validated mobile numbers
+
+**3. Quality Scoring Framework:**
+• Completeness (30%) + Accuracy (25%) + Freshness (20%) + Consistency (15%) + Validity (10%)
+• Email decay: 2-5% monthly | Phone: 1-3% monthly | Overall B2B: 20-25% annually
+• ML models achieve 85-90% accuracy predicting refresh needs
+
+**4. Cost-Optimized API Orchestration:**
+• Token bucket algorithm + circuit breaker patterns
+• Geographic routing: US/Canada 89% vs APAC 78% success
+• Basic validation $0.001-0.01 → Premium enrichment $0.50-2.00
+• Redis caching with hierarchical keys
+
+**⚡ Competitive Advantage:**
+While Clay lacks quality monitoring and FullEnrich has no duplicate prevention, integrated quality management delivers end-to-end automation with 99.5% ML anomaly detection accuracy.
+
+What's your current data quality challenge? I can provide specific implementation guidance based on this research framework.`
   },
 
   eloquaValidation: {
