@@ -2,35 +2,35 @@
  * Unit Tests for WorkersMain - Core orchestration class
  */
 
-import WorkersMain from '../index.js';
+import WorkersMain from "../index.js";
 
 // Mock all dependencies
-jest.mock('../workers/claude-task-worker.js');
-jest.mock('../workers/slack-integration-worker.js');
-jest.mock('../workers/multi-channel-orchestrator.js');
-jest.mock('../workers/sureshot-eloqua-worker.js');
-jest.mock('../services/workflow-trigger.js');
-jest.mock('../config/index.js', () => ({
+jest.mock("../workers/claude-task-worker.js");
+jest.mock("../workers/slack-integration-worker.js");
+jest.mock("../workers/multi-channel-orchestrator.js");
+jest.mock("../workers/sureshot-eloqua-worker.js");
+jest.mock("../services/workflow-trigger.js");
+jest.mock("../config/index.js", () => ({
   slack: { port: 3000 },
-  app: { nodeEnv: 'test', logLevel: 'info' },
-  littlehorse: { apiHost: 'localhost', apiPort: 2023 }
+  app: { nodeEnv: "test", logLevel: "info" },
+  littlehorse: { apiHost: "localhost", apiPort: 2023 },
 }));
-jest.mock('../utils/logger.js', () => ({
+jest.mock("../utils/logger.js", () => ({
   createContextLogger: () => ({
     info: jest.fn(),
     error: jest.fn(),
-    warn: jest.fn()
-  })
+    warn: jest.fn(),
+  }),
 }));
 
 // Import mocked classes
-import ClaudeTaskWorker from '../workers/claude-task-worker.js';
-import SlackIntegrationWorker from '../workers/slack-integration-worker.js';
-import MultiChannelOrchestrator from '../workers/multi-channel-orchestrator.js';
-import SureshotEloquaWorker from '../workers/sureshot-eloqua-worker.js';
-import WorkflowTriggerService from '../services/workflow-trigger.js';
+import ClaudeTaskWorker from "../workers/claude-task-worker.js";
+import SlackIntegrationWorker from "../workers/slack-integration-worker.js";
+import MultiChannelOrchestrator from "../workers/multi-channel-orchestrator.js";
+import SureshotEloquaWorker from "../workers/sureshot-eloqua-worker.js";
+import WorkflowTriggerService from "../services/workflow-trigger.js";
 
-describe('WorkersMain', () => {
+describe("WorkersMain", () => {
   let workersMain;
   let mockWorkers;
 
@@ -41,34 +41,38 @@ describe('WorkersMain', () => {
     // Setup mock implementations
     mockWorkers = {
       claudeWorker: {
-        getHealthStatus: jest.fn(() => ({ status: 'healthy' })),
-        shutdown: jest.fn(() => Promise.resolve())
+        getHealthStatus: jest.fn(() => ({ status: "healthy" })),
+        shutdown: jest.fn(() => Promise.resolve()),
       },
       slackWorker: {
         start: jest.fn(() => Promise.resolve()),
-        getHealthStatus: jest.fn(() => ({ status: 'healthy' })),
-        shutdown: jest.fn(() => Promise.resolve())
+        getHealthStatus: jest.fn(() => ({ status: "healthy" })),
+        shutdown: jest.fn(() => Promise.resolve()),
       },
       multiChannelOrchestrator: {
-        getHealthStatus: jest.fn(() => ({ status: 'healthy' })),
-        shutdown: jest.fn(() => Promise.resolve())
+        getHealthStatus: jest.fn(() => ({ status: "healthy" })),
+        shutdown: jest.fn(() => Promise.resolve()),
       },
       sureshotWorker: {
-        getHealthStatus: jest.fn(() => ({ status: 'healthy' })),
-        shutdown: jest.fn(() => Promise.resolve())
+        getHealthStatus: jest.fn(() => ({ status: "healthy" })),
+        shutdown: jest.fn(() => Promise.resolve()),
       },
       workflowTrigger: {
-        getHealthStatus: jest.fn(() => ({ status: 'healthy' })),
-        shutdown: jest.fn(() => Promise.resolve())
-      }
+        getHealthStatus: jest.fn(() => ({ status: "healthy" })),
+        shutdown: jest.fn(() => Promise.resolve()),
+      },
     };
 
     // Mock constructors
     ClaudeTaskWorker.mockImplementation(() => mockWorkers.claudeWorker);
     SlackIntegrationWorker.mockImplementation(() => mockWorkers.slackWorker);
-    MultiChannelOrchestrator.mockImplementation(() => mockWorkers.multiChannelOrchestrator);
+    MultiChannelOrchestrator.mockImplementation(
+      () => mockWorkers.multiChannelOrchestrator,
+    );
     SureshotEloquaWorker.mockImplementation(() => mockWorkers.sureshotWorker);
-    WorkflowTriggerService.mockImplementation(() => mockWorkers.workflowTrigger);
+    WorkflowTriggerService.mockImplementation(
+      () => mockWorkers.workflowTrigger,
+    );
 
     workersMain = new WorkersMain();
   });
@@ -78,8 +82,8 @@ describe('WorkersMain', () => {
     jest.clearAllTimers();
   });
 
-  describe('Constructor', () => {
-    test('should initialize all workers', () => {
+  describe("Constructor", () => {
+    test("should initialize all workers", () => {
       expect(ClaudeTaskWorker).toHaveBeenCalledTimes(1);
       expect(SlackIntegrationWorker).toHaveBeenCalledTimes(1);
       expect(MultiChannelOrchestrator).toHaveBeenCalledTimes(1);
@@ -87,11 +91,11 @@ describe('WorkersMain', () => {
       expect(WorkflowTriggerService).toHaveBeenCalledTimes(1);
     });
 
-    test('should set isShuttingDown to false', () => {
+    test("should set isShuttingDown to false", () => {
       expect(workersMain.isShuttingDown).toBe(false);
     });
 
-    test('should have all worker instances', () => {
+    test("should have all worker instances", () => {
       expect(workersMain.claudeWorker).toBeDefined();
       expect(workersMain.slackWorker).toBeDefined();
       expect(workersMain.multiChannelOrchestrator).toBeDefined();
@@ -100,16 +104,18 @@ describe('WorkersMain', () => {
     });
   });
 
-  describe('start()', () => {
-    test('should start slack worker successfully', async () => {
+  describe("start()", () => {
+    test("should start slack worker successfully", async () => {
       await workersMain.start();
 
       expect(mockWorkers.slackWorker.start).toHaveBeenCalledWith(3000);
     });
 
-    test('should handle startup errors', async () => {
-      const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
-      mockWorkers.slackWorker.start.mockRejectedValue(new Error('Startup failed'));
+    test("should handle startup errors", async () => {
+      const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
+      mockWorkers.slackWorker.start.mockRejectedValue(
+        new Error("Startup failed"),
+      );
 
       await workersMain.start();
 
@@ -118,67 +124,69 @@ describe('WorkersMain', () => {
     });
   });
 
-  describe('getHealthStatus()', () => {
-    test('should return comprehensive health status', () => {
+  describe("getHealthStatus()", () => {
+    test("should return comprehensive health status", () => {
       const healthStatus = workersMain.getHealthStatus();
 
-      expect(healthStatus).toHaveProperty('status');
-      expect(healthStatus).toHaveProperty('timestamp');
-      expect(healthStatus).toHaveProperty('workers');
-      expect(healthStatus).toHaveProperty('system');
-      expect(healthStatus).toHaveProperty('config');
+      expect(healthStatus).toHaveProperty("status");
+      expect(healthStatus).toHaveProperty("timestamp");
+      expect(healthStatus).toHaveProperty("workers");
+      expect(healthStatus).toHaveProperty("system");
+      expect(healthStatus).toHaveProperty("config");
 
-      expect(healthStatus.workers).toHaveProperty('claude');
-      expect(healthStatus.workers).toHaveProperty('slack');
-      expect(healthStatus.workers).toHaveProperty('multiChannel');
-      expect(healthStatus.workers).toHaveProperty('sureshot');
-      expect(healthStatus.workers).toHaveProperty('workflowTrigger');
+      expect(healthStatus.workers).toHaveProperty("claude");
+      expect(healthStatus.workers).toHaveProperty("slack");
+      expect(healthStatus.workers).toHaveProperty("multiChannel");
+      expect(healthStatus.workers).toHaveProperty("sureshot");
+      expect(healthStatus.workers).toHaveProperty("workflowTrigger");
 
-      expect(healthStatus.system).toHaveProperty('nodeVersion');
-      expect(healthStatus.system).toHaveProperty('platform');
-      expect(healthStatus.system).toHaveProperty('uptime');
-      expect(healthStatus.system).toHaveProperty('memoryUsage');
+      expect(healthStatus.system).toHaveProperty("nodeVersion");
+      expect(healthStatus.system).toHaveProperty("platform");
+      expect(healthStatus.system).toHaveProperty("uptime");
+      expect(healthStatus.system).toHaveProperty("memoryUsage");
     });
 
-    test('should return healthy status when not shutting down', () => {
+    test("should return healthy status when not shutting down", () => {
       const healthStatus = workersMain.getHealthStatus();
-      expect(healthStatus.status).toBe('healthy');
+      expect(healthStatus.status).toBe("healthy");
     });
 
-    test('should return shutting_down status when shutting down', () => {
+    test("should return shutting_down status when shutting down", () => {
       workersMain.isShuttingDown = true;
       const healthStatus = workersMain.getHealthStatus();
-      expect(healthStatus.status).toBe('shutting_down');
+      expect(healthStatus.status).toBe("shutting_down");
     });
 
-    test('should call getHealthStatus on all workers', () => {
+    test("should call getHealthStatus on all workers", () => {
       workersMain.getHealthStatus();
 
       expect(mockWorkers.claudeWorker.getHealthStatus).toHaveBeenCalled();
       expect(mockWorkers.slackWorker.getHealthStatus).toHaveBeenCalled();
-      expect(mockWorkers.multiChannelOrchestrator.getHealthStatus).toHaveBeenCalled();
+      expect(
+        mockWorkers.multiChannelOrchestrator.getHealthStatus,
+      ).toHaveBeenCalled();
       expect(mockWorkers.sureshotWorker.getHealthStatus).toHaveBeenCalled();
       expect(mockWorkers.workflowTrigger.getHealthStatus).toHaveBeenCalled();
     });
   });
 
-  describe('Shutdown handling', () => {
+  describe("Shutdown handling", () => {
     let mockExit;
 
     beforeEach(() => {
-      mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+      mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
     });
 
     afterEach(() => {
       mockExit.mockRestore();
     });
 
-    test('should shutdown all workers gracefully', async () => {
+    test("should shutdown all workers gracefully", async () => {
       // Simulate shutdown signal
-      process.emit('SIGTERM');
+      process.emit("SIGTERM");
 
       // Wait for shutdown to complete
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(mockWorkers.claudeWorker.shutdown).toHaveBeenCalled();
       expect(mockWorkers.slackWorker.shutdown).toHaveBeenCalled();
@@ -188,40 +196,46 @@ describe('WorkersMain', () => {
       expect(mockExit).toHaveBeenCalledWith(0);
     });
 
-    test('should prevent multiple shutdown attempts', async () => {
+    test("should prevent multiple shutdown attempts", async () => {
       workersMain.isShuttingDown = true;
 
-      process.emit('SIGTERM');
-      await new Promise(resolve => setTimeout(resolve, 10));
+      process.emit("SIGTERM");
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(mockExit).toHaveBeenCalledWith(1);
     });
 
-    test('should handle shutdown errors', async () => {
-      mockWorkers.claudeWorker.shutdown.mockRejectedValue(new Error('Shutdown failed'));
+    test("should handle shutdown errors", async () => {
+      mockWorkers.claudeWorker.shutdown.mockRejectedValue(
+        new Error("Shutdown failed"),
+      );
 
-      process.emit('SIGTERM');
-      await new Promise(resolve => setTimeout(resolve, 10));
+      process.emit("SIGTERM");
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(mockExit).toHaveBeenCalledWith(1);
     });
 
-    test('should handle uncaught exceptions', async () => {
-      process.emit('uncaughtException', new Error('Test uncaught exception'));
-      await new Promise(resolve => setTimeout(resolve, 10));
+    test("should handle uncaught exceptions", async () => {
+      process.emit("uncaughtException", new Error("Test uncaught exception"));
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(mockExit).toHaveBeenCalled();
     });
 
-    test('should handle unhandled rejections', async () => {
-      process.emit('unhandledRejection', new Error('Test unhandled rejection'), Promise.resolve());
-      await new Promise(resolve => setTimeout(resolve, 10));
+    test("should handle unhandled rejections", async () => {
+      process.emit(
+        "unhandledRejection",
+        new Error("Test unhandled rejection"),
+        Promise.resolve(),
+      );
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(mockExit).toHaveBeenCalled();
     });
   });
 
-  describe('Health checks', () => {
+  describe("Health checks", () => {
     beforeEach(() => {
       jest.useFakeTimers();
     });
@@ -230,8 +244,10 @@ describe('WorkersMain', () => {
       jest.useRealTimers();
     });
 
-    test('should setup periodic health checks', () => {
-      const logHealthStatusSpy = jest.spyOn(workersMain, 'logHealthStatus').mockImplementation(() => {});
+    test("should setup periodic health checks", () => {
+      const logHealthStatusSpy = jest
+        .spyOn(workersMain, "logHealthStatus")
+        .mockImplementation(() => {});
 
       // Fast forward 61 seconds
       jest.advanceTimersByTime(61000);
@@ -240,8 +256,10 @@ describe('WorkersMain', () => {
       logHealthStatusSpy.mockRestore();
     });
 
-    test('should not run health checks when shutting down', () => {
-      const logHealthStatusSpy = jest.spyOn(workersMain, 'logHealthStatus').mockImplementation(() => {});
+    test("should not run health checks when shutting down", () => {
+      const logHealthStatusSpy = jest
+        .spyOn(workersMain, "logHealthStatus")
+        .mockImplementation(() => {});
       workersMain.isShuttingDown = true;
 
       jest.advanceTimersByTime(61000);
@@ -250,9 +268,9 @@ describe('WorkersMain', () => {
       logHealthStatusSpy.mockRestore();
     });
 
-    test('should handle health check errors gracefully', () => {
-      jest.spyOn(workersMain, 'logHealthStatus').mockImplementation(() => {
-        throw new Error('Health check failed');
+    test("should handle health check errors gracefully", () => {
+      jest.spyOn(workersMain, "logHealthStatus").mockImplementation(() => {
+        throw new Error("Health check failed");
       });
 
       // Should not throw
@@ -262,9 +280,9 @@ describe('WorkersMain', () => {
     });
   });
 
-  describe('Integration scenarios', () => {
-    test('should handle complete startup and shutdown cycle', async () => {
-      const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+  describe("Integration scenarios", () => {
+    test("should handle complete startup and shutdown cycle", async () => {
+      const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 
       // Start
       await workersMain.start();
@@ -272,11 +290,11 @@ describe('WorkersMain', () => {
 
       // Check health
       const healthStatus = workersMain.getHealthStatus();
-      expect(healthStatus.status).toBe('healthy');
+      expect(healthStatus.status).toBe("healthy");
 
       // Shutdown
-      process.emit('SIGTERM');
-      await new Promise(resolve => setTimeout(resolve, 10));
+      process.emit("SIGTERM");
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(workersMain.isShuttingDown).toBe(true);
       expect(mockExit).toHaveBeenCalledWith(0);
@@ -284,9 +302,11 @@ describe('WorkersMain', () => {
       mockExit.mockRestore();
     });
 
-    test('should handle startup failure gracefully', async () => {
-      const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
-      mockWorkers.slackWorker.start.mockRejectedValue(new Error('Port already in use'));
+    test("should handle startup failure gracefully", async () => {
+      const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
+      mockWorkers.slackWorker.start.mockRejectedValue(
+        new Error("Port already in use"),
+      );
 
       await workersMain.start();
 
@@ -295,10 +315,10 @@ describe('WorkersMain', () => {
     });
   });
 
-  describe('Edge cases', () => {
-    test('should handle worker health status errors', () => {
+  describe("Edge cases", () => {
+    test("should handle worker health status errors", () => {
       mockWorkers.claudeWorker.getHealthStatus.mockImplementation(() => {
-        throw new Error('Health check failed');
+        throw new Error("Health check failed");
       });
 
       // Should not throw
@@ -307,7 +327,7 @@ describe('WorkersMain', () => {
       }).not.toThrow();
     });
 
-    test('should handle missing worker instances', () => {
+    test("should handle missing worker instances", () => {
       workersMain.claudeWorker = null;
 
       expect(() => {

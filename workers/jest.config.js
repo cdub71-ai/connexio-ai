@@ -4,7 +4,7 @@ export default {
     '^.+\\.js$': 'babel-jest'
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(p-retry|p-queue)/)'
+    'node_modules/(?!(p-retry|p-queue|uuid|@anthropic-ai/sdk|axios)/)'
   ],
   testMatch: [
     '**/?(*.)+(spec|test).js'
